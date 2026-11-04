@@ -1,0 +1,23 @@
+{
+  "priority": 1,
+  "request": {
+    "method": "GET",
+    "url": "/rest/api/user/current",
+    "headers": {
+      "Authorization": {
+        "equalTo": "Bearer mock-confluence-token"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json",
+      "Connection": "close"
+    },
+    "bodyFileName": "users/current.json",
+    "transformers": [
+      "response-template"
+    ]
+  }
+}

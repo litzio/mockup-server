@@ -33,3 +33,7 @@ AI-Model: <provider/실제 모델 식별자>
 ## 참고 저장소와 차이
 
 litzio/litzio의 이슈 정책·CLI·자동 안내·테스트·AI 출처 검사를 재사용한다. Litzio 전용 UI·릴리스 절차와 플러그인 라벨은 가져오지 않는다. 기본 브랜치는 main이며 필수 검사는 Repository policy다.
+
+## 서비스 HTTP 검증
+
+`docker compose up -d` 후 `npm run wait:services`와 `npm run test:services`를 실행한다. 테스트는 services/*/tests/*.test.mjs를 자동 탐색한다. 이는 모의 계약 검증이며 실제 제품 호환성 검증이 아니다. 테스트를 위해 실행한 Compose 프로젝트는 완료 후 down으로 정리한다.

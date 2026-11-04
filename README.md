@@ -12,7 +12,7 @@
 
 외부에서 모의 서버로 개발한 동일 서비스 빌드를 내부망에 배포하고, 제품별 Base URL과 PAT를 교체해 실제 서버에 연결하는 것이 목표입니다. 클라이언트 코드에 모의 서버 전용 분기를 넣지 않습니다.
 
-아래는 예정된 설정 예시이며 현재 실행 가능한 서버가 아닙니다.
+아래는 클라이언트 연결 설정 예시입니다.
 
 ```dotenv
 JIRA_BASE_URL=http://localhost:8081
@@ -33,7 +33,7 @@ CONFLUENCE_PAT=mock-confluence-token
 
 ## 현재 상태
 
-문서와 이슈·PR 관리 기반을 준비하는 단계입니다. WireMock 실행 구성, API 매핑과 서버 테스트는 아직 구현되지 않았습니다. 폐쇄망 실행에 필요한 고정 버전 런타임·실행 파일 또는 이미지를 사전 반입하는 구성을 마련할 예정입니다.
+서비스 모듈 기반 실행 구성과 현재 사용자 조회·PAT HTTP 테스트를 구현했습니다. 폐쇄망 실행에 필요한 고정 버전 런타임·실행 파일 또는 이미지를 사전 반입하는 구성을 마련할 예정입니다.
 
 ## 저장소 관리
 
@@ -43,3 +43,53 @@ CONFLUENCE_PAT=mock-confluence-token
 - [이슈 등록](https://github.com/litzio/mockup-server/issues/new/choose)
 
 이슈 관리 체계는 litzio/litzio를 참고하며 영역은 이 저장소에 맞게 변경했습니다.
+
+## 로컬 실행
+
+Docker Desktop의 Linux 컨테이너 엔진이 실행 중이어야 합니다. 공식 WireMock 3.13.2 이미지를 사용하며 최초 실행 시 다운로드합니다.
+
+```powershell
+docker compose up -d
+npm ci
+npm run wait:services
+npm run test:services
+```
+
+Jira만 실행하려면 `docker compose up -d jira`, 종료는 `docker compose down`을 사용합니다. 준비 확인·전체 서비스 테스트는 두 서비스를 모두 실행한 상태에서 수행합니다.
+
+```powershell
+Invoke-RestMethod http://localhost:8081/rest/api/2/myself -Headers @{Authorization='Bearer mock-jira-token'}
+Invoke-RestMethod http://localhost:8082/rest/api/user/current -Headers @{Authorization='Bearer mock-confluence-token'}
+```
+
+포트는 `.env.example`을 `.env`로 복사하여 변경합니다. 변경한 포트로 테스트하려면 `JIRA_BASE_URL`, `CONFLUENCE_BASE_URL` 환경 변수를 설정합니다. PAT 값은 현재 모듈에 고정된 가짜 값이며 `.env`로 변경하지 않습니다.
+
+## 서비스 모듈
+
+```text
+services/
+  jira/
+    README.md
+    api-support.md
+    mappings/
+    __files/users/
+    tests/
+  confluence/
+    README.md
+    api-support.md
+    mappings/
+    __files/users/
+    tests/
+tests/helpers/
+scripts/
+compose.yaml
+```
+
+- [Jira](services/jira/README.md)
+- [Confluence](services/confluence/README.md)
+- [서비스 추가](docs/adding-service.md)
+
+현재 사용자 조회·정상 PAT·인증 실패·미지원 요청을 구현했습니다. 프로젝트·이슈·페이지 조회, 상태 시나리오, 컨텍스트 경로, 폐쇄망 반입 패키지는 후속 범위입니다. 실제 대상 서버 검증은 미실행입니다.
+
+
+현재 모의 응답은 인증 헤더 재사용 문제를 피하기 위해 연결을 닫습니다. keep-alive·연결 풀 검증은 지원하지 않습니다. 자세한 근거와 제약은 제품별 api-support.md에 기록했습니다.

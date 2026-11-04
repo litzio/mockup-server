@@ -1,0 +1,11 @@
+{
+  "type": "known",
+  "username": "mock-user",
+  "userKey": "mock-user-key",
+  "displayName": "Mock User",
+  "_links": {
+    "base": "{{request.baseUrl}}",
+    "context": "",
+    "self": "{{request.baseUrl}}/rest/api/user/current"
+  }
+}

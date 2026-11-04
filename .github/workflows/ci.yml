@@ -25,3 +25,13 @@ jobs:
       - name: Check commit provenance
         if: github.event_name == 'pull_request' || github.event_name == 'merge_group'
         run: node scripts/commit-provenance.mjs event "$GITHUB_EVENT_NAME" "$GITHUB_EVENT_PATH"
+      - name: Start mock services
+        run: docker compose -p mockup-ci up -d
+      - run: npm run wait:services
+      - run: npm run test:services
+      - name: Service logs
+        if: failure()
+        run: docker compose -p mockup-ci logs
+      - name: Stop mock services
+        if: always()
+        run: docker compose -p mockup-ci down
