@@ -1,0 +1,69 @@
+✔ C-IDENTITY: known identity and anonymous HTTP200 are distinct for every invalid PAT (330.968ms)
+✔ C-SPACES-PAGINATION: limits1/2/25 visit canonical spaces exactly once (468.8719ms)
+✔ C-PAGES: personal/global/empty × limits1/2/25, stable identity and storage traversal (593.5715ms)
+✔ C-ENCODING: tilde/value/name encodings and parameter order preserve identities (174.2069ms)
+✔ C-GENERATED: canonical supplied fixture seeds reproduce checked-in WireMock data (62.5539ms)
+✔ C-LEGACY: prior accepted space/content paths remain documented canonical aliases (564.2051ms)
+C delay /rest/api/user/current: 1511.7790000000005ms
+C delay /rest/api/space: 1505.0158000000001ms
+C delay /rest/api/space?limit=1: 1504.771499999999ms
+C delay /rest/api/space?start=1&limit=2: 1504.8237000000008ms
+C delay /rest/api/space?start=3&limit=25: 1506.0906000000014ms
+C delay /rest/api/space?start=999999999&limit=1: 1505.7104ms
+C delay /rest/api/space/~mock.user-a: 1512.9238999999998ms
+C delay /rest/api/space/~mock.user-a/content/page: 1506.4582999999984ms
+C delay /rest/api/space/~mock.user-a/content/page?limit=1: 1507.3822ms
+C delay /rest/api/space/~mock.user-a/content/page?start=1&limit=2: 1504.654300000002ms
+C delay /rest/api/space/~mock.user-a/content/page?start=3&limit=25: 1504.1287999999986ms
+C delay /rest/api/space/~mock.user-a/content/page?start=999999999&limit=1: 1503.9038ms
+C delay /rest/api/space/MOCK: 1511.1879999999983ms
+C delay /rest/api/space/MOCK/content/page: 1504.5442000000003ms
+C delay /rest/api/space/MOCK/content/page?limit=1: 1505.2819000000018ms
+C delay /rest/api/space/MOCK/content/page?start=1&limit=2: 1504.506300000001ms
+C delay /rest/api/space/MOCK/content/page?start=3&limit=25: 1504.9004000000023ms
+C delay /rest/api/space/MOCK/content/page?start=999999999&limit=1: 1512.8783000000003ms
+C delay /rest/api/space/EMPTY: 1554.2773000000016ms
+C delay /rest/api/space/EMPTY/content/page: 1506.2704999999987ms
+C delay /rest/api/space/EMPTY/content/page?limit=1: 1507.5261000000028ms
+C delay /rest/api/space/EMPTY/content/page?start=1&limit=2: 1505.5197000000044ms
+C delay /rest/api/space/EMPTY/content/page?start=3&limit=25: 1503.9651999999987ms
+C delay /rest/api/space/EMPTY/content/page?start=999999999&limit=1: 1504.6881999999969ms
+C delay /rest/api/space/~mock.absent: 1503.7790999999997ms
+C delay /rest/api/space/~mock.absent/content/page: 1504.0838000000003ms
+C delay /rest/api/space/~mock.absent/content/page?limit=1: 1502.900999999998ms
+C delay /rest/api/space/~mock.absent/content/page?start=1&limit=2: 1503.0420999999988ms
+C delay /rest/api/space/~mock.absent/content/page?start=3&limit=25: 1504.5175000000017ms
+C delay /rest/api/space/~mock.absent/content/page?start=999999999&limit=1: 1504.1018999999942ms
+C delay /rest/api/space/ABSENT: 1503.309699999998ms
+C delay /rest/api/space/ABSENT/content/page: 1503.082199999997ms
+C delay /rest/api/space/ABSENT/content/page?limit=1: 1503.428899999999ms
+C delay /rest/api/space/ABSENT/content/page?start=1&limit=2: 1503.3126000000047ms
+C delay /rest/api/space/ABSENT/content/page?start=3&limit=25: 1503.2806999999957ms
+C delay /rest/api/space/ABSENT/content/page?start=999999999&limit=1: 1503.8866000000053ms
+C delay /rest/api/content/30001: 1512.8185000000012ms
+C delay /rest/api/content/30001?expand=body.storage: 1512.0095000000001ms
+C delay /rest/api/content/30001?expand=body.storage,version,space,history: 1511.4189999999944ms
+C delay /rest/api/content/30002: 1511.9965999999986ms
+C delay /rest/api/content/30002?expand=body.storage: 1512.3578999999954ms
+C delay /rest/api/content/30002?expand=body.storage,version,space,history: 1512.6249000000098ms
+C delay /rest/api/content/30003: 1510.8696999999956ms
+C delay /rest/api/content/30003?expand=body.storage: 1511.3799ms
+C delay /rest/api/content/30003?expand=body.storage,version,space,history: 1511.5727999999945ms
+C delay /rest/api/content/40001: 1511.0871999999945ms
+C delay /rest/api/content/40001?expand=body.storage: 1514.4909999999945ms
+C delay /rest/api/content/40001?expand=body.storage,version,space,history: 1517.5231000000058ms
+C delay /rest/api/content/999999999: 1506.4370999999956ms
+C delay /rest/api/content/999999999?expand=body.storage: 1503.305899999992ms
+C delay /rest/api/content/999999999?expand=body.storage,version,space,history: 1507.4268999999913ms
+✔ C-ERROR: anonymous identity, protected auth precedence, errors, delay and reset (81612.8622ms)
+✔ C-PAGE: default metadata, storage-only and explicitly combined expansions (346.2427ms)
+✔ C-PAGE: protected reads require PAT and missing pages have a product error (555.9122ms)
+✔ C-UNSUPPORTED: undeclared page/space requests and writes never become success (199.3442ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 85352.1944

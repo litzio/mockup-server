@@ -1,65 +1,34 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-const base=process.env.CONFLUENCE_BASE_URL??'http://127.0.0.1:8082';
-const valid='Bearer mock-confluence-token';
-const fallback={mockError:'UNSUPPORTED_REQUEST',message:'This request is outside the supported mock contract.'};
-const unauthorized={statusCode:401,message:'Authentication required',reason:'Unauthorized'};
-async function get(path,auth=valid,method='GET') {
- const r=await fetch(new URL(path,base),{method,headers:auth===null?{}:{Authorization:auth},signal:AbortSignal.timeout(5000)});
- assert.match(r.headers.get('content-type'),/application\/json/);if(method==='HEAD') assert.ok(r.headers.get('connection').split(',').every(v=>v.trim()==='close')); else assert.equal(r.headers.get('connection'),'close');
- return {status:r.status,body:method==='HEAD'?null:await r.json()};
+import {fixture,get,state,assertLinks,productError,unsupported,valid} from './helpers.mjs';
+
+async function walk(path,limit,expected){
+ let next=path+`?start=0&limit=${limit}`;let prior;const visited=[];let calls=0;
+ while(next){assert.ok(++calls<=expected.length+2,'no cycles');const page=await get(next);assert.equal(page.status,200);assert.equal(page.body.start,visited.length);assert.equal(page.body.limit,limit);assert.equal(page.body.size,page.body.results.length);assert.ok(page.body.size<=page.body.limit);assertLinks(page.body);assert.deepEqual(await get(page.body._links.self),page);
+  if(prior)assert.deepEqual(await get(page.body._links.prev),prior);else assert.equal(page.body._links.prev,undefined);
+  for(const item of page.body.results){const detail=await get(item._links.self);assert.equal(detail.status,200);for(const key of['id','type','status','title','key','name'])if(Object.hasOwn(item,key))assert.deepEqual(detail.body[key],item[key]);visited.push(item);}
+  if(page.body._links.next)assert.equal(new URL(page.body._links.next,'http://mock.example.invalid').searchParams.get('limit'),String(limit));
+  prior=page;next=page.body._links.next;
+ }
+ assert.deepEqual(visited.map(i=>i.id),expected.map(i=>i.id));assert.equal(new Set(visited.map(i=>i.id)).size,expected.length);
+ for(const start of[expected.length,expected.length+limit,999999999]){const empty=await get(path+`?start=${start}&limit=${limit}`);assert.equal(empty.status,200);assert.equal(empty.body.start,start);assert.equal(empty.body.limit,limit);assert.equal(empty.body.size,0);assert.deepEqual(empty.body.results,[]);assert.equal(empty.body._links.next,undefined);assert.equal(empty.body._links.prev,undefined);assertLinks(empty.body);}
 }
-test('B-C/C-L: spaces → all pages → detail → storage; self/next/prev traversal is complete',async()=>{
- const spaces=(await get('/rest/api/space')).body;assert.deepEqual(spaces.results.map(s=>[s.id,s.key]),[[20000,'MOCK'],[21000,'EMPTY']]);
- const user=(await get('/rest/api/user/current')).body;
- for(const space of spaces.results) {
-  const path='/rest/api/space/'+space.key+'/content/page';
-  const all=await get(path);assert.equal(all.status,200);assert.equal(all.body.start,0);assert.equal(all.body.limit,25);
-  const expected=space.key==='MOCK'?['20001','20002','20003']:[];
-  assert.deepEqual(all.body.results.map(p=>p.id),expected);assert.equal(all.body.size,expected.length);
-  assert.deepEqual(all.body._links,{base,context:'',self:base+path});assert.deepEqual(await get(all.body._links.self),all);
-  for(const item of all.body.results) {
-   assert.equal(item.body,undefined);assert.deepEqual(item.space,space);
-   const detail=await get(item._links.self);assert.equal(detail.status,200);
-   for(const k of ['id','type','status','title','space','_links']) assert.deepEqual(item[k],detail.body[k]);
-   assert.equal(detail.body.body,undefined);assert.deepEqual(detail.body.history.createdBy,user);assert.deepEqual(detail.body.version.by,user);
-   const expanded=await get(item._links.self+'?expand=body%2Estorage');assert.equal(expanded.status,200);
-   const {body,...metadata}=expanded.body;assert.deepEqual(metadata,detail.body);assert.equal(body.storage.representation,'storage');
-   assert.equal(body.storage.value,item.id==='20001'?'<p>Synthetic integration page body.</p>':`<p>Synthetic integration page ${item.id} body.</p>`);
-  }
-  const traversed=[];let next=path+'?start=0&limit=2';let first;
-  while(next) {
-   const page=await get(next);assert.equal(page.status,200);assert.equal(page.body.size,page.body.results.length);assert.equal(page.body.limit,2);
-   assert.deepEqual(await get(page.body._links.self),page);
-   if(!first) first=page;
-   else {assert.equal(page.body.start,2);assert.deepEqual(await get(page.body._links.prev),first);}
-   traversed.push(...page.body.results.map(p=>p.id));next=page.body._links.next;
-   assert.ok(traversed.length<=expected.length);
-  }
-  assert.deepEqual(traversed,expected);assert.equal(new Set(traversed).size,expected.length);
-  for(const start of [0,2,4]) {
-   const page=await get(path+`?limit=%32&start=%${String(start).charCodeAt(0).toString(16)}`);assert.equal(page.status,200);
-   assert.equal(page.body.start,start);assert.equal(page.body.limit,2);assert.deepEqual(page.body.results,all.body.results.slice(start,start+2));
-   assert.equal(page.body.size,page.body.results.length);
-   if(space.key==='EMPTY'||start===4) {assert.equal(page.body._links.next,undefined);assert.equal(page.body._links.prev,undefined);}
-  }
+
+test('C-SPACES-PAGINATION: limits1/2/25 visit canonical spaces exactly once',async()=>{
+ await state('Started');const all=await get('/rest/api/space');assert.equal(all.status,200);assert.deepEqual(all.body.results.map(s=>[s.id,s.key]),fixture.spaces.map(s=>[s.id,s.key]));assert.equal(all.body.start,0);assert.equal(all.body.limit,25);assert.equal(all.body.size,fixture.spaces.length);assertLinks(all.body);
+ for(const limit of[1,2,25]){await walk('/rest/api/space',limit,fixture.spaces);assert.deepEqual((await get('/rest/api/space?limit='+limit)).body.results,all.body.results.slice(0,limit));}
+});
+
+test('C-PAGES: personal/global/empty × limits1/2/25, stable identity and storage traversal',async()=>{
+ for(const space of fixture.spaces){const path='/rest/api/space/'+space.key;const detail=await get(path);assert.equal(detail.status,200);for(const key of['id','key','name','type'])assert.equal(detail.body[key],space[key]);assert.equal(detail.body.status,'current');assertLinks(detail.body);
+  const expected=fixture.pages.filter(p=>p.spaceKey===space.key);for(const limit of[1,2,25])await walk(path+'/content/page',limit,expected);
+  const all=await get(path+'/content/page');assert.equal(all.body.size,expected.length);assert.deepEqual(all.body.results.map(p=>p.id),expected.map(p=>p.id));for(const item of all.body.results){assert.equal(item.body,undefined);assert.deepEqual(item.space,detail.body);const expanded=await get(item._links.self+'?expand=body.storage');assert.equal(expanded.body.body.storage.value,expected.find(p=>p.id===item.id).storage);}
  }
 });
-test('C-L: auth priority and unknown spaces/pages across every supported shape',async()=>{
- const paths=[];
- for(const key of ['MOCK','EMPTY','UNKNOWN']) for(const query of ['', '?start=0&limit=2','?limit=2&start=2','?start=4&limit=2']) paths.push(`/rest/api/space/${key}/content/page${query}`);
- for(const id of ['20001','20002','20003','99999']) for(const query of ['', '?expand=body.storage','?expand=body%2Estorage']) paths.push(`/rest/api/content/${id}${query}`);
- for(const path of paths) {
-  const ok=await get(path);assert.equal(ok.status,path.includes('UNKNOWN')||path.includes('99999')?404:200);
-  if(ok.status===404) assert.deepEqual(ok.body,{statusCode:404,message:'No content found',reason:'Not Found'});
-  for(const auth of [null,'Bearer wrong','Bearer MOCK-CONFLUENCE-TOKEN','Bearer mock-jira-token','bearer mock-confluence-token','Basic abc']) assert.deepEqual(await get(path,auth),{status:401,body:unauthorized});
- }
-});
-test('C-L: unsupported query/path/method boundaries remain fallback for every auth state',async()=>{
- const path='/rest/api/space/MOCK/content/page';
- const paths=['?start=0','?limit=2','?start=00&limit=2','?start=-2&limit=2','?start=2.0&limit=2','?start=1&limit=2','?start=0&limit=25','?start=&limit=2','?start=0&limit=','?start=0&limit=2&start=0','?start=0&limit=2&limit=2','?start=0&limit=2&extra=1','?expand=body.storage','?Start=0&limit=2','?start=0&limit=2&'].map(q=>path+q);
- paths.push(path+'/',path.replace('MOCK','mock'),path.replace('MOCK','0MOCK'),path.replace('/page','/blogpost'));
- for(const id of ['20002','20003']) for(const q of ['?expand=','?expand=body.view','?expand=body.storage&expand=body.storage','?expand=body.storage&extra=1']) paths.push('/rest/api/content/'+id+q);
- for(const p of paths) for(const auth of [valid,null,'Bearer wrong']) assert.deepEqual(await get(p,auth),{status:404,body:fallback},p);
- for(const p of [path,path+'?start=0&limit=2','/rest/api/content/20002','/rest/api/content/20003?expand=body.storage']) for(const method of ['POST','PUT','PATCH','DELETE','HEAD']) for(const auth of [valid,null]) {const r=await get(p,auth,method);assert.equal(r.status,404);if(method!=='HEAD') assert.deepEqual(r.body,fallback);}
+
+test('C-ENCODING: tilde/value/name encodings and parameter order preserve identities',async()=>{
+ const base='/rest/api/space/~mock.user-a';for(const suffix of['','/content/page','/content/page?limit=1','/content/page?start=2&limit=2']){const plain=await get(base+suffix);for(const encoded of['%7E','%7e']){const r=await get(base.replace('~',encoded)+suffix);assert.equal(r.status,200);assert.deepEqual(r.body.results??r.body,plain.body.results??plain.body);}}
+ const plain=await get(base+'/content/page?start=1&limit=2');const encoded=await get(base+'/content/page?%6Cimit=%32&%73tart=%31');assert.equal(encoded.status,200);assert.deepEqual(encoded.body.results,plain.body.results);assert.equal(encoded.body.start,plain.body.start);assert.equal(encoded.body.limit,plain.body.limit);
+ for(const q of['?start=-1&limit=1','?start=1.0&limit=1','?limit=1&limit=1','?limit=1&%6Cimit=1','?start=1&start=1&limit=1','?limit=1&extra=1','?limit=1&','?Limit=1','?expand=body.storage'])for(const token of[valid,null])assert.deepEqual(await get(base+'/content/page'+q,token),{status:404,body:unsupported});
+ for(const path of['/rest/api/space/ABSENT','/rest/api/space/~mock.absent','/rest/api/space/~mock.absent/content/page?limit=1']){assert.deepEqual(await get(path),{status:404,body:productError(404,'No content found','Not Found')});assert.deepEqual(await get(path,null),{status:401,body:productError(401,'Authentication required','Unauthorized')});}
 });

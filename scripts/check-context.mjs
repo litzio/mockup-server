@@ -24,7 +24,8 @@ export async function checkContext(product, base, pat) {
   };
   const endpoint = product === 'jira' ? '/rest/api/2/myself' : '/rest/api/user/current';
   validateLinks(await get(endpoint));
-  await get(endpoint, 'wrong', 401);
+  const denied=await get(endpoint, 'wrong', product === 'confluence' ? 200 : 401);
+  if(product === 'confluence') {assert.equal(denied.type,'anonymous');assert.equal(Object.hasOwn(denied,'username'),false);assert.equal(Object.hasOwn(denied,'userKey'),false);}
   if (context) {
     const fallback = await get(origin + endpoint, pat, 404);
     assert.equal(fallback.mockError, 'UNSUPPORTED_REQUEST');
@@ -42,7 +43,7 @@ export async function checkContext(product, base, pat) {
     assert.equal((await get('/rest/api/2/issue/010001', pat, 404)).mockError, 'UNSUPPORTED_REQUEST');
   } else {
     validateLinks(await get('/rest/api/space'));
-    let page = await get('/rest/api/space/MOCK/content/page?start=0&limit=2');
+    let page = await get('/rest/api/space/~mock.user-a/content/page?start=0&limit=2');
     const ids = [];
     for (;;) {
       validateLinks(page);
@@ -59,7 +60,7 @@ export async function checkContext(product, base, pat) {
       page = await get(origin + page._links.next);
       assert.deepEqual(await get(origin + page._links.prev), previous);
     }
-    assert.deepEqual(ids, ['20001', '20002', '20003']);
+    assert.deepEqual(ids, ['30001', '30002', '30003']);
   }
   console.log('U: PASS ' + product + ' ' + base);
 }

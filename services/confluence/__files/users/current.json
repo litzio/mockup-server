@@ -1,11 +1,20 @@
 {
+  "username": "mock.user-a",
+  "userKey": "mock-user-a-key",
+  "displayName": "Synthetic User A",
   "type": "known",
-  "username": "mock-user",
-  "userKey": "mock-user-key",
-  "displayName": "Mock User",
+  "profilePicture": {
+    "path": "/images/icons/profilepics/default.svg",
+    "width": 48,
+    "height": 48,
+    "isDefault": true
+  },
   "_links": {
     "base": "{{request.baseUrl}}",
     "context": "",
     "self": "{{request.baseUrl}}/rest/api/user/current"
+  },
+  "_expandable": {
+    "status": ""
   }
 }

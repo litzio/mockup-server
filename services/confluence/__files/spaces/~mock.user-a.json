@@ -1,0 +1,12 @@
+{
+  "id": "20000",
+  "key": "~mock.user-a",
+  "name": "Synthetic Personal Space",
+  "type": "personal",
+  "status": "current",
+  "_links": {
+    "base": "{{request.baseUrl}}",
+    "context": "",
+    "self": "{{request.baseUrl}}/rest/api/space/~mock.user-a"
+  }
+}

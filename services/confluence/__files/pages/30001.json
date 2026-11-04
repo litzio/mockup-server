@@ -1,0 +1,72 @@
+{
+  "id": "30001",
+  "type": "page",
+  "status": "current",
+  "title": "Synthetic page A",
+  "_links": {
+    "base": "{{request.baseUrl}}",
+    "context": "",
+    "self": "{{request.baseUrl}}/rest/api/content/30001"
+  },
+  "space": {
+    "id": "20000",
+    "key": "~mock.user-a",
+    "name": "Synthetic Personal Space",
+    "type": "personal",
+    "status": "current",
+    "_links": {
+      "base": "{{request.baseUrl}}",
+      "context": "",
+      "self": "{{request.baseUrl}}/rest/api/space/~mock.user-a"
+    }
+  },
+  "history": {
+    "latest": true,
+    "createdBy": {
+      "username": "mock.user-a",
+      "userKey": "mock-user-a-key",
+      "displayName": "Synthetic User A",
+      "type": "known",
+      "profilePicture": {
+        "path": "/images/icons/profilepics/default.svg",
+        "width": 48,
+        "height": 48,
+        "isDefault": true
+      },
+      "_links": {
+        "base": "{{request.baseUrl}}",
+        "context": "",
+        "self": "{{request.baseUrl}}/rest/api/user/current"
+      },
+      "_expandable": {
+        "status": ""
+      }
+    },
+    "createdDate": "2026-01-01T00:00:00.000Z"
+  },
+  "version": {
+    "number": 1,
+    "by": {
+      "username": "mock.user-a",
+      "userKey": "mock-user-a-key",
+      "displayName": "Synthetic User A",
+      "type": "known",
+      "profilePicture": {
+        "path": "/images/icons/profilepics/default.svg",
+        "width": 48,
+        "height": 48,
+        "isDefault": true
+      },
+      "_links": {
+        "base": "{{request.baseUrl}}",
+        "context": "",
+        "self": "{{request.baseUrl}}/rest/api/user/current"
+      },
+      "_expandable": {
+        "status": ""
+      }
+    },
+    "when": "2026-01-01T00:00:00.000Z",
+    "minorEdit": false
+  }
+}

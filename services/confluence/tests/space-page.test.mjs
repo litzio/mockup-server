@@ -1,51 +1,31 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-const base=process.env.CONFLUENCE_BASE_URL ?? 'http://127.0.0.1:8082';
-const valid='Bearer mock-confluence-token';
-async function request(path,auth=valid,method='GET') {
-  const response=await fetch(base+path,{method,headers:auth===null?{}:{Authorization:auth},signal:AbortSignal.timeout(5000)});
-  assert.match(response.headers.get('content-type'),/application\/json/);
-  assert.equal(response.headers.get('connection'),'close');
-  return {status:response.status,body:await response.json()};
-}
-test('confluence: coherent fixed space list, page and storage expansion, stateless reads',async()=>{
-  const list=await request('/rest/api/space');
-  assert.equal(list.status,200);
-  assert.equal(list.body.start,0); assert.equal(list.body.limit,25); assert.equal(list.body.size,2);
-  assert.equal(list.body.results.length,list.body.size);
-  assert.deepEqual(list.body._links,{base,context:'',self:base+'/rest/api/space'});
-  assert.equal(list.body.results[0].key,'MOCK');
-  assert.equal(list.body._links.next,undefined); assert.equal(list.body._links.prev,undefined);
-  const page=await request('/rest/api/content/20001');
-  assert.equal(page.status,200); assert.equal(page.body.id,'20001');
-  assert.equal(page.body.type,'page'); assert.equal(page.body.status,'current');
-  assert.equal(page.body.title,'Synthetic integration page');
-  assert.deepEqual(page.body.space,list.body.results[0]);
-  assert.equal(page.body._links.self,base+'/rest/api/content/20001');
-  const user=await request('/rest/api/user/current');
-  assert.deepEqual(page.body.history.createdBy,user.body); assert.deepEqual(page.body.version.by,user.body);
-  assert.equal(page.body.version.number,1); assert.equal(page.body.body,undefined);
-  const expanded=await request('/rest/api/content/20001?expand=body.storage');
-  assert.equal(expanded.status,200);
-  assert.deepEqual(expanded.body.body,{storage:{value:'<p>Synthetic integration page body.</p>',representation:'storage'}});
-  const {body,...metadata}=expanded.body; assert.deepEqual(metadata,page.body);
-  assert.deepEqual(await request('/rest/api/content/20001'),page);
+import {fixture,get,state,assertLinks,productError,unsupported,valid} from './helpers.mjs';
+
+test('C-PAGE: default metadata, storage-only and explicitly combined expansions',async()=>{
+ await state('Started');const current=(await get('/rest/api/user/current')).body;
+ for(const seed of fixture.pages){
+  const path='/rest/api/content/'+seed.id;const basic=await get(path);assert.equal(basic.status,200);assert.equal(basic.body.id,seed.id);assert.equal(basic.body.type,'page');assert.equal(basic.body.status,'current');assert.equal(basic.body.title,seed.title);
+  assert.equal(basic.body.space.key,seed.spaceKey);assert.deepEqual(basic.body.history.createdBy,current);assert.deepEqual(basic.body.version.by,current);assert.equal(basic.body.version.number,seed.version);assert.equal(Object.hasOwn(basic.body,'body'),false);assertLinks(basic.body);
+  const storage=await get(path+'?expand=body%2Estorage');assert.equal(storage.status,200);assert.deepEqual(storage.body.body,{storage:{value:seed.storage,representation:'storage'}});
+  for(const key of['id','type','status','title','_links'])assert.deepEqual(storage.body[key],basic.body[key]);
+  // Supplied observed contract replaces default expansions. Full metadata equality
+  // is retained below for the explicit combined-expansion request.
+  for(const key of['space','history','version'])assert.equal(Object.hasOwn(storage.body,key),false);
+  const combined=await get(path+'?expand=body.storage%2Cversion%2Cspace%2Chistory');assert.equal(combined.status,200);const{body,...metadata}=combined.body;assert.deepEqual(metadata,basic.body);assert.deepEqual(body,storage.body.body);
+  assert.deepEqual(await get(path),basic);
+ }
 });
-for(const path of ['/rest/api/space','/rest/api/content/20001','/rest/api/content/20001?expand=body.storage','/rest/api/content/99999','/rest/api/content/99999?expand=body.storage']) {
-  test('confluence: auth isolation '+path,async()=>{
-    assert.ok([200,404].includes((await request(path)).status));
-    for(const auth of ['Bearer MOCK-CONFLUENCE-TOKEN',null,'Bearer wrong','Basic abc','Bearer mock-jira-token','bearer mock-confluence-token'])
-      assert.deepEqual(await request(path,auth),{status:401,body:{statusCode:401,message:'Authentication required',reason:'Unauthorized'}});
-  });
-}
-test('confluence: unknown numeric pages have product-shaped synthetic 404',async()=>{
-  for(const path of ['/rest/api/content/99999','/rest/api/content/99999?expand=body.storage'])
-    assert.deepEqual(await request(path),{status:404,body:{statusCode:404,message:'No content found',reason:'Not Found'}});
+
+test('C-PAGE: protected reads require PAT and missing pages have a product error',async()=>{
+ for(const id of[...fixture.pages.map(p=>p.id),'999999999'])for(const expand of['','?expand=body.storage','?expand=body.storage,version,space,history']){
+  const path='/rest/api/content/'+id+expand;const normal=await get(path);assert.equal(normal.status,id==='999999999'?404:200);if(normal.status===404)assert.deepEqual(normal.body,productError(404,'No content found','Not Found'));
+  for(const token of[null,'Bearer wrong','Bearer mock-jira-token','Bearer MOCK-CONFLUENCE-TOKEN','Basic abc'])assert.deepEqual(await get(path,token),{status:401,body:productError(401,'Authentication required','Unauthorized')});
+ }
 });
-test('confluence: unsupported methods, paths and queries never succeed or expose data',async()=>{
-  const paths=['/rest/api/space?start=0','/rest/api/space?limit=25','/rest/api/space?spaceKey=MOCK','/rest/api/space?expand=description','/rest/api/space/MOCK','/rest/api/space/','/wiki/rest/api/space','/rest/api/content','/rest/api/content/abc','/rest/api/content/0','/rest/api/content/020001','/rest/api/content/20001/','/rest/api/content/20001/child','/rest/api/content/search','/rest/api/content/20001?expand=body.view','/rest/api/content/20001?expand=','/rest/api/content/20001?status=current','/rest/api/content/20001?expand=body.storage&limit=1','/rest/api/content/20001?expand=body.storage&expand=body.storage','/rest/api/content/99999?expand=unknown'].map(p=>[p,'GET']);
-  for(const path of ['/rest/api/space','/rest/api/content/20001','/rest/api/content/20001?expand=body.storage','/rest/api/content/99999'])
-    for(const method of ['POST','PUT','DELETE','PATCH']) paths.push([path,method]);
-  for(const [path,method] of paths) for(const auth of [valid,null,'Bearer wrong'])
-    assert.deepEqual(await request(path,auth,method),{status:404,body:{mockError:'UNSUPPORTED_REQUEST',message:'This request is outside the supported mock contract.'}},method+' '+path);
+
+test('C-UNSUPPORTED: undeclared page/space requests and writes never become success',async()=>{
+ const paths=['/rest/api/space?spaceKey=MOCK','/rest/api/space?expand=description','/rest/api/space?limit=0','/rest/api/space?limit=3','/rest/api/space?limit=1&limit=1','/rest/api/space?start=00&limit=1','/rest/api/space?start=1000000000&limit=1','/rest/api/space/','/rest/api/content','/rest/api/content/abc','/rest/api/content/0','/rest/api/content/030001','/rest/api/content/30001/','/rest/api/content/30001/child','/rest/api/content/search','/rest/api/content/30001?expand=body.view','/rest/api/content/30001?expand=','/rest/api/content/30001?status=current','/rest/api/content/30001?expand=body.storage&limit=1','/rest/api/content/30001?expand=body.storage&expand=body.storage','/rest/api/content/999999999?expand=unknown'];
+ for(const path of paths)for(const token of[valid,null,'Bearer wrong'])assert.deepEqual(await get(path,token),{status:404,body:unsupported},path);
+ for(const path of['/rest/api/space','/rest/api/space/~mock.user-a','/rest/api/content/30001','/rest/api/content/30001?expand=body.storage'])for(const method of['POST','PUT','DELETE','PATCH','HEAD']){const r=await get(path,valid,method);assert.equal(r.status,404);if(method!=='HEAD')assert.deepEqual(r.body,unsupported);}
 });
