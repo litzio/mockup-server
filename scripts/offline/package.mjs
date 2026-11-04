@@ -2,6 +2,8 @@ import { spawnSync } from 'node:child_process';
 import { mkdirSync, copyFileSync, writeFileSync, readFileSync, existsSync } from 'node:fs';
 import { resolve, dirname, relative, sep } from 'node:path';
 import { createHash } from 'node:crypto';
+import { selectRuntimePaths, runtimeDependencyPaths } from './bundle-scope.mjs';
+import { auditFiles } from '../acceptance/privacy.mjs';
 
 function run(command, args) {
   const result = spawnSync(command, args, { encoding: 'utf8' });
@@ -25,17 +27,26 @@ const toolMetadata = JSON.parse(run('docker', ['image', 'inspect', toolImage]))[
 if (metadata.Os !== 'linux' || metadata.Architecture !== 'amd64') throw new Error('Unexpected image platform');
 if (toolMetadata.Os !== 'linux' || toolMetadata.Architecture !== 'amd64') throw new Error('Unexpected tool image platform');
 mkdirSync(destination, { recursive: true });
-const paths = run('git', ['ls-files', '-z']).split('\0').filter(Boolean);
+const tracked = run('git', ['ls-files', '-z']).split('\0').filter(Boolean);
+const privacyAudit = auditFiles(root, tracked, {denylistFile: process.env.MOCKUP_PRIVACY_DENYLIST});
+if (privacyAudit.status !== 'PASS') throw new Error('Source privacy audit failed: ' + JSON.stringify(privacyAudit.findings));
+const paths = [...selectRuntimePaths(tracked), ...runtimeDependencyPaths(root)];
+const excludedTrackedPaths = tracked.filter(path => !paths.includes(path));
 for (const path of paths) {
   mkdirSync(dirname(resolve(destination, path)), { recursive: true });
-  copyFileSync(path, resolve(destination, path));
+  if (path.startsWith('node_modules/')) copyFileSync(path, resolve(destination, path));
+  else writeFileSync(resolve(destination, path), readFileSync(path, 'utf8').replaceAll('\r\n', '\n'));
 }
 run('docker', ['image', 'save', '--output', resolve(destination, 'wiremock.tar'), image]);
 paths.push('wiremock.tar');
 run('docker', ['image', 'save', '--output', resolve(destination, 'dind.tar'), toolImage]);
 paths.push('dind.tar');
 writeFileSync(resolve(destination, 'bundle.json'), JSON.stringify({
-  sourceCommit: commit, image, imageId: metadata.Id,
+  formatVersion: 2, sourceCommit: commit, fixtureVersion: 'synthetic-acceptance-v1', privacyAudit,
+  sourceTextNormalization: 'First-party runtime UTF-8 text uses LF; dependency bytes and licenses are copied unchanged. Git source content and bundled normalized hashes identify the runtime.',
+  exportScope: 'Curated current runtime, contract and pinned schema validator dependencies; historical evidence is excluded',
+  includedSourcePaths: paths.filter(path => !path.endsWith('.tar')), excludedTrackedPaths,
+  image, imageId: metadata.Id,
   repoDigests: metadata.RepoDigests, platform: 'linux/amd64',
   toolImage, toolImageId: toolMetadata.Id, toolRepoDigests: toolMetadata.RepoDigests,
   preparedAt: new Date().toISOString(), node: process.version,

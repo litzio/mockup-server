@@ -1,0 +1,111 @@
+{
+  "formatVersion": 1,
+  "operation": "Explicitly labeled sanitized derivatives; Git history untouched. Original hashes identify pre-redaction bytes, not current artifacts.",
+  "preserved": "Commands, exit codes, numeric measurements, failed attempts and outcomes; only private home-path prefixes replaced with synthetic equivalent.",
+  "records": [
+    {
+      "path": "docs/evidence/issue14/attempt1.commands.log.gz",
+      "originalSha256": "fbafe52712097868ea291d3f2f5f8bf260d51ca1d2eac82a46a8cce0f846cce9",
+      "sanitizedSha256": "8d07e5dd6047aa9ed165681ec57cda8777e2cd418758713b64523dc95e8f9253",
+      "replacements": [
+        {
+          "category": "windows-user-prefix",
+          "count": 12
+        },
+        {
+          "category": "windows-user-prefix",
+          "count": 3
+        }
+      ]
+    },
+    {
+      "path": "docs/evidence/issue14/final.commands.log.gz",
+      "originalSha256": "d8747a02b41a400002c51255eab97041315f996a44958ee2a973fe454e9861a1",
+      "sanitizedSha256": "5ad9a7fff3862e5c85ab7e84f5ed77348c730c8be1df2170fe853059a087c822",
+      "replacements": [
+        {
+          "category": "windows-user-prefix",
+          "count": 17
+        }
+      ]
+    },
+    {
+      "path": "docs/evidence/issue14/final.console.log.gz",
+      "originalSha256": "487053045b9d3099b13c4981a6b0c3dfca7bbba8a1db21d891582aa0a54ceb18",
+      "sanitizedSha256": "d23f5a0d265307c6ad7adbbdfce8cc7857bef786ab42cee76ce070d2aee57764",
+      "replacements": [
+        {
+          "category": "windows-user-prefix",
+          "count": 17
+        }
+      ]
+    },
+    {
+      "path": "docs/evidence/issue14/port-failure.console.log.gz",
+      "originalSha256": "f8cd08c3a5834ed70a8f2f01e903adb1920e75e0af11d22778a6b175daf3fbf0",
+      "sanitizedSha256": "d138bc08e2a88b3f4f0355ec6f5428612ef8d3a215b97fe3a5d87a1662f1c08f",
+      "replacements": [
+        {
+          "category": "windows-user-prefix",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "docs/evidence/issue15/isolated.commands.log.gz",
+      "originalSha256": "673d8993114434a7a45b37109ea307167aa10eea3e07f68553f368653439b0a5",
+      "sanitizedSha256": "b0c0570f47bf8606a0a895e6bdd81c76a029c0718dbbf66657b1f1e14e2796d1",
+      "replacements": [
+        {
+          "category": "windows-user-prefix",
+          "count": 17
+        }
+      ]
+    },
+    {
+      "path": "docs/evidence/issue15/isolated.console.log.gz",
+      "originalSha256": "128b245ee68e9c6394ca8a8f3a23db078cbe27b82a917384ead8e7416615747c",
+      "sanitizedSha256": "2bde7db3c300085d27fab2814923fdfb44e7d7f8ceb618bc3620795b15242333",
+      "replacements": [
+        {
+          "category": "windows-user-prefix",
+          "count": 17
+        }
+      ]
+    },
+    {
+      "path": "docs/evidence/issue15/packaging.log.gz",
+      "originalSha256": "dfa16ff1b6e85b4c08009fd008bc9a914d9c8218f8a60b5df1ab924bbb6c041f",
+      "sanitizedSha256": "91bd082364b0cb11939ca3afe7468ba1d8f0f7fb015225d412782fd5b61c8d56",
+      "replacements": [
+        {
+          "category": "windows-user-prefix",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "docs/offline.md",
+      "originalSha256": "cc126348fe767a39751491c928400ef09f2867042a949e5efaf534c8a68c2a05",
+      "sanitizedSha256": "1cf28f8e7174bd0dd6291a456286d2a7b09d0c14c6f861e199d33cd2704adeec",
+      "replacements": [
+        {
+          "category": "windows-user-prefix",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "path": "docs/v1-acceptance.md",
+      "originalSha256": "2a9a8492462034f42697dbd801732f53fc058d204d2a3708bd2aa1640f3f1af5",
+      "sanitizedSha256": "53ba1cc1ceaee6a8dfd7af7337c607d47479c11168a945b1ee6576408fdf2609",
+      "replacements": [
+        {
+          "category": "windows-user-prefix",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "documentNotice": "The two Markdown documents additionally include the derivative/provenance notice; gzip decoded payload changes are limited to the documented private path replacement."
+}

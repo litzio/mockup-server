@@ -1,0 +1,10 @@
+docs/acceptance/*.json text eol=lf
+docs/acceptance/*.md text eol=lf
+scripts/** text=auto eol=lf
+services/** text=auto eol=lf
+tests/** text=auto eol=lf
+compose*.yaml text eol=lf
+package*.json text eol=lf
+.env.example text eol=lf
+docs/offline-v2.md text eol=lf
+docs/evidence/issue27/candidate2/*.json -text

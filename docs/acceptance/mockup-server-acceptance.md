@@ -3,7 +3,9 @@
 - Status: Draft
 - Created: 2026-11-04
 - Scope: agent-readable acceptance criteria for a declared Jira/Confluence read-only mock, not a claim that the mock is complete.
-- Authority: [test design](../contributing/test-design.md), [JIRA spike](../design/jira-dashboard-spike.md), and the explicitly separated live observations and proposed requirements below.
+- Authority: [supplied executable-contract input](mockup-server-acceptance.json), [provenance and implementation boundaries](provenance.md), and the explicitly separated live observations and proposed requirements below.
+
+> This is the supplied specification narrative. Its draft/not-executed wording describes the input snapshot; current execution results are recorded separately without changing its substantive assertions.
 
 ## Deliverable
 

@@ -1,0 +1,18 @@
+{
+  "candidateCommit": "f2dc7a49053dbbccd3b1c4c8b89ed3929b37d966",
+  "status": "INVALIDATED",
+  "reason": "Independent review found server-only could exit zero with all91 BLOCKED when preflight failed and final resets recovered. Runtime fix required a new candidate.",
+  "completed": "Default cycle1 full HTTP and acceptance report completed; default cycle2 interrupted intentionally.",
+  "exitCode": 1,
+  "nodeExitCode": -1,
+  "cleanup": {
+    "ownedNodeDescendantsOnly": true,
+    "verifierFinallyExecuted": true,
+    "daemonRemoveExit": 0,
+    "networkOwnerChecked": true,
+    "networkRemoveExit": 0,
+    "remainingOwnedContainers": 0,
+    "remainingOwnedNetworks": 0
+  },
+  "lifecyclePassWritten": false
+}

@@ -1,0 +1,35 @@
+{
+  "candidateCommit": "e3aefad2103ee11dd93fca0aa37358103b491b1f",
+  "fixtureVersion": "synthetic-acceptance-v1",
+  "status": "PASS",
+  "runtimeMatches": true,
+  "sourceComparison": "First-party text compared as UTF-8 LF per bundle policy; upstream dependency bytes compared exactly",
+  "scopes": {
+    "source": {
+      "status": "PASS",
+      "inspectedFiles": 516,
+      "findings": [],
+      "policy": "Private local denylist is never printed or bundled; known identity/credential/home-path scan plus fixture oracle. Upstream image/dependency license bytes are preserved and identified separately; no universal secret-detection claim."
+    },
+    "bundle": {
+      "status": "PASS",
+      "inspectedFiles": 811,
+      "findings": [],
+      "policy": "Private local denylist is never printed or bundled; known identity/credential/home-path scan plus fixture oracle. Upstream image/dependency license bytes are preserved and identified separately; no universal secret-detection claim."
+    },
+    "evidence": {
+      "status": "PASS",
+      "inspectedFiles": 13,
+      "findings": [],
+      "policy": "Private local denylist is never printed or bundled; known identity/credential/home-path scan plus fixture oracle. Upstream image/dependency license bytes are preserved and identified separately; no universal secret-detection claim."
+    }
+  },
+  "upstream": {
+    "imageId": "sha256:0d4ecb3e4dc8213fd7a4d37d6a78f6e6b553a6d2e15bd51b0999781282ac61b3",
+    "imageDigest": [
+      "wiremock/wiremock@sha256:0d4ecb3e4dc8213fd7a4d37d6a78f6e6b553a6d2e15bd51b0999781282ac61b3"
+    ],
+    "dependencyLockSha256": "d105a3694140570d67d2c255f1b37a22745e09918c910b19a2a6dbaed2dbf86b"
+  },
+  "historicalEvidence": "Current tracked derivatives are labeled with original/current hashes; Git history is not exported."
+}

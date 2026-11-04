@@ -1,5 +1,7 @@
 # 폐쇄망 반입 구성 (#14)
 
+> v2 익명화 안내: 이 문서의 개인 경로와 연결된 과거 증거 로그는 합성 경로로 치환한 파생본입니다. 실패·측정·종료코드는 보존했고 Git 이력은 변경하지 않았습니다. 원본/현재 SHA-256 및 변경 범위는 [익명화 기록](evidence/redaction.md)을 따릅니다. 과거 반입 manifest의 hash는 당시 원본을 식별하며 현재 파생본 hash가 아닙니다.
+
 최종 실행 증거는 아래 검증 결과에 기록한다. 실제 Jira/Confluence 서버 호환성 검증과는 별개다.
 
 ## 온라인 패키징
@@ -60,7 +62,7 @@ pwsh -NoProfile -File C:/Transfer/mockup-bundle/scripts/offline/verify-isolated.
 
 ## 검증 결과와 증거
 
-**O: PASS** — 2026-11-04 최종 격리 검증의 상위 pwsh 종료코드는 **0**이다. [최종 원시 명령 로그](evidence/issue14/final.commands.log.gz), [상위 실행 출력과 종료코드](evidence/issue14/final.console.log.gz), [실행한 원격 Compose](evidence/issue14/remote-compose.json)를 보존했다. 로컬 준비/전달 파일은 `C:/Users/swBaek/Downloads/mockup-server-offline-a5645c6`이며 이 폴더도 재생성물 없이 checksum 131개를 확인했다. 바이너리 아카이브는 Git에 commit하지 않는다.
+**O: PASS** — 2026-11-04 최종 격리 검증의 상위 pwsh 종료코드는 **0**이다. [최종 원시 명령 로그](evidence/issue14/final.commands.log.gz), [상위 실행 출력과 종료코드](evidence/issue14/final.console.log.gz), [실행한 원격 Compose](evidence/issue14/remote-compose.json)를 보존했다. 로컬 준비/전달 파일은 `C:/Users/mock-user/Downloads/mockup-server-offline-a5645c6`이며 이 폴더도 재생성물 없이 checksum 131개를 확인했다. 바이너리 아카이브는 Git에 commit하지 않는다.
 
 실제 실행 명령은 다음과 같다. Evidence는 새 디렉터리여야 한다.
 
@@ -102,7 +104,7 @@ docker inspect mockup-issue14-daemon # 예상 실패: 없음
 docker network inspect mockup-issue14-control # 예상 실패: 없음
 ```
 
-로그는 원문 바이트를 유지해 gzip으로 보관한다. 별도 설치 없이 Node로 읽을 수 있다.
+로그는 개인 경로만 치환한 익명화 파생본을 gzip으로 보관한다. 원본 바이트 보존 주장은 현재 파생본에 적용하지 않는다. 별도 설치 없이 Node로 읽을 수 있다.
 
 ```powershell
 node --input-type=module -e "import{readFileSync}from'node:fs';import{gunzipSync}from'node:zlib';process.stdout.write(gunzipSync(readFileSync(process.argv[1])))" docs/evidence/issue14/attempt1.commands.log.gz

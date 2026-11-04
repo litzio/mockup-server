@@ -18,7 +18,7 @@ export function withContext(value, context) {
 export function prepareContext() {
   for (const product of ['jira', 'confluence']) {
     const context = process.env[product.toUpperCase() + '_CONTEXT'] ?? '';
-    if (!['', '/' + product].includes(context)) throw new Error('Unsupported context for ' + product);
+    if (!['', '/' + product, '/custom-context'].includes(context)) throw new Error('Unsupported context for ' + product);
   }
   for (const product of ['jira', 'confluence']) {
     const context = process.env[product.toUpperCase() + '_CONTEXT'] ?? '';
