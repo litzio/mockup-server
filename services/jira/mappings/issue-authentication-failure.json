@@ -1,0 +1,20 @@
+{
+  "priority": 10,
+  "request": {
+    "method": "GET",
+    "urlPattern": "/rest/api/2/issue/[A-Z][A-Z0-9_]*-[1-9][0-9]*"
+  },
+  "response": {
+    "headers": {
+      "Content-Type": "application/json",
+      "Connection": "close"
+    },
+    "status": 401,
+    "jsonBody": {
+      "errorMessages": [
+        "Authentication required"
+      ],
+      "errors": {}
+    }
+  }
+}

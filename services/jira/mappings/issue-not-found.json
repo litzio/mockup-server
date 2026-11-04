@@ -1,0 +1,25 @@
+{
+  "priority": 5,
+  "request": {
+    "method": "GET",
+    "urlPattern": "/rest/api/2/issue/[A-Z][A-Z0-9_]*-[1-9][0-9]*",
+    "headers": {
+      "Authorization": {
+        "equalTo": "Bearer mock-jira-token"
+      }
+    }
+  },
+  "response": {
+    "headers": {
+      "Content-Type": "application/json",
+      "Connection": "close"
+    },
+    "status": 404,
+    "jsonBody": {
+      "errorMessages": [
+        "Issue Does Not Exist"
+      ],
+      "errors": {}
+    }
+  }
+}
