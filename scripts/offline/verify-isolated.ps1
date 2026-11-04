@@ -25,7 +25,8 @@ $remote = @('-H', 'tcp://127.0.0.1:18475')
 $daemon = 'mockup-issue14-daemon'
 $network = 'mockup-issue14-control'
 $createdNetwork = $false
-$createdDaemon = $false
+$attemptedDaemon = $false
+$owner = [guid]::NewGuid().ToString('N')
 $composeFile = Join-Path $Evidence 'remote-compose.json'
 $remoteCompose = $remote + @('compose', '-p', 'mockup-issue14', '-f', $composeFile)
 $originalLocation = Get-Location
@@ -51,10 +52,10 @@ try {
     if (($script:LastOutput -join '').Trim() -ne $manifest.toolImageId) { throw 'Tool image identity mismatch' }
     Invoke-Logged docker ($hostArgs + @('network', 'create', '--label', 'mockup.issue=14', $network))
     $createdNetwork = $true
-    Invoke-Logged docker ($hostArgs + @('run', '-d', '--pull', 'never', '--name', $daemon, '--label', 'mockup.issue=14', '--privileged', '--network', $network,
+    $attemptedDaemon = $true
+    Invoke-Logged docker ($hostArgs + @('run', '-d', '--pull', 'never', '--name', $daemon, '--label', 'mockup.issue=14', '--label', "mockup.offline.owner=$owner", '--privileged', '--network', $network,
         '-p', '127.0.0.1:18475:2375', '-p', '127.0.0.1:18481:8081', '-p', '127.0.0.1:18482:8082', '-e', 'DOCKER_TLS_CERTDIR=',
         $manifest.toolImageId, '--tls=false', '--host=tcp://0.0.0.0:2375', '--host=unix:///var/run/docker.sock'))
-    $createdDaemon = $true
     $ready = $false
     for ($attempt = 0; $attempt -lt 60; $attempt++) {
         Invoke-Logged docker ($remote + @('info', '--format', '{{.ID}}')) -AllowFailure
@@ -104,7 +105,18 @@ try {
             Invoke-Logged docker ($remoteCompose + @('up', '-d', '--pull', 'never'))
             Invoke-Logged node @('scripts/wait-services.mjs')
             Invoke-Logged node @('scripts/offline/state.mjs', 'started')
-            Invoke-Logged node @('scripts/test-services.mjs')
+            if ($mode -eq 'default' -and $cycle -eq 1) {
+                Invoke-Logged docker ($remote + @('exec', 'mockup-issue14-jira-1', 'bash', '-c', 'command -v timeout'))
+                Invoke-Logged docker ($remote + @('exec', 'mockup-issue14-jira-1', 'bash', '-c', 'timeout 5 bash -c "echo > /dev/tcp/1.1.1.1/80"')) -AllowFailure
+                if ($script:LastExit -eq 0) { throw 'Nested product container external access unexpectedly succeeded' }
+            }
+            if ($mode -eq 'default') {
+                Invoke-Logged node @('scripts/test-services.mjs')
+            } else {
+                # Existing pagination tests intentionally assert the empty-context
+                # contract. Preserve those assertions and use U + E for context.
+                Invoke-Logged node @('--test', 'services/jira/tests/error-scenarios.test.mjs')
+            }
             Invoke-Logged node @('scripts/check-context.mjs')
             Invoke-Logged node @('scripts/offline/state.mjs', 'dirty')
             Invoke-Logged docker ($remoteCompose + @('logs', '--no-color'))
@@ -112,14 +124,19 @@ try {
         }
     }
     Invoke-Logged docker ($hostArgs + @('exec', $daemon, 'iptables', '-nvL', 'OUTPUT'))
-    "PASS sourceCommit=$($manifest.sourceCommit)" | Tee-Object -FilePath $Log -Append | Out-Host
 } finally {
-    if ($createdDaemon) {
-        if (Test-Path -LiteralPath $composeFile) { Invoke-Logged docker ($remoteCompose + @('down')) -AllowFailure }
-        Invoke-Logged docker ($hostArgs + @('logs', $daemon)) -AllowFailure
-        Invoke-Logged docker ($hostArgs + @('rm', '-fv', $daemon))
+    if ($attemptedDaemon) {
+        # docker run may create the container and then fail to bind a port.
+        # A unique token proves ownership even when the run command failed.
+        Invoke-Logged docker ($hostArgs + @('inspect', '--format', '{{ index .Config.Labels "mockup.offline.owner" }}', $daemon)) -AllowFailure
+        if ($script:LastExit -eq 0 -and ($script:LastOutput -join '').Trim() -eq $owner) {
+            if (Test-Path -LiteralPath $composeFile) { Invoke-Logged docker ($remoteCompose + @('down')) -AllowFailure }
+            Invoke-Logged docker ($hostArgs + @('logs', $daemon)) -AllowFailure
+            Invoke-Logged docker ($hostArgs + @('rm', '-fv', $daemon))
+        }
     }
     if ($createdNetwork) { Invoke-Logged docker ($hostArgs + @('network', 'rm', $network)) }
     foreach ($name in $environmentNames) { [Environment]::SetEnvironmentVariable($name, $savedEnvironment[$name]) }
     Set-Location $originalLocation
 }
+"PASS sourceCommit=$($manifest.sourceCommit)" | Tee-Object -FilePath $Log -Append | Out-Host

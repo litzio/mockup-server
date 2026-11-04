@@ -27,7 +27,11 @@ node scripts/prepare-context.mjs
 docker compose -p mockup-offline -f compose.yaml -f compose.context.yaml up -d --pull never
 node scripts/wait-services.mjs
 node scripts/offline/state.mjs started
-node scripts/test-services.mjs
+if ($env:JIRA_CONTEXT -or $env:CONFLUENCE_CONTEXT) {
+  node --test services/jira/tests/error-scenarios.test.mjs
+} else {
+  node scripts/test-services.mjs
+}
 node scripts/check-context.mjs
 # 매핑은 보존하고 각 제품의 시나리오를 기본 상태로 초기화한다.
 Invoke-RestMethod -Method Post http://127.0.0.1:8081/__admin/scenarios/reset
@@ -50,7 +54,7 @@ pwsh -NoProfile -File C:/Transfer/mockup-bundle/scripts/offline/verify-isolated.
 
 스크립트는 checksum 확인 후 dind.tar를 host daemon에 load하고 작업 전용 network/privileged DinD를 생성한다. host socket/storage 마운트는 없다. DinD는 새 anonymous volume과 빈 image store를 가진다. 컨테이너 namespace 방화벽으로 daemon OUTPUT과 nested container 외부 forwarding의 신규 연결을 차단하고 IPv6도 차단한다. host의 Windows 네트워크/방화벽 설정은 바꾸지 않는다. Docker의 내장 DNS 응답 자체를 차단했다고 주장하지 않으며 registry/IP TCP 연결 차단과 방화벽 정책을 함께 기록한다.
 
-빈 store → 외부pull/IP 접속 실패 → 빈 store 재확인 → wiremock.tar load/ID·아키텍처 확인 → 기본/context 각각 기동·Started HTTP 확인·전체 HTTP 오류/리셋 테스트·self/next/prev 추적 → forbidden 설정 및403 확인 → down/up → Started와 전체 검증 반복을 수행한다. 검증은 Windows PowerShell/Compose/Node에서 수행하며 원격 bind 경로만 DinD 내부 staging으로 변환한다. 제품 데이터·명령은 반입 Compose에서 가져온다. 모든 명령의 JSON 인자·출력·종료코드는 commands.log, 변환한 Compose는 remote-compose.json에 남긴다. 실패하면 예외로 비정상 종료하며 자신이 생성한 자원만 finally에서 정리한다. Docker Desktop은 종료하지 않는다.
+빈 store → 외부pull/IP 접속 실패 → 빈 store 재확인 → wiremock.tar load/ID·아키텍처 확인 → 기본/context 각각 기동·Started HTTP 확인·오류/리셋 테스트·self/next/prev 추적 → forbidden 설정 및403 확인 → down/up → Started와 검증 반복을 수행한다. 기본 모드는 test-services의 전체 HTTP 회귀, context 모드는 기존 E 오류 테스트와 U check-context를 실행한다. 기본 전용 페이지네이션 테스트의 빈 context 단언은 바꾸지 않는다. 검증은 Windows PowerShell/Compose/Node에서 수행하며 원격 bind 경로만 DinD 내부 staging으로 변환한다. 제품 데이터·명령은 반입 Compose에서 가져온다. 모든 명령의 JSON 인자·출력·종료코드는 commands.log, 변환한 Compose는 remote-compose.json에 남긴다. 실패하면 예외로 비정상 종료하며 고유 소유 label이 일치하는 자신의 컨테이너만 finally에서 정리한다. Docker Desktop은 종료하지 않는다.
 
 이는 **독립 Linux image store의 cache 비의존·다운로드 차단 증거**와 **Windows 제어/검증 실행 증거**를 결합한다. Windows host 전체를 새로 설치하거나 host의 모든 외부통신을 차단한 시험은 아니다. 검증 스크립트 자체는 반입 파일과 사전 런타임만 사용하며 npm install·CDN 요청을 하지 않는다. host의 DinD 도구이미지 load는 archive/ID 검증으로 출처를 기록하지만 host image store를 비우지는 않는다.
 
