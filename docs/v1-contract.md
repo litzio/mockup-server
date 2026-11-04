@@ -98,7 +98,7 @@ v1에서 추적 성공이 필수인 링크는 Jira issue self와 Confluence page
 
 ## O: 폐쇄망 반입 환경과 실행 (#14)
 
-v1 배포 대상은 `linux/amd64` WireMock `3.13.2` 이미지다. 실행 환경은 Windows x64 + PowerShell 7 + Docker Desktop Linux engine/Compose v2, 검증 런타임은 Node.js 24다. #14는 실제 사용한 패치 버전을 기록한다. 실측하지 않은 OS/아키텍처까지 지원을 일반화하지 않는다. 런타임은 사전 준비하며 설치·전역 설정 변경은 자동 수행하지 않는다.
+v1 배포 대상은 `linux/amd64` WireMock `3.13.2` 이미지다. 실행 환경은 Windows x64 + PowerShell 7 + Docker Desktop Linux engine/Compose plugin(기존 Compose v2 명칭), 검증 런타임은 Node.js 24다. #14의 실측 Compose plugin 버전은 5.4.0이며 전체 패치 버전·반입 및 재현 절차는 [폐쇄망 구성](offline.md)에 기록한다. 실측하지 않은 OS/아키텍처까지 지원을 일반화하지 않는다. 런타임은 사전 준비하며 설치·전역 설정 변경은 자동 수행하지 않는다.
 
 온라인 준비와 오프라인 실행을 구분한다. 반입물은 고정태그/이미지ID/아키텍처를 기록한 이미지 아카이브, Compose 구성, 모든 매핑·합성 데이터, 실행/종료/초기화/준비확인/HTTP 검증에 필요한 파일·의존물·절차, 전체 파일 SHA-256 목록과 원본commit을 포함한다. 실행 중 CDN·npm 다운로드·레지스트리pull을 요구하지 않는다. 검증에 npm 의존물이 필요하면 함께 반입하며 개발자의 node_modules/cache를 암묵적으로 사용하지 않는다.
 
