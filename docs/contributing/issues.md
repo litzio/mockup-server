@@ -12,9 +12,9 @@
 한국어를 기본으로 하며 고유명사·오류 원문은 보존한다.
 
 ```text
-Jira: 문서 끝에서 작성할 때 커서 아래 여백이 부족함
-Confluence: 일반 실행 시 샘플 문서가 자동으로 열림
-Product: 비개발자용 Git 연동의 지원 여부와 사용자 경험 검토
+Jira: 존재하지 않는 이슈 조회의 오류 응답이 누락됨
+Confluence: 페이지 조회 응답에 본문 포함 지원
+Product: 추가 제품 API 지원 범위 검토
 ```
 
 유형·검토 시점은 `[UX]`, `[버그]`, `[향후 검토]` 같은 제목 접두어 대신 라벨로 표현한다.
@@ -65,11 +65,11 @@ GitHub 폼은 `###`, CLI는 `##` 제목을 출력하며 같은 필드 계약으�
 {
   "type": "enhancement",
   "area": "Jira",
-  "summary": "입력 필드의 상태 표현을 명확히 개선",
+  "summary": "프로젝트 조회의 인증 오류 응답을 명확히 개선",
   "fields": {
-    "problem": "회색 입력란이 비활성 상태처럼 보인다는 사용자 보고가 있다.",
-    "experience": "입력 가능한 필드를 읽기 전용·비활성 상태와 쉽게 구별할 수 있기를 원한다.",
-    "evidence": "사용자 보고이며 실제 화면을 직접 재현하지 않았다."
+    "problem": "잘못된 가짜 PAT의 오류 응답만으로 인증 실패를 구별하기 어렵다는 사용자 보고가 있다.",
+    "experience": "인증 실패 응답을 통해 Base URL과 PAT 설정 문제를 쉽게 구별할 수 있기를 원한다.",
+    "evidence": "사용자 보고이며 HTTP 요청으로 직접 재현하지 않았다."
   }
 }
 ```
@@ -105,7 +105,6 @@ npm run issue:create -- --input issue.json --publish
 ```powershell
 npm run issues:forms -- --check
 npm run issues:test
-git diff --check
 git diff --check
 ```
 
