@@ -64,3 +64,5 @@ docker compose -p mockup-v2-confluence -f compose.yaml -f compose.context.yaml d
 기본 단계는 `node scripts/test-services.mjs`, context 단계는 위 context 준비/up 후 `node --test --test-concurrency=1 services/confluence/tests/*.test.mjs`로 실행했다. 테스트 출력은 각각 `Tee-Object`로 위 파일에 보존했다. shared scenario를 변경하는 파일을 동시에 실행하지 않았다. 기본 단계의 shared E는 Confluence anonymous 예외를 반영하며 기존 시간 하한/취소/제품 격리/리셋 단언을 유지한다.
 
 실제 소비자 접근이 불가능하므로 G-CONSUMER와 관련 consumer_integration 결과는 **NOT_RUN**이다. 이 모듈 결과만으로 전체 인수 게이트 PASS나 v2 전체 완료를 선언하지 않는다. 실제품 권한/SSO/TLS/프록시 및 완전한 망 차단 반입 재실행도 별도 검증이다.
+
+공통 U checker도 새 Confluence 관찰 계약으로 갱신했다. 잘못된 PAT는 anonymous200/identity-field 부재로 검사하고, canonical 개인 공간30001..3을 따라 기존 next/prev 실제 추적 단언을 유지한다. 같은 `/jira`/`/confluence` Base URL에서 `node scripts/check-context.mjs` 두 제품 PASS(exit0) 후 전용 자원을 종료했다.
