@@ -1,0 +1,18 @@
+{
+  "priority": 100,
+  "request": {
+    "method": "ANY",
+    "urlPattern": ".*"
+  },
+  "response": {
+    "status": 404,
+    "headers": {
+      "Content-Type": "application/json",
+      "Connection": "close"
+    },
+    "jsonBody": {
+      "mockError": "UNSUPPORTED_REQUEST",
+      "message": "This request is outside the supported mock contract."
+    }
+  }
+}

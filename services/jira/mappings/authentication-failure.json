@@ -1,0 +1,20 @@
+{
+  "priority": 10,
+  "request": {
+    "method": "GET",
+    "url": "/rest/api/2/myself"
+  },
+  "response": {
+    "status": 401,
+    "headers": {
+      "Content-Type": "application/json",
+      "Connection": "close"
+    },
+    "jsonBody": {
+      "errorMessages": [
+        "Authentication required"
+      ],
+      "errors": {}
+    }
+  }
+}
