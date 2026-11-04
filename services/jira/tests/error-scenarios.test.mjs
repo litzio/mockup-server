@@ -21,7 +21,7 @@ async function get(i,path,auth=`Bearer mock-${products[i]}-token`,method='GET') 
  assert.match(r.headers.get('content-type'),/application\/json/);assert.equal(r.headers.get('connection'),'close');
  const body=method==='HEAD'?null:await r.json(); return {status:r.status,body,ms:performance.now()-start,headerMs,hrMs:Number(process.hrtime.bigint()-hrStart)/1e6,stubId:r.headers.get('matched-stub-id')};
 }
-function error(i,status,message,reason) {return i===0?{errorMessages:[message],errors:{}}:{statusCode:status,message,reason};}
+function error(i,status,message,reason) {return i===0?(status===401?{'status-code':401,message}:{errorMessages:[message],errors:{}}):{statusCode:status,message,reason};}
 function assertAuthentication(i,path,r) {
  if(i===1&&path==='/rest/api/user/current'){assert.equal(r.status,200);assert.equal(r.body.type,'anonymous');assert.equal(Object.hasOwn(r.body,'username'),false);assert.equal(Object.hasOwn(r.body,'userKey'),false);}
  else {assert.equal(r.status,401);assert.deepEqual(r.body,error(i,401,'Authentication required','Unauthorized'));}

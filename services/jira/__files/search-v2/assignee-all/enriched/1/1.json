@@ -1,0 +1,45 @@
+{
+  "startAt": 1,
+  "maxResults": 1,
+  "total": 4,
+  "issues": [
+    {
+      "id": "10002",
+      "key": "MOCK-2",
+      "self": "{{request.baseUrl}}/rest/api/2/issue/10002",
+      "fields": {
+        "summary": "Synthetic completed assignment and report",
+        "status": {
+          "name": "Done",
+          "statusCategory": {
+            "key": "done",
+            "id": 3
+          }
+        },
+        "priority": {
+          "name": "Medium"
+        },
+        "updated": "2026-01-07T09:00:00.000+0000",
+        "assignee": {
+          "name": "mock-user-a",
+          "key": "mock-user-a-key",
+          "displayName": "Synthetic User A",
+          "active": true,
+          "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user-a"
+        },
+        "reporter": {
+          "name": "mock-user-a",
+          "key": "mock-user-a-key",
+          "displayName": "Synthetic User A",
+          "active": true,
+          "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user-a"
+        },
+        "resolution": {
+          "name": "Fixed"
+        },
+        "created": "2025-12-01T09:00:00.000+0000",
+        "resolutiondate": "2026-01-07T09:00:00.000+0000"
+      }
+    }
+  ]
+}

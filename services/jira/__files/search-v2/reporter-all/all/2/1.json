@@ -1,0 +1,109 @@
+{
+  "startAt": 1,
+  "maxResults": 2,
+  "total": 4,
+  "issues": [
+    {
+      "id": "10003",
+      "key": "MOCK-3",
+      "self": "{{request.baseUrl}}/rest/api/2/issue/10003",
+      "fields": {
+        "summary": "Synthetic active report",
+        "description": "Synthetic issue for local integration testing.",
+        "project": {
+          "id": "10000",
+          "key": "MOCK",
+          "name": "Synthetic Project",
+          "self": "{{request.baseUrl}}/rest/api/2/project/10000",
+          "projectTypeKey": "software",
+          "archived": false
+        },
+        "status": {
+          "name": "In Progress",
+          "statusCategory": {
+            "key": "indeterminate",
+            "id": 4
+          }
+        },
+        "issuetype": {
+          "id": "3",
+          "name": "Task",
+          "subtask": false
+        },
+        "assignee": {
+          "name": "mock-user-b",
+          "key": "mock-user-b-key",
+          "displayName": "Synthetic User B",
+          "active": true,
+          "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user-b"
+        },
+        "reporter": {
+          "name": "mock-user-a",
+          "key": "mock-user-a-key",
+          "displayName": "Synthetic User A",
+          "active": true,
+          "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user-a"
+        },
+        "updated": "2026-01-06T09:00:00.000+0000",
+        "priority": {
+          "name": "Low"
+        },
+        "resolution": null,
+        "created": "2025-12-01T09:00:00.000+0000",
+        "resolutiondate": null
+      }
+    },
+    {
+      "id": "10004",
+      "key": "MOCK-4",
+      "self": "{{request.baseUrl}}/rest/api/2/issue/10004",
+      "fields": {
+        "summary": "Synthetic completed report",
+        "description": "Synthetic issue for local integration testing.",
+        "project": {
+          "id": "10000",
+          "key": "MOCK",
+          "name": "Synthetic Project",
+          "self": "{{request.baseUrl}}/rest/api/2/project/10000",
+          "projectTypeKey": "software",
+          "archived": false
+        },
+        "status": {
+          "name": "Done",
+          "statusCategory": {
+            "key": "done",
+            "id": 3
+          }
+        },
+        "issuetype": {
+          "id": "3",
+          "name": "Task",
+          "subtask": false
+        },
+        "assignee": {
+          "name": "mock-user-b",
+          "key": "mock-user-b-key",
+          "displayName": "Synthetic User B",
+          "active": true,
+          "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user-b"
+        },
+        "reporter": {
+          "name": "mock-user-a",
+          "key": "mock-user-a-key",
+          "displayName": "Synthetic User A",
+          "active": true,
+          "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user-a"
+        },
+        "updated": "2026-01-05T09:00:00.000+0000",
+        "priority": {
+          "name": "High"
+        },
+        "resolution": {
+          "name": "Fixed"
+        },
+        "created": "2025-12-01T09:00:00.000+0000",
+        "resolutiondate": "2026-01-05T09:00:00.000+0000"
+      }
+    }
+  ]
+}

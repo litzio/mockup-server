@@ -1,16 +1,18 @@
 [
   {
-    "self": "{{request.baseUrl}}/rest/api/2/project/10000",
     "id": "10000",
     "key": "MOCK",
-    "name": "Mock Project",
-    "projectTypeKey": "software"
+    "name": "Synthetic Project",
+    "self": "{{request.baseUrl}}/rest/api/2/project/10000",
+    "projectTypeKey": "software",
+    "archived": false
   },
   {
-    "self": "{{request.baseUrl}}/rest/api/2/project/11000",
     "id": "11000",
     "key": "EMPTY",
-    "name": "Empty Project",
-    "projectTypeKey": "software"
+    "name": "Synthetic Empty Project",
+    "self": "{{request.baseUrl}}/rest/api/2/project/11000",
+    "projectTypeKey": "software",
+    "archived": false
   }
 ]

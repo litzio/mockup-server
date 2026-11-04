@@ -1,0 +1,26 @@
+{
+  "startAt": 1,
+  "maxResults": 2,
+  "total": 2,
+  "issues": [
+    {
+      "id": "10006",
+      "key": "MOCK-6",
+      "self": "{{request.baseUrl}}/rest/api/2/issue/10006",
+      "fields": {
+        "summary": "Synthetic closed assignment",
+        "status": {
+          "name": "Closed",
+          "statusCategory": {
+            "key": "done",
+            "id": 3
+          }
+        },
+        "priority": {
+          "name": "Low"
+        },
+        "updated": "2026-01-03T09:00:00.000+0000"
+      }
+    }
+  ]
+}

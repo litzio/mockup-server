@@ -1,10 +1,7 @@
 {
-  "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user",
-  "key": "mock-user-key",
-  "name": "mock-user",
-  "emailAddress": "mock@example.invalid",
-  "displayName": "Mock User",
+  "name": "mock-user-a",
+  "key": "mock-user-a-key",
+  "displayName": "Synthetic User A",
   "active": true,
-  "timeZone": "Asia/Seoul",
-  "locale": "ko_KR"
+  "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user-a"
 }

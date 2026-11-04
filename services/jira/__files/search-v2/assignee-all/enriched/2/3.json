@@ -1,0 +1,43 @@
+{
+  "startAt": 3,
+  "maxResults": 2,
+  "total": 4,
+  "issues": [
+    {
+      "id": "10008",
+      "key": "MOCK-8",
+      "self": "{{request.baseUrl}}/rest/api/2/issue/10008",
+      "fields": {
+        "summary": "Synthetic active assignment with a long title for wrapping and filtering",
+        "status": {
+          "name": "In Progress",
+          "statusCategory": {
+            "key": "indeterminate",
+            "id": 4
+          }
+        },
+        "priority": {
+          "name": "High"
+        },
+        "updated": "2026-01-01T09:00:00.000+0000",
+        "assignee": {
+          "name": "mock-user-a",
+          "key": "mock-user-a-key",
+          "displayName": "Synthetic User A",
+          "active": true,
+          "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user-a"
+        },
+        "reporter": {
+          "name": "mock-user-b",
+          "key": "mock-user-b-key",
+          "displayName": "Synthetic User B",
+          "active": true,
+          "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user-b"
+        },
+        "resolution": null,
+        "created": "2025-12-01T09:00:00.000+0000",
+        "resolutiondate": null
+      }
+    }
+  ]
+}

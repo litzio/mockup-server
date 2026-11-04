@@ -16,10 +16,8 @@
       "Connection": "close"
     },
     "jsonBody": {
-      "errorMessages": [
-        "Authentication required"
-      ],
-      "errors": {}
+      "status-code": 401,
+      "message": "Authentication required"
     }
   }
 }

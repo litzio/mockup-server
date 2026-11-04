@@ -66,3 +66,5 @@ docker compose -p mockup-v2-confluence -f compose.yaml -f compose.context.yaml d
 실제 소비자 접근이 불가능하므로 G-CONSUMER와 관련 consumer_integration 결과는 **NOT_RUN**이다. 이 모듈 결과만으로 전체 인수 게이트 PASS나 v2 전체 완료를 선언하지 않는다. 실제품 권한/SSO/TLS/프록시 및 완전한 망 차단 반입 재실행도 별도 검증이다.
 
 공통 U checker도 새 Confluence 관찰 계약으로 갱신했다. 잘못된 PAT는 anonymous200/identity-field 부재로 검사하고, canonical 개인 공간30001..3을 따라 기존 next/prev 실제 추적 단언을 유지한다. 같은 `/jira`/`/confluence` Base URL에서 `node scripts/check-context.mjs` 두 제품 PASS(exit0) 후 전용 자원을 종료했다.
+
+Jira #29가 반영된 main `91ecf6ac00f544d343e3f88d50367e7a004afb7e`를 병합했다. 공통 E의 충돌은 Jira 인증필터 `status-code/message`와 Confluence anonymous200 분기를 모두 보존하여 해결했다. 두 생성물 drift 검사 및 U 두 제품 context 탐색이 통과했고, 변경된 공통 E를 context에서 다시 실행해 [2/2 PASS(exit0)](evidence/issue31-confluence/merged-auth-context.log)를 확인했다. 지연 하한·취소·제품 격리·reset 단언은 그대로다. 이전 base/context 로그의 실행 기반은 바꾸지 않는다. 이후 합쳐진 최종 head 전체 회귀는 같은 head의 CI/merge queue와 #27 통합 인수에서 확인한다.
