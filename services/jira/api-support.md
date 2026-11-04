@@ -23,7 +23,7 @@
 
 MOCK 프로젝트(id 10000)의 MOCK-1/2/3 이슈(id 10001/10002/10003)는 Open 상태의 Task이며 담당자와 보고자는 현재 사용자 mock-user입니다. EMPTY 프로젝트(id 11000)는 이슈가 없습니다. 프로젝트 목록과 이슈의 project 객체는 같습니다. MOCK-1의 기존 값은 보존합니다. 모든 데이터는 합성이며 읽기를 반복해도 변하지 않습니다. 생성·수정·상태 전이는 미지원입니다.
 
-이슈 조회는 대문자 키만 지원합니다. 공식 API의 숫자 ID 조회, 키 정규화, fields·expand·properties, 프로젝트 expand 및 프로젝트 목록 페이지네이션, 임의 JQL 검색은 미지원입니다. 미지원 쿼리·메서드·경로는 인증 상태와 무관하게 fallback 404로 반환합니다. 형식에 맞는 없는 키 조회도 인증 검사가 먼저 적용됩니다. 응답 self는 요청 Base URL을 사용하지만 숫자 ID·프로젝트·사용자·상태·유형 링크는 후속 조회 지원을 의미하지 않습니다. 컨텍스트 경로는 미지원입니다.
+이슈 조회는 대문자 키와 양의 십진 숫자 ID를 지원합니다. 키 정규화, fields·expand·properties, 프로젝트 expand 및 프로젝트 목록 페이지네이션, 임의 JQL 검색은 미지원입니다. 미지원 쿼리·메서드·경로는 인증 상태와 무관하게 fallback 404로 반환합니다. 형식에 맞는 없는 키 조회도 인증 검사가 먼저 적용됩니다. 이슈 self의 숫자 ID 링크를 추적할 수 있습니다. 프로젝트·사용자·상태·유형 단건 API는 미지원 메타데이터 링크입니다. context 설정은 아래 U 절차를 따릅니다.
 
 ## 고정 프로젝트 검색 (J-L)
 
@@ -46,7 +46,7 @@ WireMock 3.13.2에서 연결 재사용 중 PAT의 대소문자만 바꾼 요청�
 
 ## 검증
 
-`services/jira/tests/search.test.mjs`의 B-J/J-L HTTP 단언은 프로젝트→전체 페이지→키 상세의 누락·중복·관계, 빈/마지막/범위밖 페이지, decoding·순서·인증·미지원 경계를 확인합니다. 기존 project-issue/current-user 회귀도 유지합니다. WireMock 모의 계약 검증이며 실제 Jira Software 9.12.28 호환성 검증은 미실행입니다. 숫자 ID 별칭과 context는 #13 후속입니다.
+`services/jira/tests/search.test.mjs`의 B-J/J-L HTTP 단언은 프로젝트→전체 페이지→키 상세의 누락·중복·관계, 빈/마지막/범위밖 페이지, decoding·순서·인증·미지원 경계를 확인합니다. 기존 project-issue/current-user 회귀도 유지합니다. WireMock 모의 계약 검증이며 실제 Jira Software 9.12.28 호환성 검증은 미실행입니다. 숫자 ID 별칭과 context는 아래 U 계약을 따릅니다.
 
 ## 오류와 지연 (E, #12)
 
@@ -65,3 +65,9 @@ WireMock 3.13.2에서 연결 재사용 중 PAT의 대소문자만 바꾼 요청�
 관리 origin(제품과 같은 호스트/포트, context 제외)에서 GET /__admin/scenarios로 확인하고, PUT /__admin/scenarios/product-read/state에 JSON {"state":"forbidden"}을 보내 선택합니다. state는 표의 다섯 값 중 하나입니다. 빈 POST /__admin/scenarios/reset으로 Started로 복귀합니다. GET은 상태를 바꾸지 않으며 선택 상태를 반복합니다. 두 제품의 상태는 독립이고 재시작하면 Started입니다. 관리API는 신뢰하는 로컬 실행자용 WireMock 기본 기능이며 PAT 보호를 주장하지 않습니다.
 
 전용 HTTP 검증은 services/jira/tests/error-scenarios.test.mjs에서 두 제품의 모든 지원 GET, 자연404, 오류 전문, PAT 우선, fallback, 실측1500ms, 제품격리 및 반복 reset을 단언합니다. 시험 전후 reset을 실행합니다. 서버 전체 상태를 사용하는 시험끼리 경합하지 않도록 서비스 실행기는 파일을 순차 실행합니다. 이는 테스트 실행 방식이며 제품 클라이언트의 순차 요청 요구가 아닙니다. 실제 제품 호환성·성능 검증은 미실행입니다. WireMock [시나리오](https://wiremock.org/docs/stateful-behaviour/)와 [고정 지연](https://wiremock.org/docs/simulating-faults/)을 재사용합니다.
+
+## 연결 설정과 링크 (U, #13)
+
+[실행 절차](../../docs/context-paths.md)에 따라 빈 context 또는 제품별 context를 준비합니다. 모든 API 링크는 요청 origin/context를 반영합니다. 관리API는 context 밖이며 설정 시 context 없는 제품 요청은 fallback입니다. Jira issue self와 Confluence page 및 목록 self/next/prev는 추적 지원합니다. Jira project/user/status/issuetype self와 Confluence space self는 단건 조회 미지원 메타데이터 링크입니다.
+
+GET /rest/api/2/issue/{id}는 등록 10001/10002/10003에 키 조회와 동일한 필드를 반환합니다. 미등록 양의 십진 ID는 자연404이며 잘못된 PAT는 401입니다. 선행0/쿼리는 미지원입니다. 모든 시나리오에서 같은 판정 순서를 유지합니다.

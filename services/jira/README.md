@@ -10,4 +10,4 @@
 - 고정 검색: `GET /rest/api/2/search?jql=project%20%3D%20MOCK%20ORDER%20BY%20key%20ASC&startAt=0&maxResults=2`
 - [지원 계약과 근거](api-support.md)
 
-현재는 기본 경로만 지원하며 컨텍스트 경로와 쿼리 확장은 미지원입니다. scenarios 디렉터리는 상태 시나리오 구현 시 추가합니다.
+빈 context 또는 `/jira`를 지원합니다. [설정 절차](../../docs/context-paths.md)를 따릅니다. 쿼리는 지원 계약의 조합만 허용하며 오류 상태는 WireMock 관리API로 선택합니다.

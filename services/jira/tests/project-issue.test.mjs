@@ -58,7 +58,7 @@ test('jira: reject unsupported methods, queries, IDs, keys and subresources', as
     '/rest/api/2/project?expand=description', '/rest/api/2/project?startAt=0',
     '/rest/api/2/project/10000', '/rest/api/2/project/',
     '/rest/api/2/issue/MOCK-1?fields=summary', '/rest/api/2/issue/MOCK-999?expand=names',
-    '/rest/api/2/issue/10001', '/rest/api/2/issue/mock-1',
+    '/rest/api/2/issue/010001', '/rest/api/2/issue/mock-1',
     '/rest/api/2/issue/MOCK-0', '/rest/api/2/issue/MOCK-1/transitions', '/rest/api/2/search',
   ].map(path => [path, 'GET']);
   for (const path of ['/rest/api/2/project', '/rest/api/2/issue/MOCK-1', '/rest/api/2/issue/MOCK-999']) {

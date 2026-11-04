@@ -29,6 +29,18 @@ jobs:
         run: docker compose -p mockup-ci up -d
       - run: npm run wait:services
       - run: npm run test:services
+      - name: Context paths, numeric self links and scenario regression
+        env:
+          JIRA_CONTEXT: /jira
+          CONFLUENCE_CONTEXT: /confluence
+          JIRA_BASE_URL: http://localhost:8081/jira
+          CONFLUENCE_BASE_URL: http://localhost:8082/confluence
+        run: |
+          node scripts/prepare-context.mjs
+          docker compose -f compose.yaml -f compose.context.yaml -p mockup-ci up -d --force-recreate
+          npm run wait:services
+          node scripts/check-context.mjs
+          node --test services/jira/tests/error-scenarios.test.mjs
       - name: Service logs
         if: failure()
         run: docker compose -p mockup-ci logs

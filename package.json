@@ -8,7 +8,7 @@
     "issues:test": "node --test scripts/issue-policy.test.mjs",
     "issues:labels": "node scripts/issues.mjs labels",
     "issue:create": "node scripts/issues.mjs create",
-    "test": "node --test scripts/issue-policy.test.mjs scripts/commit-provenance.test.mjs",
+    "test": "node --test scripts/issue-policy.test.mjs scripts/commit-provenance.test.mjs scripts/prepare-context.test.mjs",
     "test:services": "node scripts/test-services.mjs",
     "wait:services": "node scripts/wait-services.mjs"
   },

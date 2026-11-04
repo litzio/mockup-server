@@ -1,0 +1,8 @@
+# Run node scripts/prepare-context.mjs before using this override.
+services:
+  jira:
+    volumes:
+      - ./.runtime/jira:/home/wiremock:ro
+  confluence:
+    volumes:
+      - ./.runtime/confluence:/home/wiremock:ro
