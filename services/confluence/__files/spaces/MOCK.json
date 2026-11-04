@@ -1,0 +1,12 @@
+{
+  "id": "20001",
+  "key": "MOCK",
+  "name": "Synthetic Team Space",
+  "type": "global",
+  "status": "current",
+  "_links": {
+    "base": "{{request.baseUrl}}",
+    "context": "",
+    "self": "{{request.baseUrl}}/rest/api/space/MOCK"
+  }
+}

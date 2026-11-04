@@ -1,0 +1,316 @@
+{
+  "formatVersion": 1,
+  "title": "Jira and Confluence read-only mock acceptance contract",
+  "status": "specification_not_executed",
+  "createdOn": "2026-11-04",
+  "completionClaim": "Declared read-only API replacement for offline client development; not a complete Jira or Confluence implementation",
+  "executionRules": {
+    "mode": "Run acceptance cases against mock services only",
+    "liveCredentialsRequired": false,
+    "productionRequestsAllowed": false,
+    "writesAllowed": "Only review-owned mock administration, never product mutations",
+    "templateSyntax": "Replace {{NAME}} using bindings or the current matrix row; never evaluate templates as executable code",
+    "matrixExpansion": "Cartesian product of matrix dimensions; every expanded row is an independent required case",
+    "basisValues": {
+      "live_observed": "Anonymized status or response structure directly observed with read-only requests",
+      "consumer_contract": "Required by the consumer; not necessarily observed for every value on a live server",
+      "synthetic_design": "Deliberately specified fake data, failure injection, or mock-only boundary",
+      "operational_requirement": "Reproducibility, isolation, distribution or privacy requirement"
+    },
+    "unknownResult": "NOT_RUN, BLOCKED and SKIPPED do not count as PASS",
+    "privacy": "Do not save real organizations, domains, names, account IDs, space keys, issue/page contents, PATs, cookies or raw live responses",
+    "additionalResponseFields": "Allowed unless a case explicitly forbids them; do not require byte equality or real error-message wording",
+    "timeComparison": "Parse timestamps; compare instants, not lexical strings with different UTC offsets",
+    "stateIsolation": "Serialize shared scenario changes; reset each owned service in finally, including on failure"
+  },
+  "bindings": {
+    "JIRA_BASE_URL": "http://127.0.0.1:18581",
+    "CONFLUENCE_BASE_URL": "http://127.0.0.1:18582",
+    "JIRA_PAT": "mock-jira-token",
+    "CONFLUENCE_PAT": "mock-confluence-token",
+    "JIRA_FIELDS": "summary,status,priority,updated",
+    "CURRENT_JIRA_USER": "mock-user-a",
+    "CURRENT_CONFLUENCE_USER": "mock.user-a",
+    "PERSONAL_SPACE_KEY": "~mock.user-a",
+    "SAMPLE_PAGE_ID": "30001"
+  },
+  "liveEvidence": {
+    "collection": { "date": "2026-11-04", "methods": ["GET"], "retained": "Statuses, field names and types only", "rawBodiesStored": false, "actualProductVersions": "not collected" },
+    "observations": [
+      { "id": "E-J-IDENTITY", "request": "GET {{JIRA_BASE_URL}}/rest/api/2/myself with valid PAT", "status": 200, "requiredObservedKeys": ["name", "key", "displayName", "active", "self"] },
+      { "id": "E-J-AUTH", "request": "GET /rest/api/2/myself without PAT or with one invalid synthetic PAT", "status": 401, "observedKeys": ["message", "status-code"], "note": "Authentication-filter errors differ from Jira resource errors" },
+      { "id": "E-J-PROJECTS", "request": "GET /rest/api/2/project", "status": 200, "topLevel": "array", "itemKeys": ["id", "key", "name", "self", "projectTypeKey", "archived"] },
+      { "id": "E-J-SEARCH", "request": "Six currentUser scope/resolution searches with startAt=0, maxResults=2 and supported fields", "status": 200, "requiredObservedKeys": ["startAt", "maxResults", "total", "issues"], "optionalObservedKeys": ["expand"] },
+      { "id": "E-J-FIELDS", "request": "Nonempty search and issue-by-key fields projection", "status": 200, "fieldTypes": { "summary": "string", "updated": "string", "created": "string", "resolutiondate": "string", "status": "object", "status.statusCategory.key": "string", "status.statusCategory.id": "number", "priority": "object", "resolution": "object", "assignee": "object", "reporter": "object" }, "note": "Null variants and absent priority are consumer/synthetic cases, not claimed as live observations" },
+      { "id": "E-J-BAD-JQL", "request": "GET /rest/api/2/search with incomplete JQL", "status": 400, "observedKeys": ["errorMessages", "errors"] },
+      { "id": "E-J-MISSING", "request": "GET /rest/api/2/issue/{synthetic_nonexistent_key}", "status": 404, "observedKeys": ["errorMessages", "errors"] },
+      { "id": "E-C-IDENTITY", "request": "GET /rest/api/user/current with valid PAT", "status": 200, "userType": "known", "observedKeys": ["type", "username", "userKey", "displayName", "profilePicture", "_links", "_expandable"] },
+      { "id": "E-C-ANONYMOUS", "request": "GET /rest/api/user/current without PAT or with one invalid synthetic PAT", "status": 200, "userType": "anonymous", "observedKeys": ["type", "displayName", "profilePicture", "_links"], "absentObservedKeys": ["username", "userKey"] },
+      { "id": "E-C-SPACES", "request": "GET /rest/api/space?limit=1 and personal space detail", "status": 200, "listKeys": ["results", "start", "limit", "size", "_links"], "spaceDetailKeys": ["id", "key", "name", "type", "status", "_links"] },
+      { "id": "E-C-PAGES", "request": "GET /rest/api/space/{personal_space_key}/content/page?limit=1", "status": 200, "requiredObservedKeys": ["results", "start", "limit", "size", "_links"] },
+      { "id": "E-C-PAGE", "request": "GET /rest/api/content/{visible_page_id}", "status": 200, "requiredObservedKeys": ["id", "type", "status", "title", "space", "history", "version", "_links"], "bodyPresent": false },
+      { "id": "E-C-STORAGE", "request": "GET /rest/api/content/{visible_page_id}?expand=body.storage", "status": 200, "storageTypes": { "value": "string", "representation": "string" }, "note": "space/history/version were absent in this expanded response; expansion can replace default expansions" },
+      { "id": "E-C-MISSING", "request": "GET /rest/api/content/{synthetic_nonexistent_numeric_id}", "status": 404, "observedKeys": ["data", "message", "reason", "statusCode"] }
+    ],
+    "notObserved": ["Real forbidden/500/429 responses", "Real product writes", "Null resolution on a returned unresolved issue", "Arbitrary user lookup", "Changelog", "TLS/proxy/SSO failures", "Every possible permission policy"]
+  },
+  "completionGates": [
+    { "id": "G-CONTRACT", "required": true, "passWhen": "Every required expanded mock_http case passes on the exact candidate commit and fixture version" },
+    { "id": "G-CONSUMER", "required": true, "passWhen": "The real consumer query/parser/Host/CLI succeeds against mocks by replacing connection settings only; no canned consumer responses or lowered field validation" },
+    { "id": "G-PRIVACY", "required": true, "passWhen": "All fixtures, mappings, logs, screenshots and export files pass anonymization and credential checks" },
+    { "id": "G-OFFLINE", "required": true, "passWhen": "Import/start/read/fault/reset/restart/stop succeeds from the declared bundle with external downloads actually blocked and evidence retained" },
+    { "id": "G-EVIDENCE", "required": true, "passWhen": "All gates have reproducible sanitized evidence; no mandatory result is missing, failed, blocked or skipped; initial failed attempts remain recorded" }
+  ],
+  "fixtureModel": {
+    "version": "synthetic-acceptance-v1",
+    "source": "Invented data; not a redacted export of real issues or pages",
+    "freezeDuringCase": true,
+    "materialization": "Render seeds into the declared REST schemas. API links use configured base URLs. User names, project IDs and page IDs below are synthetic constants.",
+    "jira": {
+      "users": [
+        { "name": "mock-user-a", "key": "mock-user-a-key", "displayName": "Synthetic User A", "active": true },
+        { "name": "mock-user-b", "key": "mock-user-b-key", "displayName": "Synthetic User B", "active": true },
+        { "name": "mock-user-c", "key": "mock-user-c-key", "displayName": "Synthetic User C", "active": true }
+      ],
+      "projects": [{ "id": "10000", "key": "MOCK", "name": "Synthetic Project" }, { "id": "11000", "key": "EMPTY", "name": "Synthetic Empty Project" }],
+      "issues": [
+        { "id": "10001", "key": "MOCK-1", "summary": "Synthetic open assignment", "assignee": "mock-user-a", "reporter": "mock-user-b", "status": "Open", "category": "new", "priority": "High", "resolution": null, "updated": "2026-01-08T09:00:00.000+0000" },
+        { "id": "10002", "key": "MOCK-2", "summary": "Synthetic completed assignment and report", "assignee": "mock-user-a", "reporter": "mock-user-a", "status": "Done", "category": "done", "priority": "Medium", "resolution": "Fixed", "updated": "2026-01-07T09:00:00.000+0000" },
+        { "id": "10003", "key": "MOCK-3", "summary": "Synthetic active report", "assignee": "mock-user-b", "reporter": "mock-user-a", "status": "In Progress", "category": "indeterminate", "priority": "Low", "resolution": null, "updated": "2026-01-06T09:00:00.000+0000" },
+        { "id": "10004", "key": "MOCK-4", "summary": "Synthetic completed report", "assignee": "mock-user-b", "reporter": "mock-user-a", "status": "Done", "category": "done", "priority": "High", "resolution": "Fixed", "updated": "2026-01-05T09:00:00.000+0000" },
+        { "id": "10005", "key": "MOCK-5", "summary": "Synthetic unrelated issue", "assignee": "mock-user-b", "reporter": "mock-user-c", "status": "Open", "category": "new", "priority": "Medium", "resolution": null, "updated": "2026-01-04T09:00:00.000+0000" },
+        { "id": "10006", "key": "MOCK-6", "summary": "Synthetic closed assignment", "assignee": "mock-user-a", "reporter": "mock-user-c", "status": "Closed", "category": "done", "priority": "Low", "resolution": "Done", "updated": "2026-01-03T09:00:00.000+0000" },
+        { "id": "10007", "key": "MOCK-7", "summary": "Synthetic unassigned report without priority", "assignee": null, "reporter": "mock-user-a", "status": "Open", "category": "new", "priority": null, "resolution": null, "updated": "2026-01-02T09:00:00.000+0000" },
+        { "id": "10008", "key": "MOCK-8", "summary": "Synthetic active assignment with a long title for wrapping and filtering", "assignee": "mock-user-a", "reporter": "mock-user-b", "status": "In Progress", "category": "indeterminate", "priority": "High", "resolution": null, "updated": "2026-01-01T09:00:00.000+0000" }
+      ],
+      "expectedIssueSets": {
+        "assigned": { "unresolved": ["MOCK-1", "MOCK-8"], "resolved": ["MOCK-2", "MOCK-6"], "all": ["MOCK-1", "MOCK-2", "MOCK-6", "MOCK-8"] },
+        "reported": { "unresolved": ["MOCK-3", "MOCK-7"], "resolved": ["MOCK-2", "MOCK-4"], "all": ["MOCK-2", "MOCK-3", "MOCK-4", "MOCK-7"] }
+      },
+      "fieldsProjection": "summary,status,priority,updated",
+      "enrichedFieldsProjection": "summary,status,priority,updated,assignee,reporter,resolution,created,resolutiondate",
+      "resolutionRule": "Unresolved means resolution is null. Do not infer it from the status label or category."
+    },
+    "confluence": {
+      "user": { "username": "mock.user-a", "userKey": "mock-user-a-key", "displayName": "Synthetic User A", "type": "known" },
+      "spaces": [{ "id": "20000", "key": "~mock.user-a", "name": "Synthetic Personal Space", "type": "personal" }, { "id": "20001", "key": "MOCK", "name": "Synthetic Team Space", "type": "global" }, { "id": "20002", "key": "EMPTY", "name": "Synthetic Empty Space", "type": "global" }],
+      "pages": [
+        { "id": "30001", "spaceKey": "~mock.user-a", "title": "Synthetic page A", "version": 1, "storage": "<p>Synthetic paragraph A.</p>" },
+        { "id": "30002", "spaceKey": "~mock.user-a", "title": "Synthetic page B", "version": 1, "storage": "<p>Synthetic paragraph B with <strong>formatting</strong>.</p>" },
+        { "id": "30003", "spaceKey": "~mock.user-a", "title": "Synthetic page C", "version": 1, "storage": "<p>Synthetic paragraph C.</p>" },
+        { "id": "40001", "spaceKey": "MOCK", "title": "Synthetic team page", "version": 1, "storage": "<p>Synthetic team content.</p>" }
+      ],
+      "pageOrder": "Ascending numeric page ID in the frozen fixture",
+      "anonymousPolicy": "For user/current, no PAT or invalid PAT returns HTTP 200 with type anonymous and without username/userKey, matching E-C-ANONYMOUS. This does not grant access to protected fixture pages."
+    }
+  },
+  "schemas": {
+    "jiraUser": { "$id": "urn:mock-acceptance:jiraUser", "type": "object", "required": ["name", "key", "displayName", "active"], "properties": { "name": { "type": "string", "minLength": 1 }, "key": { "type": "string", "minLength": 1 }, "displayName": { "type": "string" }, "active": { "type": "boolean" } }, "additionalProperties": true },
+    "jiraProject": { "$id": "urn:mock-acceptance:jiraProject", "type": "object", "required": ["id", "key", "name", "self"], "properties": { "id": { "type": "string" }, "key": { "type": "string" }, "name": { "type": "string" }, "self": { "type": "string" } }, "additionalProperties": true },
+    "jiraIssue": {
+      "$id": "urn:mock-acceptance:jiraIssue", "type": "object", "required": ["id", "key", "self", "fields"],
+      "properties": { "id": { "type": "string" }, "key": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]*-[1-9][0-9]*$" }, "self": { "type": "string" },
+        "fields": { "type": "object", "required": ["summary", "status", "updated"], "properties": {
+          "summary": { "type": "string" }, "updated": { "type": "string", "minLength": 1 },
+          "status": { "type": "object", "required": ["name", "statusCategory"], "properties": { "name": { "type": "string" }, "statusCategory": { "type": "object", "required": ["key"], "properties": { "key": { "enum": ["new", "indeterminate", "done"] } }, "additionalProperties": true } }, "additionalProperties": true },
+          "priority": { "anyOf": [{ "type": "null" }, { "type": "object", "required": ["name"], "properties": { "name": { "type": "string" } }, "additionalProperties": true }] },
+          "assignee": { "anyOf": [{ "type": "null" }, { "$ref": "urn:mock-acceptance:jiraUser" }] }, "reporter": { "$ref": "urn:mock-acceptance:jiraUser" },
+          "resolution": { "anyOf": [{ "type": "null" }, { "type": "object", "required": ["name"], "properties": { "name": { "type": "string" } }, "additionalProperties": true }] },
+          "created": { "type": "string" }, "resolutiondate": { "type": ["string", "null"] }
+        }, "additionalProperties": true }
+      }, "additionalProperties": true
+    },
+    "jiraSearch": { "$id": "urn:mock-acceptance:jiraSearch", "type": "object", "required": ["startAt", "maxResults", "total", "issues"], "properties": { "startAt": { "type": "integer", "minimum": 0 }, "maxResults": { "type": "integer", "minimum": 1 }, "total": { "type": "integer", "minimum": 0 }, "issues": { "type": "array", "items": { "$ref": "urn:mock-acceptance:jiraIssue" } } }, "additionalProperties": true },
+    "jiraAuthError": { "$id": "urn:mock-acceptance:jiraAuthError", "type": "object", "required": ["status-code", "message"], "properties": { "status-code": { "const": 401 }, "message": { "type": "string", "minLength": 1 } }, "additionalProperties": true },
+    "jiraResourceError": { "$id": "urn:mock-acceptance:jiraResourceError", "type": "object", "required": ["errorMessages", "errors"], "properties": { "errorMessages": { "type": "array", "items": { "type": "string" } }, "errors": { "type": "object" } }, "additionalProperties": true },
+    "confluenceKnownUser": { "$id": "urn:mock-acceptance:confluenceKnownUser", "type": "object", "required": ["type", "username", "userKey", "displayName", "_links"], "properties": { "type": { "const": "known" }, "username": { "type": "string", "minLength": 1 }, "userKey": { "type": "string", "minLength": 1 }, "displayName": { "type": "string" }, "_links": { "type": "object" } }, "additionalProperties": true },
+    "confluenceAnonymousUser": { "$id": "urn:mock-acceptance:confluenceAnonymousUser", "type": "object", "required": ["type"], "properties": { "type": { "const": "anonymous" }, "username": false, "userKey": false }, "additionalProperties": true },
+    "confluenceSpace": { "$id": "urn:mock-acceptance:confluenceSpace", "type": "object", "required": ["id", "key", "name", "type", "_links"], "properties": { "id": { "anyOf": [{ "type": "string" }, { "type": "integer" }] }, "key": { "type": "string" }, "name": { "type": "string" }, "type": { "enum": ["personal", "global"] }, "_links": { "type": "object" } }, "additionalProperties": true },
+    "confluencePage": { "$id": "urn:mock-acceptance:confluencePage", "type": "object", "required": ["id", "type", "status", "title", "_links"], "properties": { "id": { "type": "string", "pattern": "^[1-9][0-9]*$" }, "type": { "const": "page" }, "status": { "type": "string" }, "title": { "type": "string" }, "_links": { "type": "object" } }, "additionalProperties": true },
+    "confluenceList": { "$id": "urn:mock-acceptance:confluenceList", "type": "object", "required": ["results", "start", "limit", "size", "_links"], "properties": { "results": { "type": "array", "items": { "type": "object" } }, "start": { "type": "integer", "minimum": 0 }, "limit": { "type": "integer", "minimum": 1 }, "size": { "type": "integer", "minimum": 0 }, "_links": { "type": "object" } }, "additionalProperties": true },
+    "confluenceError": { "$id": "urn:mock-acceptance:confluenceError", "type": "object", "required": ["statusCode", "message", "reason"], "properties": { "statusCode": { "type": "integer" }, "message": { "type": "string" }, "reason": { "type": "string" }, "data": {} }, "additionalProperties": true }
+  },
+  "cases": [
+    {
+      "id": "J-IDENTITY-VALID", "required": true, "target": "mock_http", "basis": ["live_observed"], "evidence": ["E-J-IDENTITY"],
+      "request": { "product": "jira", "method": "GET", "path": "/rest/api/2/myself", "auth": "valid" },
+      "expected": { "status": 200, "schema": "jiraUser", "assertions": ["name and key match the synthetic authenticated fixture user", "No real identity or token appears in response"] }
+    },
+    {
+      "id": "J-IDENTITY-DENIED-{{auth}}", "required": true, "target": "mock_http", "basis": ["live_observed", "synthetic_design"], "evidence": ["E-J-AUTH"],
+      "matrix": { "auth": ["missing", "invalid", "other_product_token"] },
+      "request": { "product": "jira", "method": "GET", "path": "/rest/api/2/myself", "auth": "{{auth}}" },
+      "expected": { "status": 401, "schema": "jiraAuthError", "assertions": ["Do not force resource-level errorMessages/errors onto this observed authentication-filter response", "No protected fixture data or token is returned"] }
+    },
+    {
+      "id": "J-PROJECTS", "required": true, "target": "mock_http", "basis": ["live_observed", "synthetic_design"], "evidence": ["E-J-PROJECTS"],
+      "request": { "product": "jira", "method": "GET", "path": "/rest/api/2/project", "auth": "valid" },
+      "expected": { "status": 200, "assertions": ["Body is an array; each item matches jiraProject", "MOCK and EMPTY identifiers are consistent with issue.project when that field is requested"] }
+    },
+    {
+      "id": "J-SEARCH-{{scope}}-{{resolution}}", "required": true, "target": "mock_http", "basis": ["live_observed", "consumer_contract", "synthetic_design"], "evidence": ["E-J-SEARCH", "E-J-FIELDS"],
+      "matrix": { "scope": ["assigned", "reported"], "resolution": ["unresolved", "resolved", "all"] },
+      "request": { "product": "jira", "method": "GET", "path": "/rest/api/2/search", "auth": "valid", "query": { "jql": "Build with queryRules below", "startAt": "0", "maxResults": "100", "fields": "{{JIRA_FIELDS}}" } },
+      "queryRules": { "owner": { "assigned": "assignee", "reported": "reporter" }, "resolutionClause": { "unresolved": " AND resolution = Unresolved", "resolved": " AND resolution IS NOT EMPTY", "all": "" }, "template": "{{owner}} = currentUser(){{resolutionClause}} ORDER BY updated DESC" },
+      "expected": { "status": 200, "schema": "jiraSearch", "expectedKeysFrom": "fixtureModel.jira.expectedIssueSets.{{scope}}.{{resolution}}", "assertions": ["total equals the complete expected set length, not this page length", "Fetched keys equal the expected ordered set after walking all pages", "Only requested supported fields plus documented mandatory metadata are returned", "expand is optional and its absence is not a failure", "Each updated value is a parseable timestamp"] }
+    },
+    {
+      "id": "J-PAGINATION-{{scope}}-{{resolution}}-{{pageSize}}", "required": true, "target": "mock_http", "basis": ["consumer_contract", "synthetic_design"],
+      "matrix": { "scope": ["assigned", "reported"], "resolution": ["unresolved", "resolved", "all"], "pageSize": [1, 2, 100] },
+      "steps": ["Use the corresponding J-SEARCH query with maxResults=pageSize and startAt=0", "Collect keys and advance startAt by the actual returned issue count until total is reached", "Fail if an empty page occurs before reaching total, an offset repeats, or a request budget of total+2 is exceeded", "Read once at startAt=total and once beyond total"],
+      "expected": { "schema": "jiraSearch", "assertions": ["Each ordinary page has HTTP 200 and echoed startAt", "issues.length <= response.maxResults <= requested pageSize", "A documented positive server page cap may be lower than requested", "total remains constant in the frozen fixture", "All expected keys appear exactly once in updated-descending order", "At/beyond total returns HTTP 200 with empty issues and unchanged total"] }
+    },
+    {
+      "id": "J-FIELDS-{{projection}}", "required": true, "target": "mock_http", "basis": ["live_observed", "consumer_contract"], "evidence": ["E-J-FIELDS"],
+      "matrix": { "projection": ["minimal", "enriched"] },
+      "steps": ["Search with fixtureModel.jira.fieldsProjection for minimal or enrichedFieldsProjection for enriched", "Retrieve one returned issue by key using the same fields parameter"],
+      "expected": { "status": 200, "schema": "jiraIssue", "assertions": ["Validate individual issues, not the search envelope, with jiraIssue", "Minimal contains summary, status.statusCategory.key, priority and updated", "Enriched also exposes fixture owner/reporter/resolution and dates", "Search and detail agree for overlapping fields", "Additional unrequested fields cannot be assumed by the client"] }
+    },
+    {
+      "id": "J-NULLABLE-FIELDS", "required": true, "target": "mock_http", "basis": ["consumer_contract", "synthetic_design"],
+      "steps": ["Read the reported/unresolved query with enriched fields", "Locate MOCK-7"],
+      "expected": { "status": 200, "assertions": ["assignee is null, priority is null and resolution is null", "The issue remains a reported result without being assigned to the current user", "Client renders missing priority without crashing"] }
+    },
+    {
+      "id": "J-EMPTY-PROJECT", "required": true, "target": "mock_http", "basis": ["synthetic_design"],
+      "request": { "product": "jira", "method": "GET", "path": "/rest/api/2/search", "auth": "valid", "query": { "jql": "project = EMPTY ORDER BY key ASC", "startAt": "0", "maxResults": "100", "fields": "{{JIRA_FIELDS}}" } },
+      "expected": { "status": 200, "schema": "jiraSearch", "bodySubset": { "total": 0, "issues": [] }, "assertions": ["Empty results are success, not authentication or response failure"] }
+    },
+    {
+      "id": "J-DETAIL-{{identifier}}", "required": true, "target": "mock_http", "basis": ["live_observed", "consumer_contract"], "evidence": ["E-J-FIELDS"],
+      "matrix": { "identifier": ["MOCK-1", "10001"] },
+      "request": { "product": "jira", "method": "GET", "path": "/rest/api/2/issue/{{identifier}}", "auth": "valid", "query": { "fields": "{{JIRA_FIELDS}}" } },
+      "expected": { "status": 200, "schema": "jiraIssue", "assertions": ["Both identifiers resolve to MOCK-1", "Following the search issue.self with valid fake PAT returns the same issue identity", "Numeric alias is a consumer/synthetic contract; live collection used issue-by-key"] }
+    },
+    {
+      "id": "J-INVALID-JQL", "required": true, "target": "mock_http", "basis": ["live_observed"], "evidence": ["E-J-BAD-JQL"],
+      "request": { "product": "jira", "method": "GET", "path": "/rest/api/2/search", "auth": "valid", "query": { "jql": "assignee =" } },
+      "expected": { "status": 400, "schema": "jiraResourceError", "assertions": ["No issue data is returned", "Message text is synthetic; do not copy private server text"] }
+    },
+    {
+      "id": "J-MISSING-ISSUE", "required": true, "target": "mock_http", "basis": ["live_observed", "synthetic_design"], "evidence": ["E-J-MISSING"],
+      "request": { "product": "jira", "method": "GET", "path": "/rest/api/2/issue/MOCK-999999", "auth": "valid" },
+      "expected": { "status": 404, "schema": "jiraResourceError", "assertions": ["Product-shaped missing-resource error differs from a mock unsupported-request marker"] }
+    },
+    {
+      "id": "C-IDENTITY-VALID", "required": true, "target": "mock_http", "basis": ["live_observed"], "evidence": ["E-C-IDENTITY"],
+      "request": { "product": "confluence", "method": "GET", "path": "/rest/api/user/current", "auth": "valid" },
+      "expected": { "status": 200, "schema": "confluenceKnownUser", "assertions": ["username/userKey match the synthetic authenticated fixture identity"] }
+    },
+    {
+      "id": "C-IDENTITY-ANONYMOUS-{{auth}}", "required": true, "target": "mock_http", "basis": ["live_observed", "synthetic_design"], "evidence": ["E-C-ANONYMOUS"],
+      "matrix": { "auth": ["missing", "invalid", "other_product_token"] },
+      "request": { "product": "confluence", "method": "GET", "path": "/rest/api/user/current", "auth": "{{auth}}" },
+      "expected": { "status": 200, "schema": "confluenceAnonymousUser", "assertions": ["HTTP 200 alone must not be interpreted as authenticated", "An optional strict-PAT profile returning 401 does not pass this live-observed parity case", "Other-product-token behavior is a synthetic isolation extension"] }
+    },
+    {
+      "id": "C-SPACES-PAGINATION-{{pageSize}}", "required": true, "target": "mock_http", "basis": ["live_observed", "consumer_contract", "synthetic_design"], "evidence": ["E-C-SPACES"],
+      "matrix": { "pageSize": [1, 2, 25] },
+      "steps": ["GET /rest/api/space?start=0&limit=pageSize with valid fake PAT", "Follow _links.next until absent; validate all spaces with confluenceSpace"],
+      "expected": { "status": 200, "schema": "confluenceList", "assertions": ["All synthetic spaces are visited exactly once", "size equals results.length, not the collection total", "size <= response.limit <= requested limit", "A positive documented server page cap is allowed", "No cycles and no more than fixture space count+2 requests"] }
+    },
+    {
+      "id": "C-PERSONAL-SPACE-{{encoding}}", "required": true, "target": "mock_http", "basis": ["live_observed", "synthetic_design"], "evidence": ["E-C-SPACES"],
+      "matrix": { "encoding": ["literal_tilde", "percent_encoded_tilde"] },
+      "steps": ["GET /rest/api/space/~mock.user-a or /rest/api/space/%7Emock.user-a with valid fake PAT"],
+      "expected": { "status": 200, "schema": "confluenceSpace", "bodySubset": { "key": "~mock.user-a", "type": "personal" }, "assertions": ["Do not apply a global-space uppercase-only rule to personal spaces", "The key matches the synthetic user's personal space; no real user key is used"] }
+    },
+    {
+      "id": "C-PAGES-{{spaceKey}}-{{pageSize}}", "required": true, "target": "mock_http", "basis": ["live_observed", "consumer_contract", "synthetic_design"], "evidence": ["E-C-PAGES"],
+      "matrix": { "spaceKey": ["~mock.user-a", "MOCK", "EMPTY"], "pageSize": [1, 2, 25] },
+      "steps": ["GET /rest/api/space/{encoded spaceKey}/content/page?start=0&limit=pageSize with valid fake PAT", "Walk _links.next; follow each page self link", "Where prev exists, follow it and verify the preceding page", "Read at and beyond the fixture page count"],
+      "expected": { "status": 200, "schema": "confluenceList", "assertions": ["All and only pages of the selected space appear once", "Each item matches confluencePage and matches its detail identity/title", "size equals current results length and is not treated as total", "No next at the last or empty page; links preserve the chosen limit and context", "No cycle or request count beyond fixture page count+2", "At/beyond the fixture count returns empty results without invented next links"] }
+    },
+    {
+      "id": "C-PAGE-METADATA", "required": true, "target": "mock_http", "basis": ["live_observed"], "evidence": ["E-C-PAGE"],
+      "request": { "product": "confluence", "method": "GET", "path": "/rest/api/content/{{SAMPLE_PAGE_ID}}", "auth": "valid" },
+      "expected": { "status": 200, "schema": "confluencePage", "requiredPaths": ["space", "history", "version.number"], "absentPaths": ["body"], "assertions": ["Default metadata refers to the same synthetic space, user and page version"] }
+    },
+    {
+      "id": "C-PAGE-STORAGE", "required": true, "target": "mock_http", "basis": ["live_observed", "synthetic_design"], "evidence": ["E-C-STORAGE"],
+      "request": { "product": "confluence", "method": "GET", "path": "/rest/api/content/{{SAMPLE_PAGE_ID}}", "auth": "valid", "query": { "expand": "body.storage" } },
+      "expected": { "status": 200, "schema": "confluencePage", "bodyPaths": { "body.storage.representation": "storage", "body.storage.value": "<p>Synthetic paragraph A.</p>" }, "assertions": ["Expanded and default responses retain the same id/type/status/title", "Do not require default space/history/version to remain when only body.storage is explicitly expanded", "A client must not depend on unrequested metadata expansions"] }
+    },
+    {
+      "id": "C-PAGE-COMBINED-EXPANSIONS", "required": true, "target": "mock_http", "basis": ["consumer_contract", "synthetic_design"],
+      "request": { "product": "confluence", "method": "GET", "path": "/rest/api/content/{{SAMPLE_PAGE_ID}}", "auth": "valid", "query": { "expand": "body.storage,version,space,history" } },
+      "expected": { "status": 200, "schema": "confluencePage", "requiredPaths": ["body.storage.value", "body.storage.representation", "version.number", "space.key", "history"], "assertions": ["Return explicitly requested supported expansions consistently", "This expansion combination was not live-probed and must not be labelled live-observed"] }
+    },
+    {
+      "id": "C-MISSING-PAGE", "required": true, "target": "mock_http", "basis": ["live_observed", "synthetic_design"], "evidence": ["E-C-MISSING"],
+      "request": { "product": "confluence", "method": "GET", "path": "/rest/api/content/999999999", "auth": "valid" },
+      "expected": { "status": 404, "schema": "confluenceError", "bodySubset": { "statusCode": 404 }, "assertions": ["No protected page fields occur in the error", "data is an optional additional field, not a copied private payload"] }
+    },
+    {
+      "id": "M-QUERY-ENCODING-{{product}}", "required": true, "target": "mock_http", "basis": ["consumer_contract", "synthetic_design"],
+      "matrix": { "product": ["jira", "confluence"] },
+      "steps": ["Repeat one supported query with reordered parameters and equivalent percent encoding", "For Jira JQL repeat with percent-20 and plus space encoding", "Test duplicate and unknown parameters against the declared unsupported-request policy"],
+      "expected": { "assertions": ["Equivalent supported requests return the same identities/order", "Repeated or unsupported parameters do not silently change the intended query", "Mock-specific refusal is explicitly documented, not claimed as universal live product behavior"] }
+    },
+    {
+      "id": "M-CONTEXT-{{product}}-{{context}}", "required": true, "target": "mock_http", "basis": ["consumer_contract", "synthetic_design"],
+      "matrix": { "product": ["jira", "confluence"], "context": ["", "/custom-context"] },
+      "steps": ["Start a review-owned service with the chosen validated context and a nonconflicting port", "Run the product's representative identity/list/detail flow using only the new Base URL and fake PAT", "Follow supported API self/next/prev links", "Repeat with localhost and 127.0.0.1"],
+      "expected": { "assertions": ["Same client code works without a mock-only branch/header", "Supported API links remain within the configured origin/context", "No live domain is contacted", "Browser-only and metadata links are either implemented or explicitly out of scope", "The same path without a configured nonempty context is not silently accepted"] }
+    },
+    {
+      "id": "M-ERROR-{{product}}-{{status}}", "required": true, "target": "mock_http", "basis": ["synthetic_design"],
+      "matrix": { "product": ["jira", "confluence"], "status": [403, 404, 500] },
+      "setup": ["Select the matching review-owned WireMock error scenario through its local administration API"],
+      "steps": ["Read a supported protected resource with valid fake PAT", "Read the same resource with missing and invalid fake PAT", "Confirm the other product remains in its normal state"],
+      "expected": { "assertions": ["Valid-PAT request returns the selected HTTP status and JSON product error schema", "Jira uses jiraResourceError and Confluence uses confluenceError for injected resource errors", "Protected reads never return issue/page contents when authentication fails", "Confluence user/current retains its separately declared anonymous-identity contract", "Unsupported-request markers are distinct from resource errors"] },
+      "cleanup": ["Reset only the review-owned service in finally and verify its ordinary read succeeds"]
+    },
+    {
+      "id": "M-FAULT-{{product}}-{{fault}}", "required": true, "target": "mock_http_and_consumer", "basis": ["synthetic_design", "consumer_contract"],
+      "matrix": { "product": ["jira", "confluence"], "fault": ["delay", "timeout", "malformed_json", "http_redirect"] },
+      "setup": ["Install an isolated, temporary WireMock stub for the selected fault; use no live proxy or recording mode"],
+      "expected": { "assertions": ["delay: configured fixed delay and elapsed monotonic time are recorded; investigate the earlier 1500ms/1495.6ms discrepancy without silently weakening the contract", "timeout: use a declared delay exceeding a declared client timeout; do not confuse a short delay with a timeout test", "malformed_json: consumer returns a controlled response error, never successful empty data", "http_redirect: a request journal proves no second credentialed request is sent to the redirect destination", "No raw upstream error or token is displayed or logged", "Every request is bounded; clean up stubs and reset scenarios in finally"] }
+    },
+    {
+      "id": "M-UNSUPPORTED-{{product}}", "required": true, "target": "mock_http", "basis": ["synthetic_design"],
+      "matrix": { "product": ["jira", "confluence"] },
+      "steps": ["Try an undeclared endpoint, method and JQL/expansion", "Attempt a product POST/PUT/DELETE only against the review-owned mock"],
+      "expected": { "assertions": ["Requests fail with an explicit unsupported marker, never arbitrary success", "The marker is documented as mock behavior, not a live-product response", "Product fixture data is unchanged", "Previously declared valid client requests remain valid"] }
+    },
+    {
+      "id": "I-REAL-CONSUMER-{{scope}}-{{resolution}}", "required": true, "target": "consumer_integration", "basis": ["consumer_contract"],
+      "matrix": { "scope": ["assigned", "reported"], "resolution": ["unresolved", "resolved", "all"] },
+      "steps": ["Build the real consumer from the candidate commit", "Configure only mock Base URL and fake PAT; real-token environment and credential files are absent", "Run its query/parser through real HTTP, then the Host API and thin CLI", "Compare keys and totals with the fixture oracle", "Open the ordinary dashboard and select the corresponding scope/resolution"],
+      "expected": { "assertions": ["No response interception or canned consumer data bypasses the HTTP server", "No weaker field validation, mock-only query rewrite, or production fallback is used", "Host and CLI preserve query selection and return the same complete ordered issue set", "UI can render statuses and null priority, filter locally and refresh", "Switching query selection clears stale rows; empty/error/loading states stay distinct", "No network request reaches a live domain"] }
+    },
+    {
+      "id": "I-CONFLUENCE-READER", "required": true, "target": "consumer_integration", "basis": ["consumer_contract"],
+      "steps": ["Run one reader implementation against mock identity, space listing, personal-space page listing and storage content", "Use Base URL and fake PAT only", "Repeat with no PAT and invalid PAT for user/current"],
+      "expected": { "assertions": ["The reader requires type known and identity fields for authenticated status", "HTTP 200 anonymous is never authenticated success", "Pagination follows the supported links without treating size as total", "A reader needing metadata requests expansions explicitly", "A named standalone adapter test is allowed if no production Confluence plugin exists; report that scope accurately"] }
+    },
+    {
+      "id": "O-PRIVACY", "required": true, "target": "artifact_audit", "basis": ["operational_requirement"],
+      "steps": ["Inspect source fixtures, mappings, exported images/configs, logs, screenshots and reports using a private local denylist without printing its values", "Verify fake PATs are used and actual credential files are neither mounted nor bundled"],
+      "expected": { "assertions": ["All user/domain/content values are explicitly synthetic or reserved example.invalid values", "No real identity, organization, domain, account/space key, issue/page content or credential survives", "Runtime response links use the configured local origin", "Existing mandatory third-party license notices are preserved"] }
+    },
+    {
+      "id": "O-OFFLINE-LIFECYCLE", "required": true, "target": "isolated_environment", "basis": ["operational_requirement"],
+      "steps": ["Verify the declared bundle checksum list and source commit/fixture version", "Use a review-owned isolated image store and predeclared runtimes", "Block external registry/package downloads and demonstrate the block with synthetic probes", "Import the pinned image archive without relying on an existing image cache", "Start services, run representative identity/search/pagination/storage/error/reset cases", "Stop and restart, verify initial fixtures and scenario state, then remove only owned resources"],
+      "expected": { "assertions": ["No package install or image pull is required during offline execution", "Image ID/digest, architecture, tool versions, commands and exit codes are recorded", "Unsupported, fault and authentication behavior remain available offline", "Existing unrelated services, images and network configuration are not destroyed", "A --pull never run on a warm developer cache alone is insufficient evidence"] }
+    },
+    {
+      "id": "O-REPEATABILITY", "required": true, "target": "mock_http", "basis": ["operational_requirement"],
+      "steps": ["Execute representative reads twice without mutation", "Select a mock failure, reset it and repeat", "Restart review-owned services and repeat the reads"],
+      "expected": { "assertions": ["Fixture identities, membership and ordering remain identical", "No cross-product scenario leakage occurs", "Temporary faults and anonymous responses do not corrupt authenticated reads", "A failed run is recorded before any successful retry; retries cannot erase failure evidence"] }
+    }
+  ],
+  "reportTemplate": {
+    "contractVersion": 1,
+    "candidateCommit": "REQUIRED",
+    "fixtureVersion": "synthetic-acceptance-v1",
+    "imageDigest": "REQUIRED",
+    "runtimeVersions": {},
+    "networkIsolationEvidence": "REQUIRED",
+    "cases": [{ "expandedCaseId": "REQUIRED", "status": "NOT_RUN", "attempts": [], "expectedSummary": "REQUIRED", "actualSanitizedSummary": "REQUIRED", "evidenceArtifact": "REQUIRED", "limitation": null }],
+    "gates": [{ "gateId": "G-CONTRACT", "status": "NOT_RUN" }, { "gateId": "G-CONSUMER", "status": "NOT_RUN" }, { "gateId": "G-PRIVACY", "status": "NOT_RUN" }, { "gateId": "G-OFFLINE", "status": "NOT_RUN" }, { "gateId": "G-EVIDENCE", "status": "NOT_RUN" }],
+    "completion": { "declared": false, "reason": "Specification authored; no mock acceptance cases have been executed under this contract" }
+  },
+  "excludedFromCompletion": ["Complete product emulation", "Real authentication/permission engine parity", "SSO, corporate DNS, proxies or private certificates", "Product writes, Markdown upload, attachments and comments", "Arbitrary JQL/CQL", "Custom fields and installed extensions", "Changelog and historical analytics", "Live performance parity", "AI dashboard control or arbitrary user lookup"],
+  "optionalFutureCases": ["Explicit synthetic-user assignment queries without a general JQL engine", "Synthetic issue browse pages", "Created/resolved timestamps and history for declared analytics", "Keep-alive authentication isolation before claiming connection-pool support"]
+}

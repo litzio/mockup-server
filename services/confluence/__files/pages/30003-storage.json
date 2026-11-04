@@ -1,0 +1,17 @@
+{
+  "id": "30003",
+  "type": "page",
+  "status": "current",
+  "title": "Synthetic page C",
+  "_links": {
+    "base": "{{request.baseUrl}}",
+    "context": "",
+    "self": "{{request.baseUrl}}/rest/api/content/30003"
+  },
+  "body": {
+    "storage": {
+      "value": "<p>Synthetic paragraph C.</p>",
+      "representation": "storage"
+    }
+  }
+}

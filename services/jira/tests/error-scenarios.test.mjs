@@ -22,6 +22,10 @@ async function get(i,path,auth=`Bearer mock-${products[i]}-token`,method='GET') 
  const body=method==='HEAD'?null:await r.json(); return {status:r.status,body,ms:performance.now()-start,headerMs,hrMs:Number(process.hrtime.bigint()-hrStart)/1e6,stubId:r.headers.get('matched-stub-id')};
 }
 function error(i,status,message,reason) {return i===0?{errorMessages:[message],errors:{}}:{statusCode:status,message,reason};}
+function assertAuthentication(i,path,r) {
+ if(i===1&&path==='/rest/api/user/current'){assert.equal(r.status,200);assert.equal(r.body.type,'anonymous');assert.equal(Object.hasOwn(r.body,'username'),false);assert.equal(Object.hasOwn(r.body,'userKey'),false);}
+ else {assert.equal(r.status,401);assert.deepEqual(r.body,error(i,401,'Authentication required','Unauthorized'));}
+}
 
 test('E: all supported reads, PAT precedence, isolation and repeatable reset', async t=>{
  // File execution is serialized by the service runner: scenarios are server-wide state.
@@ -39,7 +43,7 @@ test('E: all supported reads, PAT precedence, isolation and repeatable reset', a
     assert.deepEqual(r.body,s==='delay'?baseline[n].body:error(i,status,message,reason),path);
     if(s==='delay') {console.log('E delay '+JSON.stringify({product:products[i],path,...r,body:undefined}));assert.ok(r.ms>=1500,`${path}: ${r.ms}ms`);}
     for(const auth of [null,'Bearer wrong','Basic abc',`Bearer mock-${products[1-i]}-token`,`Bearer MOCK-${products[i].toUpperCase()}-TOKEN`]) {
-     const denied=await get(i,path,auth);assert.equal(denied.status,401);assert.deepEqual(denied.body,error(i,401,'Authentication required','Unauthorized'));if(s==='delay') assert.ok(denied.ms<1500,`PAT must not be delayed: ${denied.ms}ms`);
+     const denied=await get(i,path,auth);assertAuthentication(i,path,denied);if(s==='delay') assert.ok(denied.ms<1500,`PAT must not be delayed: ${denied.ms}ms`);
     }
    }
    for(const [path,method] of [[paths[i][0]+'?bad=1','GET'],[paths[i][0],'POST'],[paths[i][0]+'/','GET'],['/rest/unsupported','GET']]) for(const auth of [null,`Bearer mock-${products[i]}-token`]) {

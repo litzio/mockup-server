@@ -1,0 +1,17 @@
+{
+  "id": "40001",
+  "type": "page",
+  "status": "current",
+  "title": "Synthetic team page",
+  "_links": {
+    "base": "{{request.baseUrl}}",
+    "context": "",
+    "self": "{{request.baseUrl}}/rest/api/content/40001"
+  },
+  "body": {
+    "storage": {
+      "value": "<p>Synthetic team content.</p>",
+      "representation": "storage"
+    }
+  }
+}

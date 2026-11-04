@@ -1,0 +1,136 @@
+✔ C-IDENTITY: known identity and anonymous HTTP200 are distinct for every invalid PAT (150.6686ms)
+✔ C-SPACES-PAGINATION: limits1/2/25 visit canonical spaces exactly once (296.2358ms)
+✔ C-PAGES: personal/global/empty × limits1/2/25, stable identity and storage traversal (436.9281ms)
+✔ C-ENCODING: tilde/value/name encodings and parameter order preserve identities (177.59ms)
+✔ C-GENERATED: canonical supplied fixture seeds reproduce checked-in WireMock data (68.15ms)
+✔ C-LEGACY: prior accepted space/content paths remain documented canonical aliases (1117.8395ms)
+C delay /rest/api/user/current: 1511.9421000000002ms
+C delay /rest/api/space: 1504.2345000000005ms
+C delay /rest/api/space?limit=1: 1503.6460000000006ms
+C delay /rest/api/space?start=1&limit=2: 1503.4699999999993ms
+C delay /rest/api/space?start=3&limit=25: 1503.4920999999995ms
+C delay /rest/api/space?start=999999999&limit=1: 1504.2343999999994ms
+C delay /rest/api/space/~mock.user-a: 1511.0874999999996ms
+C delay /rest/api/space/~mock.user-a/content/page: 1504.3640000000014ms
+C delay /rest/api/space/~mock.user-a/content/page?limit=1: 1504.4961000000003ms
+C delay /rest/api/space/~mock.user-a/content/page?start=1&limit=2: 1503.6824000000015ms
+C delay /rest/api/space/~mock.user-a/content/page?start=3&limit=25: 1503.697699999997ms
+C delay /rest/api/space/~mock.user-a/content/page?start=999999999&limit=1: 1503.5122999999985ms
+C delay /rest/api/space/MOCK: 1510.5990999999995ms
+C delay /rest/api/space/MOCK/content/page: 1503.392499999998ms
+C delay /rest/api/space/MOCK/content/page?limit=1: 1503.9714999999997ms
+C delay /rest/api/space/MOCK/content/page?start=1&limit=2: 1503.9634000000005ms
+C delay /rest/api/space/MOCK/content/page?start=3&limit=25: 1503.2684999999983ms
+C delay /rest/api/space/MOCK/content/page?start=999999999&limit=1: 1503.1827000000012ms
+C delay /rest/api/space/EMPTY: 1511.1764000000003ms
+C delay /rest/api/space/EMPTY/content/page: 1503.0227999999988ms
+C delay /rest/api/space/EMPTY/content/page?limit=1: 1504.3649000000005ms
+C delay /rest/api/space/EMPTY/content/page?start=1&limit=2: 1503.0936000000002ms
+C delay /rest/api/space/EMPTY/content/page?start=3&limit=25: 1504.1981000000014ms
+C delay /rest/api/space/EMPTY/content/page?start=999999999&limit=1: 1503.2433999999994ms
+C delay /rest/api/space/~mock.absent: 1502.6489000000001ms
+C delay /rest/api/space/~mock.absent/content/page: 1502.704700000002ms
+C delay /rest/api/space/~mock.absent/content/page?limit=1: 1502.7054999999964ms
+C delay /rest/api/space/~mock.absent/content/page?start=1&limit=2: 1502.8473000000013ms
+C delay /rest/api/space/~mock.absent/content/page?start=3&limit=25: 1504.0234000000055ms
+C delay /rest/api/space/~mock.absent/content/page?start=999999999&limit=1: 1502.6786999999968ms
+C delay /rest/api/space/ABSENT: 1503.1077000000005ms
+C delay /rest/api/space/ABSENT/content/page: 1502.6167999999961ms
+C delay /rest/api/space/ABSENT/content/page?limit=1: 1502.9112999999998ms
+C delay /rest/api/space/ABSENT/content/page?start=1&limit=2: 1502.8737000000037ms
+C delay /rest/api/space/ABSENT/content/page?start=3&limit=25: 1502.7186999999976ms
+C delay /rest/api/space/ABSENT/content/page?start=999999999&limit=1: 1502.660100000001ms
+C delay /rest/api/content/30001: 1510.5584999999992ms
+C delay /rest/api/content/30001?expand=body.storage: 1510.686099999999ms
+C delay /rest/api/content/30001?expand=body.storage,version,space,history: 1510.3993999999948ms
+C delay /rest/api/content/30002: 1510.499800000005ms
+C delay /rest/api/content/30002?expand=body.storage: 1510.6371999999974ms
+C delay /rest/api/content/30002?expand=body.storage,version,space,history: 1510.4885000000068ms
+C delay /rest/api/content/30003: 1510.1713000000018ms
+C delay /rest/api/content/30003?expand=body.storage: 1509.1333000000013ms
+C delay /rest/api/content/30003?expand=body.storage,version,space,history: 1508.165200000003ms
+C delay /rest/api/content/40001: 1509.9914999999892ms
+C delay /rest/api/content/40001?expand=body.storage: 1509.1619000000064ms
+C delay /rest/api/content/40001?expand=body.storage,version,space,history: 1508.2314000000042ms
+C delay /rest/api/content/999999999: 1502.9664000000048ms
+C delay /rest/api/content/999999999?expand=body.storage: 1502.6985999999888ms
+C delay /rest/api/content/999999999?expand=body.storage,version,space,history: 1502.8805999999895ms
+✔ C-ERROR: anonymous identity, protected auth precedence, errors, delay and reset (80566.2809ms)
+✔ C-PAGE: default metadata, storage-only and explicitly combined expansions (224.8681ms)
+✔ C-PAGE: protected reads require PAT and missing pages have a product error (282.5577ms)
+✔ C-UNSUPPORTED: undeclared page/space requests and writes never become success (195.2884ms)
+✔ jira: PAT current user and unsupported requests (171.6923ms)
+E delay {"product":"jira","path":"/rest/api/2/myself","status":200,"ms":1512.3456,"headerMs":1511.8135000000002,"hrMs":1512.3467,"stubId":"e4c9b05a-a655-4156-9efa-dc2e7e72f961"}
+E delay {"product":"jira","path":"/rest/api/2/project","status":200,"ms":1510.9970000000003,"headerMs":1510.3005000000003,"hrMs":1510.998,"stubId":"339c641a-31fb-4274-adb4-f0f239e30ed7"}
+E delay {"product":"jira","path":"/rest/api/2/issue/MOCK-1","status":200,"ms":1511.7263999999996,"headerMs":1510.9911000000002,"hrMs":1511.7278,"stubId":"399ad4c0-2a67-42c1-a939-bead95dd9d5c"}
+E delay {"product":"jira","path":"/rest/api/2/issue/MOCK-2","status":200,"ms":1512.1317,"headerMs":1511.2828,"hrMs":1512.1326,"stubId":"acc4efd1-b5a6-4996-af0c-6dcd2e9e79fe"}
+E delay {"product":"jira","path":"/rest/api/2/issue/MOCK-3","status":200,"ms":1512.2779999999993,"headerMs":1511.192899999999,"hrMs":1512.2789,"stubId":"de06ce72-92bf-4180-b7e0-7a3aee5692e6"}
+E delay {"product":"jira","path":"/rest/api/2/issue/ABSENT-9","status":404,"ms":1502.9848999999995,"headerMs":1502.3960000000006,"hrMs":1502.9863,"stubId":"eff1d258-a527-4159-b4db-b8f09f9cc08c"}
+E delay {"product":"jira","path":"/rest/api/2/issue/10001","status":200,"ms":1511.6333999999988,"headerMs":1510.5083999999988,"hrMs":1511.6349,"stubId":"399ad4c0-2a67-42c1-a939-bead95dd9d5c"}
+E delay {"product":"jira","path":"/rest/api/2/issue/10002","status":200,"ms":1511.4971000000005,"headerMs":1510.7638000000006,"hrMs":1511.4985,"stubId":"acc4efd1-b5a6-4996-af0c-6dcd2e9e79fe"}
+E delay {"product":"jira","path":"/rest/api/2/issue/10003","status":200,"ms":1510.9586000000018,"headerMs":1510.289200000001,"hrMs":1510.9597,"stubId":"de06ce72-92bf-4180-b7e0-7a3aee5692e6"}
+E delay {"product":"jira","path":"/rest/api/2/issue/99999","status":404,"ms":1503.4572000000007,"headerMs":1502.9740999999995,"hrMs":1503.4585,"stubId":"eff1d258-a527-4159-b4db-b8f09f9cc08c"}
+E delay {"product":"jira","path":"/rest/api/2/search?jql=project%20%3D%20MOCK%20ORDER%20BY%20key%20ASC","status":200,"ms":1514.0905999999995,"headerMs":1513.2027000000016,"hrMs":1514.0918,"stubId":"4e166fd8-1e99-4627-993c-b71a335b0b4b"}
+E delay {"product":"jira","path":"/rest/api/2/search?jql=project%20%3D%20MOCK%20ORDER%20BY%20key%20ASC&startAt=0&maxResults=2","status":200,"ms":1512.5046000000002,"headerMs":1511.620500000001,"hrMs":1512.5056,"stubId":"a9ad8bad-2b96-4a5b-9cda-419a8d4432d6"}
+E delay {"product":"jira","path":"/rest/api/2/search?jql=project%20%3D%20MOCK%20ORDER%20BY%20key%20ASC&startAt=2&maxResults=2","status":200,"ms":1512.1491999999998,"headerMs":1511.4022000000004,"hrMs":1512.1502,"stubId":"b17fe99a-7194-4ca6-8482-20a4da01015b"}
+E delay {"product":"jira","path":"/rest/api/2/search?jql=project%20%3D%20MOCK%20ORDER%20BY%20key%20ASC&startAt=4&maxResults=2","status":200,"ms":1511.5530999999974,"headerMs":1510.819199999998,"hrMs":1511.5543,"stubId":"186ed73b-38d9-4651-a909-f0e68fc1c520"}
+E delay {"product":"jira","path":"/rest/api/2/search?jql=project%20%3D%20EMPTY%20ORDER%20BY%20key%20ASC","status":200,"ms":1511.0096999999987,"headerMs":1510.2560999999987,"hrMs":1511.0112,"stubId":"090bf7c2-2750-49eb-9660-473a96bfbf61"}
+E delay {"product":"jira","path":"/rest/api/2/search?jql=project%20%3D%20EMPTY%20ORDER%20BY%20key%20ASC&startAt=0&maxResults=2","status":200,"ms":1511.2813999999998,"headerMs":1510.5364000000009,"hrMs":1511.2832,"stubId":"f638119d-eb95-4cea-a319-7aee1113ba2a"}
+E delay {"product":"jira","path":"/rest/api/2/search?jql=project%20%3D%20EMPTY%20ORDER%20BY%20key%20ASC&startAt=2&maxResults=2","status":200,"ms":1511.7511000000013,"headerMs":1510.606200000002,"hrMs":1511.7522,"stubId":"65c7687b-6310-46fe-bd48-3f1b2753c476"}
+E delay {"product":"jira","path":"/rest/api/2/search?jql=project%20%3D%20EMPTY%20ORDER%20BY%20key%20ASC&startAt=4&maxResults=2","status":200,"ms":1512.1706999999988,"headerMs":1511.369200000001,"hrMs":1512.1717,"stubId":"4f91e6cd-0ce4-4423-bfbb-2284d11badc2"}
+E delay {"product":"confluence","path":"/rest/api/user/current","status":200,"ms":1509.5184000000045,"headerMs":1508.9762999999984,"hrMs":1509.5196,"stubId":"04026b61-e220-41bd-b662-2752e68ba656"}
+E delay {"product":"confluence","path":"/rest/api/space","status":200,"ms":1506.0475000000006,"headerMs":1505.393600000003,"hrMs":1506.0486,"stubId":"e962db3d-052e-4527-adcf-635383fbe9ab"}
+E delay {"product":"confluence","path":"/rest/api/content/20001","status":200,"ms":1509.9179000000004,"headerMs":1509.1992000000027,"hrMs":1509.919,"stubId":"5b50bc2d-e83b-4610-82d7-becd5ce1c558"}
+E delay {"product":"confluence","path":"/rest/api/content/20001?expand=body.storage","status":200,"ms":1509.760199999997,"headerMs":1509.1785000000018,"hrMs":1509.7614,"stubId":"d42be99c-4931-4a5f-9077-f19a986bece1"}
+E delay {"product":"confluence","path":"/rest/api/content/20002","status":200,"ms":1509.9363999999987,"headerMs":1509.2330000000002,"hrMs":1509.9373,"stubId":"be21cff5-65c7-4c98-8a81-75e7d8e95d43"}
+E delay {"product":"confluence","path":"/rest/api/content/20002?expand=body.storage","status":200,"ms":1510.284599999999,"headerMs":1509.6299,"hrMs":1510.2861,"stubId":"91542396-0500-408f-852b-af34e5fdfd27"}
+E delay {"product":"confluence","path":"/rest/api/content/20003","status":200,"ms":1510.327400000002,"headerMs":1509.6124999999956,"hrMs":1510.3282,"stubId":"f20652f4-6d0d-4a02-a154-35d55524f4d0"}
+E delay {"product":"confluence","path":"/rest/api/content/20003?expand=body.storage","status":200,"ms":1510.077999999994,"headerMs":1509.4609999999957,"hrMs":1510.0791,"stubId":"3cd4ed0b-faf1-44da-a711-2d0454d27786"}
+E delay {"product":"confluence","path":"/rest/api/content/99999","status":404,"ms":1502.4973000000027,"headerMs":1502.141300000003,"hrMs":1502.4984,"stubId":"266aa78c-3ed9-4d13-8667-623a1e009b9d"}
+E delay {"product":"confluence","path":"/rest/api/content/99999?expand=body.storage","status":404,"ms":1502.885199999997,"headerMs":1502.384299999998,"hrMs":1502.8867,"stubId":"be8ee144-a989-45df-b128-aa5825fab855"}
+E delay {"product":"confluence","path":"/rest/api/space/MOCK/content/page","status":200,"ms":1503.236499999999,"headerMs":1502.4323999999979,"hrMs":1503.2379,"stubId":"d68ed483-7af3-40f3-92a5-bf980df89ba9"}
+E delay {"product":"confluence","path":"/rest/api/space/MOCK/content/page?start=0&limit=2","status":200,"ms":1503.6540999999997,"headerMs":1502.9493000000002,"hrMs":1503.6556,"stubId":"28c606e7-8f3f-473b-b5fd-165e2059fbd1"}
+E delay {"product":"confluence","path":"/rest/api/space/MOCK/content/page?start=2&limit=2","status":200,"ms":1503.8490999999995,"headerMs":1502.9347999999954,"hrMs":1503.8502,"stubId":"bd805e91-a303-4740-9a30-3485e227a487"}
+E delay {"product":"confluence","path":"/rest/api/space/MOCK/content/page?start=4&limit=2","status":200,"ms":1503.9105999999956,"headerMs":1503.3399999999965,"hrMs":1503.9117,"stubId":"bd805e91-a303-4740-9a30-3485e227a487"}
+E delay {"product":"confluence","path":"/rest/api/space/EMPTY/content/page","status":200,"ms":1502.9657999999981,"headerMs":1502.3149000000049,"hrMs":1502.9667,"stubId":"8d8c9c47-cb07-4e30-959c-bacfcae45adc"}
+E delay {"product":"confluence","path":"/rest/api/space/EMPTY/content/page?start=0&limit=2","status":200,"ms":1503.6243000000031,"headerMs":1503.0031000000017,"hrMs":1503.6251,"stubId":"f9a0f7c5-f413-46e7-bbe6-92e5426339d0"}
+E delay {"product":"confluence","path":"/rest/api/space/EMPTY/content/page?start=2&limit=2","status":200,"ms":1503.2373999999982,"headerMs":1502.5354000000007,"hrMs":1503.2385,"stubId":"2d0fcfa7-673b-4df0-a66c-9e1c962578ec"}
+E delay {"product":"confluence","path":"/rest/api/space/EMPTY/content/page?start=4&limit=2","status":200,"ms":1503.2977000000028,"headerMs":1502.6140000000014,"hrMs":1503.2988,"stubId":"2d0fcfa7-673b-4df0-a66c-9e1c962578ec"}
+E delay {"product":"confluence","path":"/rest/api/space/ABSENT/content/page","status":404,"ms":1502.7500999999975,"headerMs":1502.2772999999943,"hrMs":1502.7516,"stubId":"d080a153-10c9-4aef-b083-eb1a6e56bf53"}
+E delay {"product":"confluence","path":"/rest/api/space/ABSENT/content/page?start=0&limit=2","status":404,"ms":1503.5081999999966,"headerMs":1503.025099999999,"hrMs":1503.5094,"stubId":"900192b1-c7de-437a-8df5-60444c32412c"}
+E delay {"product":"confluence","path":"/rest/api/space/ABSENT/content/page?start=2&limit=2","status":404,"ms":1502.6968999999954,"headerMs":1502.3041000000012,"hrMs":1502.698,"stubId":"900192b1-c7de-437a-8df5-60444c32412c"}
+E delay {"product":"confluence","path":"/rest/api/space/ABSENT/content/page?start=4&limit=2","status":404,"ms":1502.8631000000023,"headerMs":1502.4162999999971,"hrMs":1502.864,"stubId":"900192b1-c7de-437a-8df5-60444c32412c"}
+✔ E: all supported reads, PAT precedence, isolation and repeatable reset (67318.1106ms)
+E boundary {"product":"jira","sample":0,"configuredMs":1500,"status":200,"ms":1510.8850000000093,"headerMs":1510.3476000000082,"hrMs":1510.8838,"stubId":"e4c9b05a-a655-4156-9efa-dc2e7e72f961"}
+E boundary {"product":"jira","sample":1,"configuredMs":1500,"status":200,"ms":1511.459400000007,"headerMs":1510.726800000004,"hrMs":1511.4594,"stubId":"e4c9b05a-a655-4156-9efa-dc2e7e72f961"}
+E boundary {"product":"jira","sample":2,"configuredMs":1500,"status":200,"ms":1510.7137999999977,"headerMs":1509.6995000000024,"hrMs":1510.7141,"stubId":"e4c9b05a-a655-4156-9efa-dc2e7e72f961"}
+E timeout {"product":"jira","timeoutMs":500,"elapsedMs":506.80079999999725}
+E after cancellation {"product":"jira","status":200,"ms":1510.546000000002,"headerMs":1509.833500000008,"hrMs":1510.5455,"stubId":"e4c9b05a-a655-4156-9efa-dc2e7e72f961"}
+E boundary {"product":"confluence","sample":0,"configuredMs":1500,"status":200,"ms":1510.7371999999887,"headerMs":1510.1370999999926,"hrMs":1510.7367,"stubId":"04026b61-e220-41bd-b662-2752e68ba656"}
+E boundary {"product":"confluence","sample":1,"configuredMs":1500,"status":200,"ms":1510.2927999999956,"headerMs":1509.5113999999885,"hrMs":1510.2928,"stubId":"04026b61-e220-41bd-b662-2752e68ba656"}
+E boundary {"product":"confluence","sample":2,"configuredMs":1500,"status":200,"ms":1512.9275000000052,"headerMs":1512.1733000000095,"hrMs":1512.9263,"stubId":"04026b61-e220-41bd-b662-2752e68ba656"}
+E timeout {"product":"confluence","timeoutMs":500,"elapsedMs":501.5426999999909}
+E after cancellation {"product":"confluence","status":200,"ms":1511.1620999999868,"headerMs":1510.5755999999965,"hrMs":1511.1618,"stubId":"04026b61-e220-41bd-b662-2752e68ba656"}
+✔ E: delay boundary samples and client timeout are distinct (13273.398ms)
+✔ U: numeric issue self aliases preserve fields, authentication and missing ID errors (174.3737ms)
+✔ jira: coherent project list and single issue, stateless reads (87.519ms)
+✔ jira: auth isolation /rest/api/2/project (31.1185ms)
+✔ jira: auth isolation /rest/api/2/issue/MOCK-1 (22.4065ms)
+✔ jira: auth isolation /rest/api/2/issue/MOCK-2 (24.5193ms)
+✔ jira: auth isolation /rest/api/2/issue/MOCK-3 (19.8803ms)
+✔ jira: auth isolation /rest/api/2/issue/MOCK-999 (14.3394ms)
+✔ jira: auth isolation /rest/api/2/issue/OTHER-1 (14.1664ms)
+✔ jira: unknown keys have issue errors, distinct from unsupported requests (4.5683ms)
+✔ jira: reject unsupported methods, queries, IDs, keys and subresources (185.4591ms)
+✔ B-J/J-L: project → all pages → details, complete coherent stateless synthetic data (282.7093ms)
+✔ J-L: decoded query values, %20/+ spaces and all parameter orders (92.4485ms)
+✔ J-L: every supported search shape requires exact PAT, no protected data on failure (244.4259ms)
+✔ J-L: unsupported query/method/path shapes precede authentication (282.0463ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 166415.2193

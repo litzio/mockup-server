@@ -1,0 +1,15 @@
+{
+  "type": "anonymous",
+  "displayName": "Anonymous",
+  "profilePicture": {
+    "path": "/images/icons/profilepics/default.svg",
+    "width": 48,
+    "height": 48,
+    "isDefault": true
+  },
+  "_links": {
+    "base": "{{request.baseUrl}}",
+    "context": "",
+    "self": "{{request.baseUrl}}/rest/api/user/current"
+  }
+}
