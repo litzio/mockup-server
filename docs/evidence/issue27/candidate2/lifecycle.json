@@ -1,0 +1,32 @@
+{
+  "ownedResourcesRemoved": true,
+  "hostWideAirGap": false,
+  "imageDigest": [
+    "wiremock/wiremock@sha256:0d4ecb3e4dc8213fd7a4d37d6a78f6e6b553a6d2e15bd51b0999781282ac61b3"
+  ],
+  "modes": [
+    "default",
+    "context"
+  ],
+  "commandsSha256": "734316c54dbae4b82ef46b1a4e711a7e4659d0199cc940f05a33a61d4fa5b6d2",
+  "sourceCommit": "e3aefad2103ee11dd93fca0aa37358103b491b1f",
+  "externalDownloadsBlocked": true,
+  "isolatedImageStoreInitiallyEmpty": true,
+  "imageId": "sha256:0d4ecb3e4dc8213fd7a4d37d6a78f6e6b553a6d2e15bd51b0999781282ac61b3",
+  "cycles": [
+    1,
+    2
+  ],
+  "reports": [
+    "acceptance-default-1.json",
+    "acceptance-default-2.json",
+    "acceptance-context-1.json",
+    "acceptance-context-2.json"
+  ],
+  "evidencePolicy": "Sanitized command log: bundle/evidence/home/user/host identifiers replaced; exit codes, timings and failures retained.",
+  "formatVersion": 1,
+  "architecture": "linux/amd64",
+  "commandEvidenceSha256": "d02b22a8645847f0f8b9fd9cacacf4a311d06bf9db6fc88309f4b80dfd77da88",
+  "status": "PASS",
+  "fixtureVersion": "synthetic-acceptance-v1"
+}

@@ -15,7 +15,15 @@
 
 ## 고정 후보 인수
 
-후보 commit 이후 새 반입 패키지에서 수행할 기본/custom-context × 최초/재기동 4회와 source/bundle/evidence 감사를 별도로 기록한다. 아직 이 단락은 실행 예정 상태다. 최종 보고는 91개 행 전부와 5개 gate를 보존하고 `completion.declared=false`를 유지해야 한다.
+고정 후보 `e3aefad2103ee11dd93fca0aa37358103b491b1f`에서 새 반입 패키지를 만들고 기본/custom-context × 최초/재기동 4회를 모두 실행했다. 기존 HTTP 검사와 제공 명세 실행기는 각 회차 exit 0, 상위 verifier의 OS 관측 종료코드도 0이었다. 최소 1500ms 단언은 유지했다. 최종 증거 추가 커밋은 문서와 증거만 변경하며, 고정 후보의 실행 파일·fixture·계약·의존성 바이트를 반입물과 다시 비교한다. 새 문서 head에서 격리 실행을 다시 했다는 뜻은 아니다.
+
+[최종 전체 보고](evidence/issue27/candidate2/final.json.gz)는 **91행: PASS 84 / FAIL 0 / BLOCKED 1 / NOT_RUN 6 / SKIPPED 0**이다. nullable 실제 렌더링이 BLOCKED이고 실제 Jira 소비자 6행은 NOT_RUN이다. 5개 gate는 G-CONTRACT BLOCKED, G-CONSUMER NOT_RUN, G-PRIVACY PASS, G-OFFLINE PASS, G-EVIDENCE BLOCKED이며 `completion.declared=false`다.
+
+- 최초/재기동 전체 보고: [default 1](evidence/issue27/candidate2/acceptance-default-1.json.gz), [default 2](evidence/issue27/candidate2/acceptance-default-2.json.gz), [context 1](evidence/issue27/candidate2/acceptance-context-1.json.gz), [context 2](evidence/issue27/candidate2/acceptance-context-2.json.gz).
+- [생명주기 기록](evidence/issue27/candidate2/lifecycle.json), [실제 명령·exit·출력](evidence/issue27/candidate2/commands.json.gz), [명령 로그](evidence/issue27/candidate2/commands.log.gz), [콘솔](evidence/issue27/candidate2/console.log.gz), [OS 종료코드](evidence/issue27/candidate2/process-exit.json)를 보존한다. 별도 빈 image store를 두 번 확인하고 registry/IP/제품 컨테이너 egress 실패를 관측한 뒤 archive image ID와 linux/amd64를 확인했다. 각 모드 최초/재기동의 fixture snapshot이 일치한다. ownership 확인 후 daemon/network 제거 exit 0 및 후속 조회의 부재를 확인했다. 호스트 전체 air-gap을 주장하지 않는다.
+- [반입 출처](evidence/issue27/candidate2/bundle.json), [산출물 hash 목록](evidence/issue27/candidate2/artifacts.json), [초기 감사](evidence/issue27/candidate2/privacy.json)를 연결한다. source 502 / bundle 811 / evidence 11개 파일이 private denylist·자격증명 패턴·비합성 홈 경로 검사에서 PASS였고 실행 파일 비교도 일치했다. 최종 문서·압축 증거를 추가한 이후 [추가 감사](evidence/issue27/candidate2/final-artifact-audit.json)로 현재 소스를 다시 검사했다. upstream 바이너리·라이선스는 원래 바이트를 보존하며 이 검사는 보편적 비밀 탐지를 보장하지 않는다.
+
+정책·음성 회귀 검사는 68/68이며 후보 head의 Repository policy CI도 통과했다. 최종 문서 head의 CI·실행 바이트 재비교·독립 검토는 PR에 정확한 SHA로 기록한다.
 
 실제 소비자 6행·실제 nullable 렌더링 및 클라이언트 Base URL 설정 분리 후속은 [#34](https://github.com/litzio/mockup-server/issues/34)로 추적한다. 이는 필수 gate 면제가 아니다.
 
