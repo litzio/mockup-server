@@ -1,0 +1,104 @@
+{
+  "formatVersion": 1,
+  "checkedOn": "2026-11-04",
+  "scope": "Official reference provenance only; not runtime fixtures or acceptance results",
+  "rawArtifactsPolicy": "Vendor documents remain outside the repository and offline mock bundle. Do not copy vendor examples into fixtures.",
+  "sources": [
+    {
+      "id": "jira-platform-9.12.28",
+      "requestedUrl": "https://docs.atlassian.com/software/jira/docs/api/REST/9.12.28/",
+      "finalUrl": "https://docs.atlassian.com/software/jira/docs/api/REST/9.12.28/",
+      "httpStatus": 200,
+      "contentType": "text/html",
+      "artifactBasename": "jira-platform-9.12.28.html",
+      "bytes": 1230431,
+      "sha256": "316b1c86c4356d27fe5dac571476fb205fa94f78fd53bdde6b6f0cd101f7cef6",
+      "title": "Jira 9.12.28",
+      "versionEvidence": "HTML title and versioned URL both identify 9.12.28",
+      "format": "HTML with embedded JSON Schema fragments; not an OpenAPI document",
+      "apiFamily": "/rest/api/2",
+      "operations": [
+        { "method": "GET", "path": "/rest/api/2/myself", "anchor": "api/2/myself-getUser", "documentedStatuses": [200, 401] },
+        { "method": "GET", "path": "/rest/api/2/project", "anchor": "api/2/project-getAllProjects", "documentedStatuses": [200] },
+        { "method": "GET", "path": "/rest/api/2/search", "anchor": "api/2/search-search", "documentedStatuses": [200, 400] },
+        { "method": "GET", "path": "/rest/api/2/issue/{issueIdOrKey}", "anchor": "api/2/issue-getIssue", "documentedStatuses": [200, 404] }
+      ],
+      "limits": [
+        "No exact-version OpenAPI artifact was obtained in this investigation.",
+        "Embedded issue/search fields schemas accept arbitrary field names and do not validate the consumer's required nested fields.",
+        "A documented status list is not an exhaustive authentication-filter or permission contract."
+      ]
+    },
+    {
+      "id": "jira-agile-9.12.28",
+      "requestedUrl": "https://docs.atlassian.com/jira-software/REST/9.12.28/",
+      "finalUrl": "https://docs.atlassian.com/jira-software/REST/9.12.28/",
+      "httpStatus": 200,
+      "contentType": "text/html",
+      "artifactBasename": "jira-agile-9.12.28.html",
+      "bytes": 48346,
+      "sha256": "02e24ba018c4b759b7fdb68b2fac2b82799acc0d5471c721b57086c358cca361",
+      "title": "Jira Agile Server 9.12.28 REST API reference",
+      "versionEvidence": "HTML title and versioned URL both identify 9.12.28",
+      "format": "HTML",
+      "apiFamily": "/rest/agile/1.0",
+      "limits": [
+        "Separate Software/Agile reference; board and sprint APIs are outside the current mock scope.",
+        "Not a substitute for the platform /rest/api/2 reference and not an OpenAPI artifact."
+      ]
+    },
+    {
+      "id": "confluence-9.2.17",
+      "requestedUrl": "https://developer.atlassian.com/server/confluence/9.2.17.swagger.v3.json",
+      "finalUrl": "https://developer.atlassian.com/server/confluence/9.2.17.swagger.v3.json",
+      "httpStatus": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "artifactBasename": "confluence-9.2.17.openapi.json",
+      "bytes": 425507,
+      "sha256": "8b341389e8e8d31d046e09f56ba893fac66a1e4f1aa8334dda438df2f1a5561c",
+      "title": "Confluence Data Center",
+      "versionEvidence": "info.version = 9.2.17",
+      "format": "OpenAPI 3.0.1 JSON",
+      "pathCount": 122,
+      "componentSchemaCount": 117,
+      "operations": [
+        { "method": "GET", "path": "/rest/api/user/current", "operationId": "getCurrent", "documentedStatuses": [200, 403] },
+        { "method": "GET", "path": "/rest/api/space", "operationId": "spaces", "documentedStatuses": [200] },
+        { "method": "GET", "path": "/rest/api/space/{spaceKey}", "operationId": "space", "documentedStatuses": [200, 404] },
+        { "method": "GET", "path": "/rest/api/space/{spaceKey}/content/{type}", "operationId": "contentsWithType", "documentedStatuses": [200, 404] },
+        { "method": "GET", "path": "/rest/api/content/{id}", "operationId": "getContentById", "documentedStatuses": [200, 404] }
+      ],
+      "limits": [
+        "Machine-readable reference with incomplete or overly generic response schemas; not a drop-in acceptance validator.",
+        "Observed anonymous identity and deployment-specific authentication/permission behavior remain separate evidence."
+      ]
+    }
+  ],
+  "unsuitableCandidates": [
+    {
+      "url": "https://docs.atlassian.com/software/jira/docs/api/REST/9.12.28/jira-rest-plugin.wadl",
+      "httpStatus": 404,
+      "artifactBasename": "jira-platform-9.12.28-wadl.http404.xml",
+      "bytes": 375,
+      "sha256": "828438a589880f9e486fb00fc764ef0a6541b8e58092c9c3a2ef5f10b07dbab0",
+      "usableSpecification": false,
+      "reason": "Linked WADL request returned an XML error document. The retained error-body hash identifies that failed attempt, not a WADL; future error-body bytes may differ."
+    },
+    {
+      "url": "https://docs.atlassian.com/jira/REST/9.12.28/",
+      "httpStatus": 302,
+      "location": "http://docs.atlassian.com:8080/software/jira/docs/api/REST/9.12.28/",
+      "usableSpecification": false,
+      "reason": "Legacy redirect targets HTTP port 8080; the followed request did not complete during verification. Use the independently verified direct HTTPS URL."
+    },
+    {
+      "url": "https://developer.atlassian.com/server/jira/platform/rest/v91228/intro/",
+      "httpStatus": 302,
+      "location": "/server/jira/platform/rest/v11003/",
+      "finalUrl": "https://developer.atlassian.com/server/jira/platform/rest/v11003/",
+      "finalHttpStatus": 200,
+      "usableSpecification": false,
+      "reason": "The successful landing page is for a different version, not Jira 9.12.28."
+    }
+  ]
+}
