@@ -1,0 +1,33 @@
+{
+  "priority": 5,
+  "request": {
+    "method": "GET",
+    "urlPattern": "/rest/api/content/[1-9][0-9]*\\?expand=[^&]+",
+    "queryParameters": {
+      "expand": {
+        "hasExactly": [
+          {
+            "equalTo": "body.storage"
+          }
+        ]
+      }
+    },
+    "headers": {
+      "Authorization": {
+        "equalTo": "Bearer mock-confluence-token"
+      }
+    }
+  },
+  "response": {
+    "status": 404,
+    "headers": {
+      "Content-Type": "application/json",
+      "Connection": "close"
+    },
+    "jsonBody": {
+      "statusCode": 404,
+      "message": "No content found",
+      "reason": "Not Found"
+    }
+  }
+}
