@@ -1,0 +1,25 @@
+{
+  "priority": 10,
+  "request": {
+    "method": "GET",
+    "urlPattern": "/rest/api/2/search\\?(?:(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+)",
+    "queryParameters": {
+      "jql": {
+        "equalTo": "project = EMPTY ORDER BY key ASC"
+      }
+    }
+  },
+  "response": {
+    "status": 401,
+    "headers": {
+      "Content-Type": "application/json",
+      "Connection": "close"
+    },
+    "jsonBody": {
+      "errorMessages": [
+        "Authentication required"
+      ],
+      "errors": {}
+    }
+  }
+}
