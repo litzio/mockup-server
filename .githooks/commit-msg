@@ -1,0 +1,5 @@
+#!/bin/sh
+# Shared with CI; never inserts or invents model attribution.
+set -eu
+root=$(git rev-parse --show-toplevel)
+exec node "$root/scripts/commit-provenance.mjs" message "$1"
