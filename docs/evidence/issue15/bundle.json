@@ -1,0 +1,18 @@
+{
+  "sourceCommit": "04ecd0f9b2abe078d17c59a496f869950be3b3fa",
+  "image": "wiremock/wiremock:3.13.2",
+  "imageId": "sha256:0d4ecb3e4dc8213fd7a4d37d6a78f6e6b553a6d2e15bd51b0999781282ac61b3",
+  "repoDigests": [
+    "wiremock/wiremock@sha256:0d4ecb3e4dc8213fd7a4d37d6a78f6e6b553a6d2e15bd51b0999781282ac61b3"
+  ],
+  "platform": "linux/amd64",
+  "toolImage": "docker:29.7.2-dind",
+  "toolImageId": "sha256:3ef33f2e220b79ed3ef3b99d81746f06f306cd6340e2cb7331d17ae996e74cb6",
+  "toolRepoDigests": [
+    "docker@sha256:3ef33f2e220b79ed3ef3b99d81746f06f306cd6340e2cb7331d17ae996e74cb6"
+  ],
+  "preparedAt": "2026-11-04T06:38:40.965Z",
+  "node": "v24.21.0",
+  "docker": "29.7.2",
+  "compose": "5.4.0"
+}

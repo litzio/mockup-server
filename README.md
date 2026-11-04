@@ -35,7 +35,7 @@ CONFLUENCE_PAT=mock-confluence-token
 
 서비스 모듈 기반 실행 구성과 Jira·Confluence의 읽기·오류·context HTTP 테스트를 제공합니다. 고정 이미지와 합성 데이터, 실행·검증 도구를 반입하는 [폐쇄망 구성과 격리 검증 절차](docs/offline.md)를 제공합니다.
 
-v1의 후속 지원 범위와 완료 판정은 [v1 계약](docs/v1-contract.md)에 확정했습니다. 이 문서의 계획은 현재 구현 완료를 뜻하지 않습니다.
+v1 지원 범위는 [v1 계약](docs/v1-contract.md), 통합 main에서 새 패키지로 수행한 검증은 [최종 인수 기록](docs/v1-acceptance.md)에 있습니다. #9~#14는 통합됐으며 #15 보고서의 최종 CI·queue·main 패키지 동일성 확인 전에는 상위 #8 완료를 선언하지 않습니다.
 
 ## 저장소 관리
 
