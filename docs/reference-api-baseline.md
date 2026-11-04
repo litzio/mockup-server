@@ -18,12 +18,12 @@
 $referenceFile = 'C:/Reference/confluence-9.2.17.openapi.json'
 Invoke-WebRequest 'https://developer.atlassian.com/server/confluence/9.2.17.swagger.v3.json' -OutFile $referenceFile
 Get-FileHash -Algorithm SHA256 -LiteralPath $referenceFile
-$reference = Get-Content -Raw -LiteralPath $referenceFile | ConvertFrom-Json
+$reference = Get-Content -Raw -LiteralPath $referenceFile | ConvertFrom-Json -AsHashtable
 $reference.openapi
 $reference.info.version
 ```
 
-대상 디렉터리는 미리 만들고 새 파일에 받는다. URL이 같아도 앞으로 바이트가 바뀌면 기존 해시의 검증 기록을 덮어쓰지 않고 새 확인 기록을 남긴다.
+대상 디렉터리는 미리 만들고 새 파일에 받는다. 공식 JSON에 대소문자만 다른 키가 있으므로 PowerShell에서는 `-AsHashtable`을 사용한다. URL이 같아도 앞으로 바이트가 바뀌면 기존 해시의 검증 기록을 덮어쓰지 않고 새 확인 기록을 남긴다.
 
 ## 현재 API의 공식 근거
 
