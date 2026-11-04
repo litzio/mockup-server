@@ -40,9 +40,9 @@ ID는 `[1-9][0-9]*`이며 20001만 존재합니다. 0, 선행 0, 비숫자 ID, �
 ### 읽기 API 근거와 검증 한계
 
 - [공식 Server REST 7.19.0](https://docs.atlassian.com/ConfluenceServer/rest/7.19.0/): Space 목록의 results/start/limit/size, Content by id 경로와 기본 history/space/version 확장 구조 참고. 문서의 축약 `/rest/content` 대신 예시의 `/rest/api/content/{id}`를 사용합니다.
-- [공식 Data Center Content Resource 9.2.20](https://developer.atlassian.com/server/confluence/rest/v9220/api-group-content-resource/): content/space/history/version 필드 구조 참고.
+- [공식 Data Center Content Resource 9.2.20](https://developer.atlassian.com/server/confluence/rest/v9220/api-group-content-resource/): 작업자 최초 조회에서는 Content 응답 예시의 content/space/history/version 필드 구조가 노출되어 참고했습니다. 후속 조회 및 독립 리뷰어 접근에서는 내비게이션만 노출되어 같은 상세 내용을 재확인하지 못했습니다.
 - [Atlassian Data Center 본문 조회 설명](https://support.atlassian.com/confluence/kb/how-to-get-page-content-or-child-list-via-rest-api/): expand=body.storage 사용 근거. 패치 버전 고정 문서는 아닙니다.
 
-9.2.20 Space 참조는 이번 조회에서 내비게이션만 노출되어 공간 계약의 상세 근거로 사용하지 않았습니다. 위 참고 버전은 목표 9.2.17과 다릅니다. 실제 9.2.17의 응답 전체·정확한 기본 확장·오류 문구·권한 및 익명 접근 정책·확장 조합의 동일성은 검증하지 않았습니다. 고정 응답 부분집합, 401/404 본문 및 엄격한 요청 제한은 모의 계약입니다. Cloud API는 사용하지 않습니다.
+9.2.20 Space 참조는 이번 조회에서 내비게이션만 노출되어 공간 계약의 상세 근거로 사용하지 않았습니다. Content 참조도 상세 내용의 재현 가능한 접근에 위 한계가 있으므로, 읽기 계약의 재확인 가능한 근거는 위 7.19.0 문서와 공식 storage 안내입니다. 위 참고 버전은 목표 9.2.17과 다릅니다. 실제 9.2.17의 응답 전체·정확한 기본 확장·오류 문구·권한 및 익명 접근 정책·확장 조합의 동일성은 검증하지 않았습니다. 고정 응답 부분집합, 401/404 본문 및 엄격한 요청 제한은 모의 계약입니다. Cloud API는 사용하지 않습니다.
 
 검증은 Docker WireMock HTTP에서 공간·페이지 일관성, storage 유무, 목록 메타데이터, 재조회, 정상/누락/오류/대소문자 PAT, 미등록 페이지, 미지원 메서드·쿼리·경로를 단언합니다. 기존 Jira와 현재 사용자 회귀도 함께 실행합니다. 이는 모의 계약 검증이며 실제 제품 호환성 검증은 **미실행**입니다. Connection: close 제약은 유지합니다.
