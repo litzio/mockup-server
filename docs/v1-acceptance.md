@@ -1,12 +1,14 @@
 # v1 최종 통합 인수 (#15)
 
+> v2 익명화 안내: 이 문서의 개인 경로와 연결된 과거 증거 로그는 합성 경로로 치환한 파생본입니다. 실패·측정·종료코드는 보존했고 Git 이력은 변경하지 않았습니다. 원본/현재 SHA-256 및 변경 범위는 [익명화 기록](evidence/redaction.md)을 따릅니다. 과거 반입 manifest의 hash는 당시 원본을 식별하며 현재 파생본 hash가 아닙니다.
+
 실행 대상은 #9~#14가 통합된 main `04ecd0f9b2abe078d17c59a496f869950be3b3fa`다. #14의 실행 결과를 재사용하지 않고 이 SHA에서 새 패키지를 만들어 직접 실행했다. 실제 Jira Software 9.12.28 / Confluence 9.2.17 호환성 검증은 **미실행**이며 v1 필수 범위 밖이다.
 
 ## 실행과 증거
 
 2026-11-04 Windows x64 build 26200, PowerShell 7.6.9, Node 24.21.0, Docker CLI/Engine 29.7.2, Compose 5.4.0, WireMock 3.13.2 linux/amd64에서 실행했다. 반입물의 이미지 ID/digest와 전체 파일 체크섬은 [bundle.json](evidence/issue15/bundle.json), [SHA256SUMS](evidence/issue15/bundle.SHA256SUMS)에 있다. 바이너리 아카이브는 저장소에 넣지 않는다.
 
-저장소 루트에서 실행한 명령은 다음과 같다. `$out`은 새 외부 디렉터리 `C:/Users/swBaek/AppData/Local/Temp/mockup-issue15-04ecd0f`다.
+저장소 루트에서 실행한 명령은 다음과 같다. `$out`은 새 외부 디렉터리 `C:/Users/mock-user/AppData/Local/Temp/mockup-issue15-04ecd0f`다.
 
 ```powershell
 node scripts/offline/package.mjs "$out/bundle"

@@ -33,9 +33,9 @@ CONFLUENCE_PAT=mock-confluence-token
 
 ## 현재 상태
 
-서비스 모듈 기반 실행 구성과 Jira·Confluence의 읽기·오류·context HTTP 테스트를 제공합니다. 고정 이미지와 합성 데이터, 실행·검증 도구를 반입하는 [폐쇄망 구성과 격리 검증 절차](docs/offline.md)를 제공합니다.
+v2는 현재 사용자 Jira 검색 6종·응답 변환·페이지 처리, Confluence 개인 공간·본문 탐색과 관측된 인증 응답을 지원합니다. [v2 계약](docs/v2-contract.md), [제공 인수 명세](docs/acceptance/mockup-server-acceptance.json), [실행 기록](docs/v2-acceptance.md), [v2 반입 절차](docs/offline-v2.md)를 참고하세요.
 
-v1 지원 범위는 [v1 계약](docs/v1-contract.md), 통합 main에서 새 패키지로 수행한 검증은 [최종 인수 기록](docs/v1-acceptance.md)에 있습니다. #9~#14는 통합됐으며 #15 보고서의 최종 CI·queue·main 패키지 동일성 확인 전에는 상위 #8 완료를 선언하지 않습니다.
+실제 Jira 소비자는 접근할 수 없어 관련 필수 검증은 미실행입니다. 독립 소비자 검증을 실제 Host/CLI/UI 검증으로 대신하지 않으며 전체 명세 완료를 주장하지 않습니다. v1 결과는 [이전 계약](docs/v1-contract.md)과 [역사적 인수 기록](docs/v1-acceptance.md)에 보존합니다.
 
 ## 저장소 관리
 

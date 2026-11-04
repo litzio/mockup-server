@@ -19,11 +19,11 @@ node --test services/jira/tests/error-scenarios.test.mjs
 docker compose -f compose.yaml -f compose.context.yaml -p mockup-issue13 down
 ```
 
-호스트 `127.0.0.1`도 지원한다. Base URL 끝에는 슬래시를 붙이지 않는다. `JIRA_CONTEXT`는 빈 문자열 또는 `/jira`, `CONFLUENCE_CONTEXT`는 빈 문자열 또는 `/confluence`다. 제품별 독립 선택이며 잘못된 값은 생성 전에 실패한다. 준비 명령은 저장소 루트에서 실행하고 설정/원본 변경 때마다 다시 실행한다. 출력은 `.runtime/jira`, `.runtime/confluence`의 `mappings`와 `__files`이며 이전 출력을 교체한다. 생성물을 직접 편집하지 않는다. Compose override는 같은 `/home/wiremock` mount를 이 출력으로 교체한다.
+호스트 `127.0.0.1`도 지원한다. Base URL 끝에는 슬래시를 붙이지 않는다. `JIRA_CONTEXT`는 빈 문자열 또는 `/jira`, `CONFLUENCE_CONTEXT`는 빈 문자열 또는 `/confluence`다. v2 인수에서는 두 제품 모두 `/custom-context`도 지원하며 같은 검사 코드를 localhost/127.0.0.1에서 실행한다. 제품별 독립 선택이며 잘못된 값은 생성 전에 실패한다. 준비 명령은 저장소 루트에서 실행하고 설정/원본 변경 때마다 다시 실행한다. 출력은 `.runtime/jira`, `.runtime/confluence`의 `mappings`와 `__files`이며 이전 출력을 교체한다. 생성물을 직접 편집하지 않는다. Compose override는 같은 `/home/wiremock` mount를 이 출력으로 교체한다.
 
 같은 `scripts/check-context.mjs` 실행물로 제품별 Base URL/PAT만 바꿔 조회와 링크를 추적한다. 일반 `test:services`는 기존 빈 context 계약 회귀용이고 이 검사는 U 계약용이다. 관리 요청은 항상 `new URL(BASE_URL).origin + '/__admin/...'`로 실행한다. context가 설정되면 원래 context 없는 제품 요청은 fallback 404다.
 
-Jira issue self(숫자 ID), Confluence page self와 페이지 목록 self/next/prev를 실제 추적한다. Jira project/user/status/issuetype self와 Confluence space self는 메타데이터이며 단건 API 추적은 지원하지 않는다. 브라우저 UI/첨부 링크, TLS, 프록시, 사내 DNS는 범위 밖이다. 모든 API 링크는 요청 origin과 준비한 context를 반영한다. `Connection: close`를 유지하며 연결 풀 지원은 주장하지 않는다.
+Jira issue self(숫자 ID), Confluence page self와 페이지 목록 self/next/prev를 실제 추적한다. Jira project/user/status/issuetype self는 단건 API 추적 범위 밖인 메타데이터다. Confluence space self는 v2에서 실제 추적을 지원한다. 브라우저 UI/첨부 링크, TLS, 프록시, 사내 DNS는 범위 밖이다. 모든 API 링크는 요청 origin과 준비한 context를 반영한다. `Connection: close`를 유지하며 연결 풀 지원은 주장하지 않는다.
 
 WireMock의 [standalone CLI](https://wiremock.org/docs/standalone/java-jar/)에는 제품별 context 선택 옵션이 없다. 기존 JSON matcher/응답 템플릿을 준비하고 [파일 기반 root](https://wiremock.org/docs/standalone/docker/)를 사용하는 방식이다. 시나리오 배열, 우선순위, 인증, 쿼리 조건, 지연 설정은 보존하며 origin은 기존 `request.baseUrl` 템플릿을 사용한다.
 

@@ -29,18 +29,24 @@ jobs:
         run: docker compose -p mockup-ci up -d
       - run: npm run wait:services
       - run: npm run test:services
-      - name: Context paths, numeric self links and scenario regression
+      - name: Supplied acceptance matrix, default context
         env:
-          JIRA_CONTEXT: /jira
-          CONFLUENCE_CONTEXT: /confluence
-          JIRA_BASE_URL: http://localhost:8081/jira
-          CONFLUENCE_BASE_URL: http://localhost:8082/confluence
+          JIRA_BASE_URL: http://127.0.0.1:8081
+          CONFLUENCE_BASE_URL: http://127.0.0.1:8082
+        run: node scripts/acceptance/run.mjs --owned --server-only --mode default --output "$RUNNER_TEMP/acceptance-default.json"
+      - name: Custom context, links and supplied acceptance matrix
+        env:
+          JIRA_CONTEXT: /custom-context
+          CONFLUENCE_CONTEXT: /custom-context
+          JIRA_BASE_URL: http://localhost:8081/custom-context
+          CONFLUENCE_BASE_URL: http://localhost:8082/custom-context
         run: |
           node scripts/prepare-context.mjs
           docker compose -f compose.yaml -f compose.context.yaml -p mockup-ci up -d --force-recreate
           npm run wait:services
           node scripts/check-context.mjs
-          node --test services/jira/tests/error-scenarios.test.mjs
+          node --test --test-concurrency=1 services/jira/tests/error-scenarios.test.mjs services/jira/tests/current-user-search.test.mjs services/confluence/tests/personal-space.test.mjs
+          node scripts/acceptance/run.mjs --owned --server-only --mode context --output "$RUNNER_TEMP/acceptance-context.json"
       - name: Service logs
         if: failure()
         run: docker compose -p mockup-ci logs
