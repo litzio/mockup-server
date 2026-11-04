@@ -1,0 +1,23 @@
+{
+  "results": [
+    {
+      "id": 20000,
+      "key": "MOCK",
+      "name": "Mock Space",
+      "type": "global",
+      "_links": {
+        "base": "{{request.baseUrl}}",
+        "context": "",
+        "self": "{{request.baseUrl}}/rest/api/space/MOCK"
+      }
+    }
+  ],
+  "start": 0,
+  "limit": 25,
+  "size": 1,
+  "_links": {
+    "base": "{{request.baseUrl}}",
+    "context": "",
+    "self": "{{request.baseUrl}}/rest/api/space"
+  }
+}

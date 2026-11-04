@@ -1,0 +1,53 @@
+{
+  "id": "20001",
+  "type": "page",
+  "status": "current",
+  "title": "Synthetic integration page",
+  "space": {
+    "id": 20000,
+    "key": "MOCK",
+    "name": "Mock Space",
+    "type": "global",
+    "_links": {
+      "base": "{{request.baseUrl}}",
+      "context": "",
+      "self": "{{request.baseUrl}}/rest/api/space/MOCK"
+    }
+  },
+  "history": {
+    "latest": true,
+    "createdBy": {
+      "type": "known",
+      "username": "mock-user",
+      "userKey": "mock-user-key",
+      "displayName": "Mock User",
+      "_links": {
+        "base": "{{request.baseUrl}}",
+        "context": "",
+        "self": "{{request.baseUrl}}/rest/api/user/current"
+      }
+    },
+    "createdDate": "2026-01-01T00:00:00.000Z"
+  },
+  "version": {
+    "number": 1,
+    "by": {
+      "type": "known",
+      "username": "mock-user",
+      "userKey": "mock-user-key",
+      "displayName": "Mock User",
+      "_links": {
+        "base": "{{request.baseUrl}}",
+        "context": "",
+        "self": "{{request.baseUrl}}/rest/api/user/current"
+      }
+    },
+    "when": "2026-01-01T00:00:00.000Z",
+    "minorEdit": false
+  },
+  "_links": {
+    "base": "{{request.baseUrl}}",
+    "context": "",
+    "self": "{{request.baseUrl}}/rest/api/content/20001"
+  }
+}

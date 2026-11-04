@@ -1,0 +1,19 @@
+{
+  "priority": 10,
+  "request": {
+    "method": "GET",
+    "urlPattern": "/rest/api/(space|content/[1-9][0-9]*(\\?expand=body\\.storage)?)"
+  },
+  "response": {
+    "headers": {
+      "Content-Type": "application/json",
+      "Connection": "close"
+    },
+    "status": 401,
+    "jsonBody": {
+      "statusCode": 401,
+      "message": "Authentication required",
+      "reason": "Unauthorized"
+    }
+  }
+}
