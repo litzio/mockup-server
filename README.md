@@ -21,7 +21,7 @@ CONFLUENCE_BASE_URL=http://localhost:8082
 CONFLUENCE_PAT=mock-confluence-token
 ```
 
-두 제품은 별도 포트를 사용하고 `Authorization: Bearer <PAT>`를 처리합니다. 모의 서버는 정해진 가짜 PAT를 검증합니다. 컨텍스트 경로가 포함된 Base URL과 응답 내 페이지·첨부파일 링크도 고려합니다.
+두 제품은 별도 포트를 사용하고 `Authorization: Bearer <PAT>`를 처리합니다. 모의 서버는 정해진 가짜 PAT를 검증합니다. 컨텍스트 경로가 포함된 Base URL과 지원 self/next/prev 링크를 제공합니다. 첨부파일은 범위 밖입니다.
 
 ## 범위와 검증
 
@@ -66,6 +66,8 @@ Invoke-RestMethod http://localhost:8082/rest/api/user/current -Headers @{Authori
 
 포트는 `.env.example`을 `.env`로 복사하여 변경합니다. 변경한 포트로 테스트하려면 `JIRA_BASE_URL`, `CONFLUENCE_BASE_URL` 환경 변수를 설정합니다. PAT 값은 현재 모듈에 고정된 가짜 값이며 `.env`로 변경하지 않습니다.
 
+빈 context 또는 `/jira`, `/confluence` 설정과 동일 클라이언트 링크 검증은 [연결 설정 절차](docs/context-paths.md)를 따릅니다. 준비 생성물은 `.runtime/`에 분리하며 관리API는 context 밖에 있습니다.
+
 ## 서비스 모듈
 
 ```text
@@ -91,7 +93,7 @@ compose.yaml
 - [Confluence](services/confluence/README.md)
 - [서비스 추가](docs/adding-service.md)
 
-현재 사용자·Jira 프로젝트 목록·키 기반 단일 이슈·Confluence 공간 목록·단일 페이지(storage 본문 선택) 조회·정상 PAT·인증 실패·미지원 요청을 구현했습니다. Jira/Confluence 검색·페이지네이션, 상태 시나리오, 컨텍스트 경로, 폐쇄망 반입 패키지는 후속 범위입니다. 실제 대상 서버 검증은 미실행입니다.
+현재 사용자·Jira 프로젝트/검색/키 및 숫자 ID 이슈·Confluence 공간/페이지 목록/storage 본문·PAT·오류/지연 상태·제품별 context와 지원 링크를 구현했습니다. 폐쇄망 반입 패키지와 최종 통합 인수는 후속 범위입니다. 실제 대상 서버 검증은 미실행입니다.
 
 
 현재 모의 응답은 인증 헤더 재사용 문제를 피하기 위해 연결을 닫습니다. keep-alive·연결 풀 검증은 지원하지 않습니다. 자세한 근거와 제약은 제품별 api-support.md에 기록했습니다.

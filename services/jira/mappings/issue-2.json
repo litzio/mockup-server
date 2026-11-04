@@ -2,12 +2,12 @@
   "priority": 1,
   "request": {
     "method": "GET",
-    "url": "/rest/api/2/issue/MOCK-2",
     "headers": {
       "Authorization": {
         "equalTo": "Bearer mock-jira-token"
       }
-    }
+    },
+    "urlPattern": "/rest/api/2/issue/(MOCK-2|10002)"
   },
   "response": {
     "headers": {

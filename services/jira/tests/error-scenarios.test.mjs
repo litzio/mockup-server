@@ -5,7 +5,7 @@ const products = ['jira', 'confluence'];
 const bases = products.map((p, i) => process.env[p.toUpperCase() + '_BASE_URL'] ?? `http://127.0.0.1:${8081+i}`);
 const fallback = {mockError:'UNSUPPORTED_REQUEST',message:'This request is outside the supported mock contract.'};
 const paths = [
- ['/rest/api/2/myself','/rest/api/2/project', ...['MOCK-1','MOCK-2','MOCK-3','ABSENT-9'].map(k=>'/rest/api/2/issue/'+k), ...['MOCK','EMPTY'].flatMap(p=>['', '&startAt=0&maxResults=2','&startAt=2&maxResults=2','&startAt=4&maxResults=2'].map(q=>'/rest/api/2/search?jql='+encodeURIComponent(`project = ${p} ORDER BY key ASC`)+q))],
+ ['/rest/api/2/myself','/rest/api/2/project', ...['MOCK-1','MOCK-2','MOCK-3','ABSENT-9','10001','10002','10003','99999'].map(k=>'/rest/api/2/issue/'+k), ...['MOCK','EMPTY'].flatMap(p=>['', '&startAt=0&maxResults=2','&startAt=2&maxResults=2','&startAt=4&maxResults=2'].map(q=>'/rest/api/2/search?jql='+encodeURIComponent(`project = ${p} ORDER BY key ASC`)+q))],
  ['/rest/api/user/current','/rest/api/space', ...['20001','20002','20003','99999'].flatMap(id=>['','?expand=body.storage'].map(q=>'/rest/api/content/'+id+q)), ...['MOCK','EMPTY','ABSENT'].flatMap(s=>['','?start=0&limit=2','?start=2&limit=2','?start=4&limit=2'].map(q=>`/rest/api/space/${s}/content/page`+q))]
 ];
 async function admin(i, path, method='GET', body) {

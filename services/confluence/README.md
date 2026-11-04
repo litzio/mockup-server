@@ -9,4 +9,4 @@
 - 페이지: `GET /rest/api/content/{20001,20002,20003}`, 본문은 `?expand=body.storage`
 - [지원 계약과 근거](api-support.md)
 
-현재는 기본 경로만 지원하며 컨텍스트 경로는 미지원입니다. 페이지 상세는 `expand=body.storage`를 선택할 수 있습니다. 공간별 목록 `GET /rest/api/space/MOCK/content/page`는 기본 전체 또는 `?start=0&limit=2`, start=2/4를 지원합니다. EMPTY 목록은 비어 있습니다. scenarios 디렉터리는 상태 시나리오 구현 시 추가합니다.
+빈 context 또는 `/confluence`를 지원합니다. [설정 절차](../../docs/context-paths.md)를 따릅니다. 페이지 상세는 `expand=body.storage`를 선택할 수 있습니다. 공간별 목록 `GET /rest/api/space/MOCK/content/page`는 기본 전체 또는 `?start=0&limit=2`, start=2/4를 지원합니다. EMPTY 목록은 비어 있습니다. 오류 상태는 WireMock 관리API로 선택합니다.
