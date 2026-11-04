@@ -1,0 +1,28 @@
+{
+  "startAt": 3,
+  "maxResults": 1,
+  "total": 14,
+  "issues": [
+    {
+      "id": "10014",
+      "self": "{{request.baseUrl}}/rest/api/2/issue/10014",
+      "key": "MOCK-14",
+      "fields": {
+        "summary": "Synthetic integration task 14",
+        "status": {
+          "self": "{{request.baseUrl}}/rest/api/2/status/1",
+          "id": "1",
+          "name": "Open",
+          "statusCategory": {
+            "key": "new"
+          }
+        },
+        "priority": {
+          "id": "2",
+          "name": "High"
+        },
+        "updated": "2026-01-14T12:00:00.000+0000"
+      }
+    }
+  ]
+}

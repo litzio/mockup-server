@@ -1,0 +1,28 @@
+{
+  "startAt": 6,
+  "maxResults": 1,
+  "total": 8,
+  "issues": [
+    {
+      "id": "10004",
+      "self": "{{request.baseUrl}}/rest/api/2/issue/10004",
+      "key": "MOCK-4",
+      "fields": {
+        "summary": "Synthetic integration task 4",
+        "status": {
+          "self": "{{request.baseUrl}}/rest/api/2/status/2",
+          "id": "2",
+          "name": "In Progress",
+          "statusCategory": {
+            "key": "indeterminate"
+          }
+        },
+        "priority": {
+          "id": "2",
+          "name": "High"
+        },
+        "updated": "2026-01-04T12:00:00.000+0000"
+      }
+    }
+  ]
+}

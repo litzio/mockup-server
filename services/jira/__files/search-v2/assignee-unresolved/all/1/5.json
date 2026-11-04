@@ -1,0 +1,63 @@
+{
+  "startAt": 5,
+  "maxResults": 1,
+  "total": 9,
+  "issues": [
+    {
+      "id": "10007",
+      "self": "{{request.baseUrl}}/rest/api/2/issue/10007",
+      "key": "MOCK-7",
+      "fields": {
+        "summary": "Synthetic integration task 7",
+        "description": "Synthetic issue 7 for local integration testing.",
+        "project": {
+          "self": "{{request.baseUrl}}/rest/api/2/project/10000",
+          "id": "10000",
+          "key": "MOCK",
+          "name": "Mock Project",
+          "projectTypeKey": "software"
+        },
+        "status": {
+          "self": "{{request.baseUrl}}/rest/api/2/status/2",
+          "id": "2",
+          "name": "In Progress",
+          "statusCategory": {
+            "key": "indeterminate"
+          }
+        },
+        "issuetype": {
+          "self": "{{request.baseUrl}}/rest/api/2/issuetype/3",
+          "id": "3",
+          "name": "Task",
+          "subtask": false
+        },
+        "assignee": {
+          "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user",
+          "key": "mock-user-key",
+          "name": "mock-user",
+          "emailAddress": "mock@example.invalid",
+          "displayName": "Mock User",
+          "active": true,
+          "timeZone": "Asia/Seoul",
+          "locale": "ko_KR"
+        },
+        "reporter": {
+          "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user",
+          "key": "mock-user-key",
+          "name": "mock-user",
+          "emailAddress": "mock@example.invalid",
+          "displayName": "Mock User",
+          "active": true,
+          "timeZone": "Asia/Seoul",
+          "locale": "ko_KR"
+        },
+        "updated": "2026-01-07T12:00:00.000+0000",
+        "priority": {
+          "id": "3",
+          "name": "Medium"
+        },
+        "resolution": null
+      }
+    }
+  ]
+}

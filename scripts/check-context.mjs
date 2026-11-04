@@ -32,7 +32,7 @@ export async function checkContext(product, base, pat) {
   if (product === 'jira') {
     validateLinks(await get('/rest/api/2/project'));
     const issues = await get('/rest/api/2/search?jql=' + encodeURIComponent('project = MOCK ORDER BY key ASC'));
-    assert.equal(issues.total, 3);
+    assert.equal(issues.total, 18);
     validateLinks(issues);
     for (const issue of issues.issues) {
       assert.deepEqual(await get(issue.self), issue);

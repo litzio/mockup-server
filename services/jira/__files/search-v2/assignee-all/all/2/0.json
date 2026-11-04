@@ -1,0 +1,119 @@
+{
+  "startAt": 0,
+  "maxResults": 2,
+  "total": 14,
+  "issues": [
+    {
+      "id": "10018",
+      "self": "{{request.baseUrl}}/rest/api/2/issue/10018",
+      "key": "MOCK-18",
+      "fields": {
+        "summary": "Synthetic integration task 18",
+        "description": "Synthetic issue 18 for local integration testing.",
+        "project": {
+          "self": "{{request.baseUrl}}/rest/api/2/project/10000",
+          "id": "10000",
+          "key": "MOCK",
+          "name": "Mock Project",
+          "projectTypeKey": "software"
+        },
+        "status": {
+          "self": "{{request.baseUrl}}/rest/api/2/status/3",
+          "id": "3",
+          "name": "Done",
+          "statusCategory": {
+            "key": "done"
+          }
+        },
+        "issuetype": {
+          "self": "{{request.baseUrl}}/rest/api/2/issuetype/3",
+          "id": "3",
+          "name": "Task",
+          "subtask": false
+        },
+        "assignee": {
+          "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user",
+          "key": "mock-user-key",
+          "name": "mock-user",
+          "emailAddress": "mock@example.invalid",
+          "displayName": "Mock User",
+          "active": true,
+          "timeZone": "Asia/Seoul",
+          "locale": "ko_KR"
+        },
+        "reporter": {
+          "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user",
+          "key": "mock-user-key",
+          "name": "mock-user",
+          "emailAddress": "mock@example.invalid",
+          "displayName": "Mock User",
+          "active": true,
+          "timeZone": "Asia/Seoul",
+          "locale": "ko_KR"
+        },
+        "updated": "2026-01-18T12:00:00.000+0000",
+        "priority": null,
+        "resolution": {
+          "id": "1",
+          "name": "Fixed"
+        }
+      }
+    },
+    {
+      "id": "10017",
+      "self": "{{request.baseUrl}}/rest/api/2/issue/10017",
+      "key": "MOCK-17",
+      "fields": {
+        "summary": "Synthetic integration task 17",
+        "description": "Synthetic issue 17 for local integration testing.",
+        "project": {
+          "self": "{{request.baseUrl}}/rest/api/2/project/10000",
+          "id": "10000",
+          "key": "MOCK",
+          "name": "Mock Project",
+          "projectTypeKey": "software"
+        },
+        "status": {
+          "self": "{{request.baseUrl}}/rest/api/2/status/1",
+          "id": "1",
+          "name": "Open",
+          "statusCategory": {
+            "key": "new"
+          }
+        },
+        "issuetype": {
+          "self": "{{request.baseUrl}}/rest/api/2/issuetype/3",
+          "id": "3",
+          "name": "Task",
+          "subtask": false
+        },
+        "assignee": {
+          "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user",
+          "key": "mock-user-key",
+          "name": "mock-user",
+          "emailAddress": "mock@example.invalid",
+          "displayName": "Mock User",
+          "active": true,
+          "timeZone": "Asia/Seoul",
+          "locale": "ko_KR"
+        },
+        "reporter": {
+          "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user-b",
+          "key": "mock-user-b-key",
+          "name": "mock-user-b",
+          "emailAddress": "mock-user-b@example.invalid",
+          "displayName": "Mock User B",
+          "active": true,
+          "timeZone": "Asia/Seoul",
+          "locale": "ko_KR"
+        },
+        "updated": "2026-01-17T12:00:00.000+0000",
+        "priority": {
+          "id": "3",
+          "name": "Medium"
+        },
+        "resolution": null
+      }
+    }
+  ]
+}

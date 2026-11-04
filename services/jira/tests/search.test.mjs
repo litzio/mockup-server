@@ -29,7 +29,7 @@ test('B-J/J-L: project → all pages → details, complete coherent stateless sy
   const user = await request('/rest/api/2/myself');
   assert.equal(user.status, 200);
   for (const project of projects.body) {
-    const expectedKeys = project.key === 'MOCK' ? ['MOCK-1', 'MOCK-2', 'MOCK-3'] : [];
+    const expectedKeys = project.key === 'MOCK' ? Array.from({length:18}, (_,i)=>`MOCK-${i+1}`) : [];
     const all = await request(search(project.key));
     assert.equal(all.status, 200);
     assert.deepEqual(Object.keys(all.body).sort(), ['issues', 'maxResults', 'startAt', 'total']);
@@ -38,7 +38,7 @@ test('B-J/J-L: project → all pages → details, complete coherent stateless sy
     assert.equal(all.body.total, expectedKeys.length);
     assert.deepEqual(all.body.issues.map(i => i.key), expectedKeys);
     const collected = [];
-    for (const start of [0, 2, 4]) {
+    for (const start of [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20]) {
       const path = search(project.key, start);
       const page = await request(path);
       assert.equal(page.status, 200);
@@ -59,11 +59,17 @@ test('B-J/J-L: project → all pages → details, complete coherent stateless sy
       assert.equal(issue.id, String(10001 + index));
       assert.equal(issue.self, base + '/rest/api/2/issue/' + issue.id);
       assert.deepEqual(Object.keys(issue).sort(), ['fields', 'id', 'key', 'self']);
-      assert.deepEqual(Object.keys(issue.fields).sort(), ['assignee', 'description', 'issuetype', 'project', 'reporter', 'status', 'summary']);
+      assert.deepEqual(Object.keys(issue.fields).sort(), ['assignee', 'description', 'issuetype', 'priority', 'project', 'reporter', 'resolution', 'status', 'summary', 'updated']);
       assert.deepEqual(issue.fields.project, project);
-      assert.deepEqual(issue.fields.assignee, user.body);
-      assert.deepEqual(issue.fields.reporter, user.body);
-      assert.equal(issue.fields.status.name, 'Open');
+      if(index<3) {
+        assert.deepEqual(issue.fields.assignee, user.body);
+        assert.deepEqual(issue.fields.reporter, user.body);
+        assert.equal(issue.fields.status.name, 'Open');
+      } else {
+        assert.ok(['mock-user-key','mock-user-b-key'].includes(issue.fields.assignee.key));
+        assert.ok(['mock-user-key','mock-user-b-key'].includes(issue.fields.reporter.key));
+        assert.ok(['Open','In Progress','Done'].includes(issue.fields.status.name));
+      }
       assert.equal(issue.fields.issuetype.name, 'Task');
       assert.equal(typeof issue.fields.summary, 'string');
       assert.equal(typeof issue.fields.description, 'string');

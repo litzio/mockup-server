@@ -15,7 +15,10 @@
     "status": {
       "self": "{{request.baseUrl}}/rest/api/2/status/1",
       "id": "1",
-      "name": "Open"
+      "name": "Open",
+      "statusCategory": {
+        "key": "new"
+      }
     },
     "issuetype": {
       "self": "{{request.baseUrl}}/rest/api/2/issuetype/3",
@@ -42,6 +45,15 @@
       "active": true,
       "timeZone": "Asia/Seoul",
       "locale": "ko_KR"
+    },
+    "updated": "2026-01-02T12:00:00.000+0000",
+    "priority": {
+      "id": "2",
+      "name": "High"
+    },
+    "resolution": {
+      "id": "1",
+      "name": "Fixed"
     }
   }
 }

@@ -1,0 +1,28 @@
+{
+  "startAt": 4,
+  "maxResults": 2,
+  "total": 5,
+  "issues": [
+    {
+      "id": "10001",
+      "self": "{{request.baseUrl}}/rest/api/2/issue/10001",
+      "key": "MOCK-1",
+      "fields": {
+        "summary": "Synthetic integration task",
+        "status": {
+          "self": "{{request.baseUrl}}/rest/api/2/status/1",
+          "id": "1",
+          "name": "Open",
+          "statusCategory": {
+            "key": "new"
+          }
+        },
+        "priority": {
+          "id": "3",
+          "name": "Medium"
+        },
+        "updated": "2026-01-01T12:00:00.000+0000"
+      }
+    }
+  ]
+}

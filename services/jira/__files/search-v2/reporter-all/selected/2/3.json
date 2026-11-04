@@ -1,0 +1,46 @@
+{
+  "startAt": 3,
+  "maxResults": 2,
+  "total": 13,
+  "issues": [
+    {
+      "id": "10012",
+      "self": "{{request.baseUrl}}/rest/api/2/issue/10012",
+      "key": "MOCK-12",
+      "fields": {
+        "summary": "Synthetic integration task 12",
+        "status": {
+          "self": "{{request.baseUrl}}/rest/api/2/status/3",
+          "id": "3",
+          "name": "Done",
+          "statusCategory": {
+            "key": "done"
+          }
+        },
+        "priority": null,
+        "updated": "2026-01-12T12:00:00.000+0000"
+      }
+    },
+    {
+      "id": "10011",
+      "self": "{{request.baseUrl}}/rest/api/2/issue/10011",
+      "key": "MOCK-11",
+      "fields": {
+        "summary": "Synthetic integration task 11",
+        "status": {
+          "self": "{{request.baseUrl}}/rest/api/2/status/1",
+          "id": "1",
+          "name": "Open",
+          "statusCategory": {
+            "key": "new"
+          }
+        },
+        "priority": {
+          "id": "3",
+          "name": "Medium"
+        },
+        "updated": "2026-01-11T12:00:00.000+0000"
+      }
+    }
+  ]
+}
