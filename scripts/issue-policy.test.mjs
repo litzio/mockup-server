@@ -128,4 +128,3 @@ test('the checked-in workflow entry executes the shared checker without a depend
     else process.env.GITHUB_WORKSPACE = previous;
   }
 });
-

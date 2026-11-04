@@ -27,4 +27,3 @@ jobs:
             const { pathToFileURL } = await import('node:url');
             const { checkIssueEvent } = await import(pathToFileURL(process.env.GITHUB_WORKSPACE + '/scripts/check-issue-event.mjs').href);
             await checkIssueEvent({ github, context, core });
-

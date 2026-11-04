@@ -23,4 +23,3 @@ export async function checkIssueEvent({ github, context, core }) {
   else if (!comment && result.errors.length) await github.rest.issues.createComment({ ...params, body });
   core.info(result.errors.length ? `${number}: ${result.errors.join(' ')}` : `${number}: issue policy passed`);
 }
-

@@ -166,4 +166,3 @@ test('merge_group skips GitHub queue merges while PR events still validate autho
   assert.notEqual(rejected.status, 0);
   assert.match(rejected.stderr, /AI-Agent/);
 });
-

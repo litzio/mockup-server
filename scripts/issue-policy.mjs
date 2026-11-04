@@ -154,4 +154,3 @@ export function metadataChanges(issue, result = validateIssue(issue)) {
     (result.type === 'decision' && ['status:needs-decision', 'status:deferred'].includes(name));
   return { add: [...wanted].filter(name => !existing.includes(name)), remove: existing.filter(name => managed(name) && !wanted.has(name)) };
 }
-
