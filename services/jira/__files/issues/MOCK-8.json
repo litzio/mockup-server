@@ -1,0 +1,50 @@
+{
+  "id": "10008",
+  "key": "MOCK-8",
+  "self": "{{request.baseUrl}}/rest/api/2/issue/10008",
+  "fields": {
+    "summary": "Synthetic active assignment with a long title for wrapping and filtering",
+    "description": "Synthetic issue for local integration testing.",
+    "project": {
+      "id": "10000",
+      "key": "MOCK",
+      "name": "Synthetic Project",
+      "self": "{{request.baseUrl}}/rest/api/2/project/10000",
+      "projectTypeKey": "software",
+      "archived": false
+    },
+    "status": {
+      "name": "In Progress",
+      "statusCategory": {
+        "key": "indeterminate",
+        "id": 4
+      }
+    },
+    "issuetype": {
+      "id": "3",
+      "name": "Task",
+      "subtask": false
+    },
+    "assignee": {
+      "name": "mock-user-a",
+      "key": "mock-user-a-key",
+      "displayName": "Synthetic User A",
+      "active": true,
+      "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user-a"
+    },
+    "reporter": {
+      "name": "mock-user-b",
+      "key": "mock-user-b-key",
+      "displayName": "Synthetic User B",
+      "active": true,
+      "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user-b"
+    },
+    "updated": "2026-01-01T09:00:00.000+0000",
+    "priority": {
+      "name": "High"
+    },
+    "resolution": null,
+    "created": "2025-12-01T09:00:00.000+0000",
+    "resolutiondate": null
+  }
+}

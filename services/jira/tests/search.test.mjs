@@ -29,7 +29,7 @@ test('B-J/J-L: project → all pages → details, complete coherent stateless sy
   const user = await request('/rest/api/2/myself');
   assert.equal(user.status, 200);
   for (const project of projects.body) {
-    const expectedKeys = project.key === 'MOCK' ? ['MOCK-1', 'MOCK-2', 'MOCK-3'] : [];
+    const expectedKeys = project.key === 'MOCK' ? Array.from({length:8}, (_,i)=>`MOCK-${i+1}`) : [];
     const all = await request(search(project.key));
     assert.equal(all.status, 200);
     assert.deepEqual(Object.keys(all.body).sort(), ['issues', 'maxResults', 'startAt', 'total']);
@@ -38,7 +38,7 @@ test('B-J/J-L: project → all pages → details, complete coherent stateless sy
     assert.equal(all.body.total, expectedKeys.length);
     assert.deepEqual(all.body.issues.map(i => i.key), expectedKeys);
     const collected = [];
-    for (const start of [0, 2, 4]) {
+    for (const start of [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20]) {
       const path = search(project.key, start);
       const page = await request(path);
       assert.equal(page.status, 200);
@@ -59,11 +59,16 @@ test('B-J/J-L: project → all pages → details, complete coherent stateless sy
       assert.equal(issue.id, String(10001 + index));
       assert.equal(issue.self, base + '/rest/api/2/issue/' + issue.id);
       assert.deepEqual(Object.keys(issue).sort(), ['fields', 'id', 'key', 'self']);
-      assert.deepEqual(Object.keys(issue.fields).sort(), ['assignee', 'description', 'issuetype', 'project', 'reporter', 'status', 'summary']);
+      assert.deepEqual(Object.keys(issue.fields).sort(), ['assignee', 'created', 'description', 'issuetype', 'priority', 'project', 'reporter', 'resolution', 'resolutiondate', 'status', 'summary', 'updated']);
       assert.deepEqual(issue.fields.project, project);
-      assert.deepEqual(issue.fields.assignee, user.body);
-      assert.deepEqual(issue.fields.reporter, user.body);
-      assert.equal(issue.fields.status.name, 'Open');
+      const assigned=['mock-user-a','mock-user-a','mock-user-b','mock-user-b','mock-user-b','mock-user-a',null,'mock-user-a'];
+      const reported=['mock-user-b','mock-user-a','mock-user-a','mock-user-a','mock-user-c','mock-user-c','mock-user-a','mock-user-b'];
+      const statuses=['Open','Done','In Progress','Done','Open','Closed','Open','In Progress'];
+      assert.equal(issue.fields.assignee?.name??null,assigned[index]);
+      assert.equal(issue.fields.reporter.name,reported[index]);
+      if(assigned[index]==='mock-user-a') assert.deepEqual(issue.fields.assignee,user.body);
+      if(reported[index]==='mock-user-a') assert.deepEqual(issue.fields.reporter,user.body);
+      assert.equal(issue.fields.status.name,statuses[index]);
       assert.equal(issue.fields.issuetype.name, 'Task');
       assert.equal(typeof issue.fields.summary, 'string');
       assert.equal(typeof issue.fields.description, 'string');
@@ -91,7 +96,7 @@ test('J-L: every supported search shape requires exact PAT, no protected data on
     assert.equal((await request(path)).status, 200);
     for (const auth of [null, 'Bearer wrong', 'Bearer MOCK-JIRA-TOKEN', 'bearer mock-jira-token', 'Basic abc', 'Bearer mock-confluence-token']) {
       assert.deepEqual(await request(path, auth), {
-        status: 401, body: { errorMessages: ['Authentication required'], errors: {} },
+        status: 401, body: { 'status-code': 401, message: 'Authentication required' },
       });
     }
   }

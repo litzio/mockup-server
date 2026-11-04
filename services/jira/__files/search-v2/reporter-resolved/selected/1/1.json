@@ -1,0 +1,26 @@
+{
+  "startAt": 1,
+  "maxResults": 1,
+  "total": 2,
+  "issues": [
+    {
+      "id": "10004",
+      "key": "MOCK-4",
+      "self": "{{request.baseUrl}}/rest/api/2/issue/10004",
+      "fields": {
+        "summary": "Synthetic completed report",
+        "status": {
+          "name": "Done",
+          "statusCategory": {
+            "key": "done",
+            "id": 3
+          }
+        },
+        "priority": {
+          "name": "High"
+        },
+        "updated": "2026-01-05T09:00:00.000+0000"
+      }
+    }
+  ]
+}

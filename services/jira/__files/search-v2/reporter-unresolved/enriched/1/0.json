@@ -1,0 +1,43 @@
+{
+  "startAt": 0,
+  "maxResults": 1,
+  "total": 2,
+  "issues": [
+    {
+      "id": "10003",
+      "key": "MOCK-3",
+      "self": "{{request.baseUrl}}/rest/api/2/issue/10003",
+      "fields": {
+        "summary": "Synthetic active report",
+        "status": {
+          "name": "In Progress",
+          "statusCategory": {
+            "key": "indeterminate",
+            "id": 4
+          }
+        },
+        "priority": {
+          "name": "Low"
+        },
+        "updated": "2026-01-06T09:00:00.000+0000",
+        "assignee": {
+          "name": "mock-user-b",
+          "key": "mock-user-b-key",
+          "displayName": "Synthetic User B",
+          "active": true,
+          "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user-b"
+        },
+        "reporter": {
+          "name": "mock-user-a",
+          "key": "mock-user-a-key",
+          "displayName": "Synthetic User A",
+          "active": true,
+          "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user-a"
+        },
+        "resolution": null,
+        "created": "2025-12-01T09:00:00.000+0000",
+        "resolutiondate": null
+      }
+    }
+  ]
+}

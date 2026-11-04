@@ -16,10 +16,10 @@ test('jira: coherent project list and single issue, stateless reads', async () =
   assert.equal(projects.status, 200);
   assert.deepEqual(projects.body, [{
     self: base + '/rest/api/2/project/10000', id: '10000',
-    key: 'MOCK', name: 'Mock Project', projectTypeKey: 'software',
+    key: 'MOCK', name: 'Synthetic Project', projectTypeKey: 'software', archived: false,
   }, {
     self: base + '/rest/api/2/project/11000', id: '11000',
-    key: 'EMPTY', name: 'Empty Project', projectTypeKey: 'software',
+    key: 'EMPTY', name: 'Synthetic Empty Project', projectTypeKey: 'software', archived: false,
   }]);
   const issue = await request('/rest/api/2/issue/MOCK-1');
   assert.equal(issue.status, 200);
@@ -27,12 +27,13 @@ test('jira: coherent project list and single issue, stateless reads', async () =
   assert.equal(issue.body.key, 'MOCK-1');
   assert.equal(issue.body.self, base + '/rest/api/2/issue/10001');
   assert.deepEqual(issue.body.fields.project, projects.body[0]);
-  assert.equal(issue.body.fields.summary, 'Synthetic integration task');
+  assert.equal(issue.body.fields.summary, 'Synthetic open assignment');
   assert.equal(issue.body.fields.status.name, 'Open');
   assert.equal(issue.body.fields.issuetype.name, 'Task');
   const user = await request('/rest/api/2/myself');
   assert.deepEqual(issue.body.fields.assignee, user.body);
-  assert.deepEqual(issue.body.fields.reporter, user.body);
+  assert.equal(issue.body.fields.reporter.name, 'mock-user-b');
+  assert.equal(issue.body.fields.reporter.key, 'mock-user-b-key');
   assert.deepEqual(await request('/rest/api/2/issue/MOCK-1'), issue);
 });
 for (const path of ['/rest/api/2/project', '/rest/api/2/issue/MOCK-1', '/rest/api/2/issue/MOCK-2', '/rest/api/2/issue/MOCK-3', '/rest/api/2/issue/MOCK-999', '/rest/api/2/issue/OTHER-1']) {
@@ -41,7 +42,7 @@ for (const path of ['/rest/api/2/project', '/rest/api/2/issue/MOCK-1', '/rest/ap
     // Token alone changes case immediately after a valid request.
     for (const auth of ['Bearer MOCK-JIRA-TOKEN', null, 'Bearer wrong', 'Basic abc', 'Bearer mock-confluence-token']) {
       assert.deepEqual(await request(path, auth), {
-        status: 401, body: { errorMessages: ['Authentication required'], errors: {} },
+        status: 401, body: { 'status-code': 401, message: 'Authentication required' },
       });
     }
   });
