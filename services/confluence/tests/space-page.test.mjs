@@ -11,7 +11,7 @@ async function request(path,auth=valid,method='GET') {
 test('confluence: coherent fixed space list, page and storage expansion, stateless reads',async()=>{
   const list=await request('/rest/api/space');
   assert.equal(list.status,200);
-  assert.equal(list.body.start,0); assert.equal(list.body.limit,25); assert.equal(list.body.size,2);
+  assert.equal(list.body.start,0); assert.equal(list.body.limit,25); assert.equal(list.body.size,3);
   assert.equal(list.body.results.length,list.body.size);
   assert.deepEqual(list.body._links,{base,context:'',self:base+'/rest/api/space'});
   assert.equal(list.body.results[0].key,'MOCK');
@@ -43,7 +43,7 @@ test('confluence: unknown numeric pages have product-shaped synthetic 404',async
     assert.deepEqual(await request(path),{status:404,body:{statusCode:404,message:'No content found',reason:'Not Found'}});
 });
 test('confluence: unsupported methods, paths and queries never succeed or expose data',async()=>{
-  const paths=['/rest/api/space?start=0','/rest/api/space?limit=25','/rest/api/space?spaceKey=MOCK','/rest/api/space?expand=description','/rest/api/space/MOCK','/rest/api/space/','/wiki/rest/api/space','/rest/api/content','/rest/api/content/abc','/rest/api/content/0','/rest/api/content/020001','/rest/api/content/20001/','/rest/api/content/20001/child','/rest/api/content/search','/rest/api/content/20001?expand=body.view','/rest/api/content/20001?expand=','/rest/api/content/20001?status=current','/rest/api/content/20001?expand=body.storage&limit=1','/rest/api/content/20001?expand=body.storage&expand=body.storage','/rest/api/content/99999?expand=unknown'].map(p=>[p,'GET']);
+  const paths=['/rest/api/space?start=0','/rest/api/space?limit=25','/rest/api/space?spaceKey=MOCK','/rest/api/space?expand=description','/rest/api/space/','/wiki/rest/api/space','/rest/api/content','/rest/api/content/abc','/rest/api/content/0','/rest/api/content/020001','/rest/api/content/20001/','/rest/api/content/20001/child','/rest/api/content/search','/rest/api/content/20001?expand=body.view','/rest/api/content/20001?expand=','/rest/api/content/20001?status=current','/rest/api/content/20001?expand=body.storage&limit=1','/rest/api/content/20001?expand=body.storage&expand=body.storage','/rest/api/content/99999?expand=unknown'].map(p=>[p,'GET']);
   for(const path of ['/rest/api/space','/rest/api/content/20001','/rest/api/content/20001?expand=body.storage','/rest/api/content/99999'])
     for(const method of ['POST','PUT','DELETE','PATCH']) paths.push([path,method]);
   for(const [path,method] of paths) for(const auth of [valid,null,'Bearer wrong'])

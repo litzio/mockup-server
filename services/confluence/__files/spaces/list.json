@@ -21,11 +21,22 @@
         "context": "",
         "self": "{{request.baseUrl}}/rest/api/space/EMPTY"
       }
+    },
+    {
+      "id": 22000,
+      "key": "~mock-user-a",
+      "name": "Mock Personal Space A",
+      "type": "personal",
+      "_links": {
+        "base": "{{request.baseUrl}}",
+        "context": "",
+        "self": "{{request.baseUrl}}/rest/api/space/~mock-user-a"
+      }
     }
   ],
   "start": 0,
   "limit": 25,
-  "size": 2,
+  "size": 3,
   "_links": {
     "base": "{{request.baseUrl}}",
     "context": "",

@@ -10,12 +10,12 @@ async function get(path,auth=valid,method='GET') {
  return {status:r.status,body:method==='HEAD'?null:await r.json()};
 }
 test('B-C/C-L: spaces → all pages → detail → storage; self/next/prev traversal is complete',async()=>{
- const spaces=(await get('/rest/api/space')).body;assert.deepEqual(spaces.results.map(s=>[s.id,s.key]),[[20000,'MOCK'],[21000,'EMPTY']]);
+ const spaces=(await get('/rest/api/space')).body;assert.deepEqual(spaces.results.map(s=>[s.id,s.key]),[[20000,'MOCK'],[21000,'EMPTY'],[22000,'~mock-user-a']]);
  const user=(await get('/rest/api/user/current')).body;
  for(const space of spaces.results) {
   const path='/rest/api/space/'+space.key+'/content/page';
   const all=await get(path);assert.equal(all.status,200);assert.equal(all.body.start,0);assert.equal(all.body.limit,25);
-  const expected=space.key==='MOCK'?['20001','20002','20003']:[];
+  const expected=space.key==='MOCK'?['20001','20002','20003']:space.key==='~mock-user-a'?['22001','22002','22003']:[];
   assert.deepEqual(all.body.results.map(p=>p.id),expected);assert.equal(all.body.size,expected.length);
   assert.deepEqual(all.body._links,{base,context:'',self:base+path});assert.deepEqual(await get(all.body._links.self),all);
   for(const item of all.body.results) {
@@ -25,7 +25,7 @@ test('B-C/C-L: spaces → all pages → detail → storage; self/next/prev trave
    assert.equal(detail.body.body,undefined);assert.deepEqual(detail.body.history.createdBy,user);assert.deepEqual(detail.body.version.by,user);
    const expanded=await get(item._links.self+'?expand=body%2Estorage');assert.equal(expanded.status,200);
    const {body,...metadata}=expanded.body;assert.deepEqual(metadata,detail.body);assert.equal(body.storage.representation,'storage');
-   assert.equal(body.storage.value,item.id==='20001'?'<p>Synthetic integration page body.</p>':`<p>Synthetic integration page ${item.id} body.</p>`);
+   assert.equal(body.storage.value,item.id==='20001'?'<p>Synthetic integration page body.</p>':(space.key==='~mock-user-a'?`<p>Synthetic personal page ${item.id} body.</p>`:`<p>Synthetic integration page ${item.id} body.</p>`));
   }
   const traversed=[];let next=path+'?start=0&limit=2';let first;
   while(next) {
