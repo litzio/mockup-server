@@ -33,7 +33,7 @@ CONFLUENCE_PAT=mock-confluence-token
 
 ## 현재 상태
 
-서비스 모듈 기반 실행 구성과 현재 사용자·Jira 프로젝트 목록·단일 이슈·Confluence 공간 목록·페이지 조회와 PAT HTTP 테스트를 구현했습니다. 폐쇄망 실행에 필요한 고정 버전 런타임·실행 파일 또는 이미지를 사전 반입하는 구성을 마련할 예정입니다.
+서비스 모듈 기반 실행 구성과 Jira·Confluence의 읽기·오류·context HTTP 테스트를 제공합니다. 고정 이미지와 합성 데이터, 실행·검증 도구를 반입하는 [폐쇄망 구성과 격리 검증 절차](docs/offline.md)를 제공합니다.
 
 v1의 후속 지원 범위와 완료 판정은 [v1 계약](docs/v1-contract.md)에 확정했습니다. 이 문서의 계획은 현재 구현 완료를 뜻하지 않습니다.
 
@@ -93,7 +93,7 @@ compose.yaml
 - [Confluence](services/confluence/README.md)
 - [서비스 추가](docs/adding-service.md)
 
-현재 사용자·Jira 프로젝트/검색/키 및 숫자 ID 이슈·Confluence 공간/페이지 목록/storage 본문·PAT·오류/지연 상태·제품별 context와 지원 링크를 구현했습니다. 폐쇄망 반입 패키지와 최종 통합 인수는 후속 범위입니다. 실제 대상 서버 검증은 미실행입니다.
+현재 사용자·Jira 프로젝트/검색/키 및 숫자 ID 이슈·Confluence 공간/페이지 목록/storage 본문·PAT·오류/지연 상태·제품별 context와 지원 링크를 구현했습니다. 폐쇄망 반입 도구와 재현 절차는 [별도 문서](docs/offline.md), 최종 v1 통합 판정은 #15에서 다룹니다. 실제 대상 서버 검증은 미실행입니다.
 
 
 현재 모의 응답은 인증 헤더 재사용 문제를 피하기 위해 연결을 닫습니다. keep-alive·연결 풀 검증은 지원하지 않습니다. 자세한 근거와 제약은 제품별 api-support.md에 기록했습니다.

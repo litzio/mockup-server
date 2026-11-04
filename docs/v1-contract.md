@@ -98,7 +98,7 @@ v1에서 추적 성공이 필수인 링크는 Jira issue self와 Confluence page
 
 ## O: 폐쇄망 반입 환경과 실행 (#14)
 
-v1 배포 대상은 `linux/amd64` WireMock `3.13.2` 이미지다. 실행 환경은 Windows x64 + PowerShell 7 + Docker Desktop Linux engine/Compose v2, 검증 런타임은 Node.js 24다. #14는 실제 사용한 패치 버전을 기록한다. 실측하지 않은 OS/아키텍처까지 지원을 일반화하지 않는다. 런타임은 사전 준비하며 설치·전역 설정 변경은 자동 수행하지 않는다.
+v1 배포 대상은 `linux/amd64` WireMock `3.13.2` 이미지다. 실행 환경은 Windows x64 + PowerShell 7 + Docker Desktop Linux engine/Compose plugin(기존 Compose v2 명칭), 검증 런타임은 Node.js 24다. #14의 실측 Compose plugin 버전은 5.4.0이며 전체 패치 버전·반입 및 재현 절차는 [폐쇄망 구성](offline.md)에 기록한다. 실측하지 않은 OS/아키텍처까지 지원을 일반화하지 않는다. 런타임은 사전 준비하며 설치·전역 설정 변경은 자동 수행하지 않는다.
 
 온라인 준비와 오프라인 실행을 구분한다. 반입물은 고정태그/이미지ID/아키텍처를 기록한 이미지 아카이브, Compose 구성, 모든 매핑·합성 데이터, 실행/종료/초기화/준비확인/HTTP 검증에 필요한 파일·의존물·절차, 전체 파일 SHA-256 목록과 원본commit을 포함한다. 실행 중 CDN·npm 다운로드·레지스트리pull을 요구하지 않는다. 검증에 npm 의존물이 필요하면 함께 반입하며 개발자의 node_modules/cache를 암묵적으로 사용하지 않는다.
 
@@ -118,7 +118,7 @@ v1 배포 대상은 `linux/amd64` WireMock `3.13.2` 이미지다. 실행 환경�
 | B-C/C-L | space→전체페이지→storage본문, 빈/마지막/범위밖 페이지, ID/관계 일관성, 인증·미지원 경계 | #11 ← #9 | 새v1 계약 미실행 |
 | E | 모든 상태, PAT우선/데이터비노출, 제품격리, 리셋 후 반복 | #12 ← #10/#11 | 미실행 |
 | U | 같은 클라이언트의 기본/변경port·host·context와 지원링크, 인증회귀 | #13 ← #10/#11 | 미실행 |
-| O | 차단증거, 체크섬, cache비의존 반입실행/종료/초기화/재실행 | #14 ← #12/#13 | 미실행 |
+| O | 차단증거, 체크섬, cache비의존 반입실행/종료/초기화/재실행 | #14 ← #12/#13 | [#14 source a5645c6 PASS](offline.md); #15 통합 main 재검증 예정 |
 | A | 최종통합commit의 위 증거 집계, 필수CI와merge queue 결과 | #15 ← #9~#14 | 미실행 |
 
 결과는 PASS/FAIL/미실행을 구분한다. 필수 항목에 FAIL/미실행이 있으면 완료하지 않는다. CI head와queue 통합검증commit을 구분하고 queue 성공 및main 반영을 확인한다. #9~#15의 변경이main에 통합되고 최종파일목록·알려진제약과 모든 필수 증거가 있을 때만 #8에 **모의 서버 v1 개발 완료**로 판정한다. 실제 제품 호환성 보증과 구분한다.
