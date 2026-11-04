@@ -17,6 +17,9 @@ test('jira: coherent project list and single issue, stateless reads', async () =
   assert.deepEqual(projects.body, [{
     self: base + '/rest/api/2/project/10000', id: '10000',
     key: 'MOCK', name: 'Mock Project', projectTypeKey: 'software',
+  }, {
+    self: base + '/rest/api/2/project/11000', id: '11000',
+    key: 'EMPTY', name: 'Empty Project', projectTypeKey: 'software',
   }]);
   const issue = await request('/rest/api/2/issue/MOCK-1');
   assert.equal(issue.status, 200);
@@ -32,7 +35,7 @@ test('jira: coherent project list and single issue, stateless reads', async () =
   assert.deepEqual(issue.body.fields.reporter, user.body);
   assert.deepEqual(await request('/rest/api/2/issue/MOCK-1'), issue);
 });
-for (const path of ['/rest/api/2/project', '/rest/api/2/issue/MOCK-1', '/rest/api/2/issue/MOCK-999', '/rest/api/2/issue/OTHER-1']) {
+for (const path of ['/rest/api/2/project', '/rest/api/2/issue/MOCK-1', '/rest/api/2/issue/MOCK-2', '/rest/api/2/issue/MOCK-3', '/rest/api/2/issue/MOCK-999', '/rest/api/2/issue/OTHER-1']) {
   test('jira: auth isolation ' + path, async () => {
     assert.ok([200, 404].includes((await request(path)).status));
     // Token alone changes case immediately after a valid request.

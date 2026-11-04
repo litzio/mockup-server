@@ -1,0 +1,28 @@
+{
+  "priority": 1,
+  "request": {
+    "method": "GET",
+    "urlPattern": "/rest/api/2/search\\?(?:(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+)",
+    "queryParameters": {
+      "jql": {
+        "equalTo": "project = MOCK ORDER BY key ASC"
+      }
+    },
+    "headers": {
+      "Authorization": {
+        "equalTo": "Bearer mock-jira-token"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json",
+      "Connection": "close"
+    },
+    "bodyFileName": "search/mock-all.json",
+    "transformers": [
+      "response-template"
+    ]
+  }
+}

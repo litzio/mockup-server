@@ -5,5 +5,12 @@
     "key": "MOCK",
     "name": "Mock Project",
     "projectTypeKey": "software"
+  },
+  {
+    "self": "{{request.baseUrl}}/rest/api/2/project/11000",
+    "id": "11000",
+    "key": "EMPTY",
+    "name": "Empty Project",
+    "projectTypeKey": "software"
   }
 ]
