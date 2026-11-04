@@ -10,11 +10,22 @@
         "context": "",
         "self": "{{request.baseUrl}}/rest/api/space/MOCK"
       }
+    },
+    {
+      "id": 21000,
+      "key": "EMPTY",
+      "name": "Empty Space",
+      "type": "global",
+      "_links": {
+        "base": "{{request.baseUrl}}",
+        "context": "",
+        "self": "{{request.baseUrl}}/rest/api/space/EMPTY"
+      }
     }
   ],
   "start": 0,
   "limit": 25,
-  "size": 1,
+  "size": 2,
   "_links": {
     "base": "{{request.baseUrl}}",
     "context": "",

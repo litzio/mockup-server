@@ -11,7 +11,7 @@ async function request(path,auth=valid,method='GET') {
 test('confluence: coherent fixed space list, page and storage expansion, stateless reads',async()=>{
   const list=await request('/rest/api/space');
   assert.equal(list.status,200);
-  assert.equal(list.body.start,0); assert.equal(list.body.limit,25); assert.equal(list.body.size,1);
+  assert.equal(list.body.start,0); assert.equal(list.body.limit,25); assert.equal(list.body.size,2);
   assert.equal(list.body.results.length,list.body.size);
   assert.deepEqual(list.body._links,{base,context:'',self:base+'/rest/api/space'});
   assert.equal(list.body.results[0].key,'MOCK');
