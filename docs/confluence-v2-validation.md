@@ -19,7 +19,7 @@
 
 재현 명령(작업에서 새로 소유한 프로젝트명과 충돌 없는 포트를 사용):
 
-``powershell
+```powershell
 $env:JIRA_PORT='18581'
 $env:CONFLUENCE_PORT='18582'
 $env:JIRA_BASE_URL='http://127.0.0.1:18581'
@@ -38,6 +38,6 @@ node scripts/wait-services.mjs
 node --test services/confluence/tests/personal-space.test.mjs
 node scripts/check-context.mjs
 docker compose -p mockup-v2-confluence -f compose.yaml -f compose.context.yaml down
-``
+```
 
 지원은 명시된 유한 쿼리 조합이다. 임의 start/limit, CQL, 권한·SSO·TLS·프록시 및 실제 클라이언트 호환성을 보증하지 않는다. 최종 v2 통합 인수·반입 검증은 #27에서 별도로 수행한다.
