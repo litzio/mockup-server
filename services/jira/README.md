@@ -6,7 +6,7 @@
 - 가짜 PAT: `mock-jira-token`
 - 현재 사용자: `GET /rest/api/2/myself`
 - 프로젝트 목록: GET /rest/api/2/project
-- 단일 이슈: GET /rest/api/2/issue/MOCK-1 (MOCK-18까지 지원)
+- 단일 이슈: GET /rest/api/2/issue/MOCK-1 (MOCK-8까지 지원)
 - 고정 검색: `GET /rest/api/2/search?jql=project%20%3D%20MOCK%20ORDER%20BY%20key%20ASC&startAt=0&maxResults=2`
 - [지원 계약과 근거](api-support.md)
 

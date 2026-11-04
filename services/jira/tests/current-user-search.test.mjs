@@ -8,8 +8,8 @@ const auth='Bearer mock-jira-token';
 const fields='summary,status,priority,updated';
 // Independent acceptance oracle, deliberately not imported from the generator.
 const expected={
-  assignee:{unresolved:[17,15,13,11,9,7,5,3,1],resolved:[18,14,10,6,2],all:[18,17,15,14,13,11,10,9,7,6,5,3,2,1]},
-  reporter:{unresolved:[15,11,7,3,1],resolved:[18,14,12,10,8,6,4,2],all:[18,15,14,12,11,10,8,7,6,4,3,2,1]},
+  assignee:{unresolved:[1,8],resolved:[2,6],all:[1,2,6,8]},
+  reporter:{unresolved:[3,7],resolved:[2,4],all:[2,3,4,7]},
 };
 const jql=(role,res)=>`${role} = currentUser()${res==='all'?'':res==='resolved'?' AND resolution IS NOT EMPTY':' AND resolution = Unresolved'} ORDER BY updated DESC`;
 const path=(role,res,extra={})=>'/rest/api/2/search?'+new URLSearchParams({jql:jql(role,res),...extra});
@@ -31,14 +31,15 @@ test('V2-J: checked-in generated WireMock resources match their source',()=>{
 test('V2-J: six current-user searches, projection and real pagination consumer',async()=>{
   await state('Started');
   const me=(await get('/rest/api/2/myself')).body;
-  for(const role of ['assignee','reporter']) for(const res of ['unresolved','resolved','all']) {
+  for(const role of ['assignee','reporter']) for(const res of ['unresolved','resolved','all']) for(const requested of [1,2,100]) {
     const keys=expected[role][res].map(n=>'MOCK-'+n), collected=[];
     let offset=0, pages=0, prior=Infinity;
     do {
-      const r=await get(path(role,res,{fields,startAt:String(offset),maxResults:'100'}));
+      const r=await get(path(role,res,{fields,startAt:String(offset),maxResults:String(requested)}));
       assert.equal(r.status,200); const p=r.body;
-      assert.equal(p.total,keys.length); assert.equal(p.startAt,offset); assert.equal(p.maxResults,2);
-      assert.deepEqual(p.issues.map(i=>i.key),keys.slice(offset,offset+2));
+      assert.equal(p.total,keys.length); assert.equal(p.startAt,offset); assert.equal(p.maxResults,Math.min(2,requested));
+      assert.ok(p.issues.length>0);assert.ok(p.issues.length<=p.maxResults);
+      assert.deepEqual(p.issues.map(i=>i.key),keys.slice(offset,offset+p.maxResults));
       for(const issue of p.issues) {
         assert.deepEqual(Object.keys(issue.fields).sort(),['priority','status','summary','updated']);
         assert.equal(typeof issue.key,'string'); assert.equal(typeof issue.fields.summary,'string');
@@ -55,10 +56,10 @@ test('V2-J: six current-user searches, projection and real pagination consumer',
       }
       // This is a contract consumer, not the unavailable production client.
       collected.push(...p.issues.map(i=>({key:i.key,title:i.fields.summary,status:i.fields.status.name,category:i.fields.status.statusCategory.key,priority:i.fields.priority?.name??null,updated:new Date(i.fields.updated).toISOString()})));
-      offset+=p.maxResults; pages++;
+      offset+=p.issues.length; pages++;assert.ok(pages<=keys.length+2);
     } while(offset<keys.length);
-    assert.ok(pages>=3); assert.deepEqual(collected.map(i=>i.key),keys); assert.equal(new Set(collected.map(i=>i.key)).size,keys.length);
-    for(const start of [offset,18,999999999]) {
+    assert.equal(pages,Math.ceil(keys.length/Math.min(2,requested))); assert.deepEqual(collected.map(i=>i.key),keys); assert.equal(new Set(collected.map(i=>i.key)).size,keys.length);
+    for(const start of [keys.length,keys.length+1,999999999]) {
       const empty=(await get(path(role,res,{fields,startAt:String(start),maxResults:'100'}))).body;
       assert.deepEqual(empty,{startAt:start,maxResults:2,total:keys.length,issues:[]});
     }
@@ -88,15 +89,15 @@ test('V2-J: auth, error states, empty search and reset preserve normal reads',as
   t.after(()=>state('Started'));
   for(const selected of ['Started','forbidden','not-found','server-error','delay','empty-search']) {
     await state(selected);
-    for(const endpoint of ['/rest/api/2/issue/MOCK-18','/rest/api/2/issue/10018', '/rest/api/2/search?'+new URLSearchParams({jql:'project = MOCK ORDER BY key ASC',startAt:'16',maxResults:'2'})]) {
+    for(const endpoint of ['/rest/api/2/issue/MOCK-8','/rest/api/2/issue/10008', '/rest/api/2/search?'+new URLSearchParams({jql:'project = MOCK ORDER BY key ASC',startAt:'6',maxResults:'2'})]) {
       const r=await get(endpoint);
       assert.equal(r.status,{forbidden:403,'not-found':404,'server-error':500}[selected]??200);
-      if(r.status===200) assert.equal(r.body.key??r.body.issues.at(-1).key,'MOCK-18');
+      if(r.status===200) assert.equal(r.body.key??r.body.issues.at(-1).key,'MOCK-8');
       assert.equal((await get(endpoint,null)).status,401);
     }
     for(const role of ['assignee','reporter']) for(const res of ['unresolved','resolved','all']) {
       const url=path(role,res,{fields,startAt:'0',maxResults:'100'});
-      for(const token of [null,'Bearer wrong','Bearer mock-confluence-token','Bearer MOCK-JIRA-TOKEN']) assert.deepEqual(await get(url,token),{status:401,body:{errorMessages:['Authentication required'],errors:{}}});
+      for(const token of [null,'Bearer wrong','Bearer mock-confluence-token','Bearer MOCK-JIRA-TOKEN']) assert.deepEqual(await get(url,token),{status:401,body:{'status-code':401,message:'Authentication required'}});
       const r=await get(url);
       const code={forbidden:403,'not-found':404,'server-error':500}[selected]??200;
       assert.equal(r.status,code);
@@ -105,10 +106,35 @@ test('V2-J: auth, error states, empty search and reset preserve normal reads',as
       if(selected==='Started'||selected==='delay') assert.deepEqual(r.body.issues.map(i=>i.key),expected[role][res].slice(0,2).map(n=>'MOCK-'+n));
     }
     if(selected==='empty-search') {
-      for(const endpoint of ['/rest/api/2/myself','/rest/api/2/project','/rest/api/2/issue/MOCK-1','/rest/api/2/issue/MOCK-18']) assert.equal((await get(endpoint)).status,200);
+      for(const endpoint of ['/rest/api/2/myself','/rest/api/2/project','/rest/api/2/issue/MOCK-1','/rest/api/2/issue/MOCK-8']) assert.equal((await get(endpoint)).status,200);
       assert.equal((await get('/rest/api/2/issue/MOCK-999')).status,404);
       assert.equal((await get(path('assignee','all',{startAt:'5'}))).body.total,0);
     }
   }
-  await state('Started');assert.equal((await get(path('assignee','all'))).body.total,14);
+  await state('Started');assert.equal((await get(path('assignee','all'))).body.total,4);
+});
+
+test('J-FIELDS/J-DETAIL/J-NULLABLE/J-INVALID: supplied acceptance projections and errors',async()=>{
+  const enriched=fields+',assignee,reporter,resolution,created,resolutiondate';
+  for(const selection of [fields,enriched]) {
+    const r=await get(path('reporter','unresolved',{fields:selection,maxResults:'100'}));assert.equal(r.status,200);
+    assert.deepEqual(r.body.issues.map(i=>i.key),['MOCK-3','MOCK-7']);
+    for(const issue of r.body.issues) {
+      assert.deepEqual(Object.keys(issue.fields).sort(),selection.split(',').sort());
+      for(const id of [issue.key,issue.id]) {
+        const detail=await get('/rest/api/2/issue/'+id+'?'+new URLSearchParams({fields:selection}));
+        assert.equal(detail.status,200);assert.deepEqual(detail.body,issue);
+      }
+      if(selection===enriched) {
+        assert.ok(Number.isFinite(Date.parse(issue.fields.created)));
+        assert.equal(issue.fields.resolutiondate,null);
+        if(issue.key==='MOCK-7') {assert.equal(issue.fields.assignee,null);assert.equal(issue.fields.priority,null);assert.equal(issue.fields.resolution,null);assert.equal(issue.fields.reporter.name,'mock-user-a');}
+      }
+    }
+  }
+  for(const id of ['MOCK-1','10001']) assert.equal((await get('/rest/api/2/issue/'+id+'?'+new URLSearchParams({fields}))).body.key,'MOCK-1');
+  const empty=await get('/rest/api/2/search?'+new URLSearchParams({jql:'project = EMPTY ORDER BY key ASC',startAt:'0',maxResults:'100',fields}));
+  assert.deepEqual(empty,{status:200,body:{startAt:0,maxResults:2,total:0,issues:[]}});
+  assert.deepEqual(await get('/rest/api/2/search?'+new URLSearchParams({jql:'assignee ='})),{status:400,body:{errorMessages:['Synthetic invalid JQL'],errors:{}}});
+  assert.deepEqual(await get('/rest/api/2/issue/MOCK-999999'),{status:404,body:{errorMessages:['Issue Does Not Exist'],errors:{}}});
 });

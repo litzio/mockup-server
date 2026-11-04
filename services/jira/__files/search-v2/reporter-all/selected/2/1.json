@@ -1,45 +1,44 @@
 {
   "startAt": 1,
   "maxResults": 2,
-  "total": 13,
+  "total": 4,
   "issues": [
     {
-      "id": "10015",
-      "self": "{{request.baseUrl}}/rest/api/2/issue/10015",
-      "key": "MOCK-15",
+      "id": "10003",
+      "key": "MOCK-3",
+      "self": "{{request.baseUrl}}/rest/api/2/issue/10003",
       "fields": {
-        "summary": "Synthetic integration task 15",
+        "summary": "Synthetic active report",
         "status": {
-          "self": "{{request.baseUrl}}/rest/api/2/status/3",
-          "id": "3",
-          "name": "Done",
+          "name": "In Progress",
           "statusCategory": {
-            "key": "done"
-          }
-        },
-        "priority": null,
-        "updated": "2026-01-15T12:00:00.000+0000"
-      }
-    },
-    {
-      "id": "10014",
-      "self": "{{request.baseUrl}}/rest/api/2/issue/10014",
-      "key": "MOCK-14",
-      "fields": {
-        "summary": "Synthetic integration task 14",
-        "status": {
-          "self": "{{request.baseUrl}}/rest/api/2/status/1",
-          "id": "1",
-          "name": "Open",
-          "statusCategory": {
-            "key": "new"
+            "key": "indeterminate",
+            "id": 4
           }
         },
         "priority": {
-          "id": "2",
+          "name": "Low"
+        },
+        "updated": "2026-01-06T09:00:00.000+0000"
+      }
+    },
+    {
+      "id": "10004",
+      "key": "MOCK-4",
+      "self": "{{request.baseUrl}}/rest/api/2/issue/10004",
+      "fields": {
+        "summary": "Synthetic completed report",
+        "status": {
+          "name": "Done",
+          "statusCategory": {
+            "key": "done",
+            "id": 3
+          }
+        },
+        "priority": {
           "name": "High"
         },
-        "updated": "2026-01-14T12:00:00.000+0000"
+        "updated": "2026-01-05T09:00:00.000+0000"
       }
     }
   ]

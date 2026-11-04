@@ -1,56 +1,50 @@
 {
   "id": "10005",
-  "self": "{{request.baseUrl}}/rest/api/2/issue/10005",
   "key": "MOCK-5",
+  "self": "{{request.baseUrl}}/rest/api/2/issue/10005",
   "fields": {
-    "summary": "Synthetic integration task 5",
-    "description": "Synthetic issue 5 for local integration testing.",
+    "summary": "Synthetic unrelated issue",
+    "description": "Synthetic issue for local integration testing.",
     "project": {
-      "self": "{{request.baseUrl}}/rest/api/2/project/10000",
       "id": "10000",
       "key": "MOCK",
-      "name": "Mock Project",
-      "projectTypeKey": "software"
+      "name": "Synthetic Project",
+      "self": "{{request.baseUrl}}/rest/api/2/project/10000",
+      "projectTypeKey": "software",
+      "archived": false
     },
     "status": {
-      "self": "{{request.baseUrl}}/rest/api/2/status/1",
-      "id": "1",
       "name": "Open",
       "statusCategory": {
-        "key": "new"
+        "key": "new",
+        "id": 2
       }
     },
     "issuetype": {
-      "self": "{{request.baseUrl}}/rest/api/2/issuetype/3",
       "id": "3",
       "name": "Task",
       "subtask": false
     },
     "assignee": {
-      "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user",
-      "key": "mock-user-key",
-      "name": "mock-user",
-      "emailAddress": "mock@example.invalid",
-      "displayName": "Mock User",
+      "name": "mock-user-b",
+      "key": "mock-user-b-key",
+      "displayName": "Synthetic User B",
       "active": true,
-      "timeZone": "Asia/Seoul",
-      "locale": "ko_KR"
+      "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user-b"
     },
     "reporter": {
-      "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user-b",
-      "key": "mock-user-b-key",
-      "name": "mock-user-b",
-      "emailAddress": "mock-user-b@example.invalid",
-      "displayName": "Mock User B",
+      "name": "mock-user-c",
+      "key": "mock-user-c-key",
+      "displayName": "Synthetic User C",
       "active": true,
-      "timeZone": "Asia/Seoul",
-      "locale": "ko_KR"
+      "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user-c"
     },
-    "updated": "2026-01-05T12:00:00.000+0000",
+    "updated": "2026-01-04T09:00:00.000+0000",
     "priority": {
-      "id": "3",
       "name": "Medium"
     },
-    "resolution": null
+    "resolution": null,
+    "created": "2025-12-01T09:00:00.000+0000",
+    "resolutiondate": null
   }
 }

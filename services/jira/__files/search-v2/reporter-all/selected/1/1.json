@@ -1,24 +1,25 @@
 {
   "startAt": 1,
   "maxResults": 1,
-  "total": 13,
+  "total": 4,
   "issues": [
     {
-      "id": "10015",
-      "self": "{{request.baseUrl}}/rest/api/2/issue/10015",
-      "key": "MOCK-15",
+      "id": "10003",
+      "key": "MOCK-3",
+      "self": "{{request.baseUrl}}/rest/api/2/issue/10003",
       "fields": {
-        "summary": "Synthetic integration task 15",
+        "summary": "Synthetic active report",
         "status": {
-          "self": "{{request.baseUrl}}/rest/api/2/status/3",
-          "id": "3",
-          "name": "Done",
+          "name": "In Progress",
           "statusCategory": {
-            "key": "done"
+            "key": "indeterminate",
+            "id": 4
           }
         },
-        "priority": null,
-        "updated": "2026-01-15T12:00:00.000+0000"
+        "priority": {
+          "name": "Low"
+        },
+        "updated": "2026-01-06T09:00:00.000+0000"
       }
     }
   ]

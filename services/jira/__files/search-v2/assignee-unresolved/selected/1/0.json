@@ -1,27 +1,25 @@
 {
   "startAt": 0,
   "maxResults": 1,
-  "total": 9,
+  "total": 2,
   "issues": [
     {
-      "id": "10017",
-      "self": "{{request.baseUrl}}/rest/api/2/issue/10017",
-      "key": "MOCK-17",
+      "id": "10001",
+      "key": "MOCK-1",
+      "self": "{{request.baseUrl}}/rest/api/2/issue/10001",
       "fields": {
-        "summary": "Synthetic integration task 17",
+        "summary": "Synthetic open assignment",
         "status": {
-          "self": "{{request.baseUrl}}/rest/api/2/status/1",
-          "id": "1",
           "name": "Open",
           "statusCategory": {
-            "key": "new"
+            "key": "new",
+            "id": 2
           }
         },
         "priority": {
-          "id": "3",
-          "name": "Medium"
+          "name": "High"
         },
-        "updated": "2026-01-17T12:00:00.000+0000"
+        "updated": "2026-01-08T09:00:00.000+0000"
       }
     }
   ]

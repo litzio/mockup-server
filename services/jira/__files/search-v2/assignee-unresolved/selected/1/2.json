@@ -1,28 +1,6 @@
 {
   "startAt": 2,
   "maxResults": 1,
-  "total": 9,
-  "issues": [
-    {
-      "id": "10013",
-      "self": "{{request.baseUrl}}/rest/api/2/issue/10013",
-      "key": "MOCK-13",
-      "fields": {
-        "summary": "Synthetic integration task 13",
-        "status": {
-          "self": "{{request.baseUrl}}/rest/api/2/status/2",
-          "id": "2",
-          "name": "In Progress",
-          "statusCategory": {
-            "key": "indeterminate"
-          }
-        },
-        "priority": {
-          "id": "3",
-          "name": "Medium"
-        },
-        "updated": "2026-01-13T12:00:00.000+0000"
-      }
-    }
-  ]
+  "total": 2,
+  "issues": []
 }

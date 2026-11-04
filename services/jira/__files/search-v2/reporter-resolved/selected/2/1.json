@@ -1,45 +1,25 @@
 {
   "startAt": 1,
   "maxResults": 2,
-  "total": 8,
+  "total": 2,
   "issues": [
     {
-      "id": "10014",
-      "self": "{{request.baseUrl}}/rest/api/2/issue/10014",
-      "key": "MOCK-14",
+      "id": "10004",
+      "key": "MOCK-4",
+      "self": "{{request.baseUrl}}/rest/api/2/issue/10004",
       "fields": {
-        "summary": "Synthetic integration task 14",
+        "summary": "Synthetic completed report",
         "status": {
-          "self": "{{request.baseUrl}}/rest/api/2/status/1",
-          "id": "1",
-          "name": "Open",
+          "name": "Done",
           "statusCategory": {
-            "key": "new"
+            "key": "done",
+            "id": 3
           }
         },
         "priority": {
-          "id": "2",
           "name": "High"
         },
-        "updated": "2026-01-14T12:00:00.000+0000"
-      }
-    },
-    {
-      "id": "10012",
-      "self": "{{request.baseUrl}}/rest/api/2/issue/10012",
-      "key": "MOCK-12",
-      "fields": {
-        "summary": "Synthetic integration task 12",
-        "status": {
-          "self": "{{request.baseUrl}}/rest/api/2/status/3",
-          "id": "3",
-          "name": "Done",
-          "statusCategory": {
-            "key": "done"
-          }
-        },
-        "priority": null,
-        "updated": "2026-01-12T12:00:00.000+0000"
+        "updated": "2026-01-05T09:00:00.000+0000"
       }
     }
   ]

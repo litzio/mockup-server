@@ -1,45 +1,42 @@
 {
   "startAt": 0,
   "maxResults": 2,
-  "total": 5,
+  "total": 2,
   "issues": [
     {
-      "id": "10015",
-      "self": "{{request.baseUrl}}/rest/api/2/issue/10015",
-      "key": "MOCK-15",
+      "id": "10003",
+      "key": "MOCK-3",
+      "self": "{{request.baseUrl}}/rest/api/2/issue/10003",
       "fields": {
-        "summary": "Synthetic integration task 15",
+        "summary": "Synthetic active report",
         "status": {
-          "self": "{{request.baseUrl}}/rest/api/2/status/3",
-          "id": "3",
-          "name": "Done",
+          "name": "In Progress",
           "statusCategory": {
-            "key": "done"
-          }
-        },
-        "priority": null,
-        "updated": "2026-01-15T12:00:00.000+0000"
-      }
-    },
-    {
-      "id": "10011",
-      "self": "{{request.baseUrl}}/rest/api/2/issue/10011",
-      "key": "MOCK-11",
-      "fields": {
-        "summary": "Synthetic integration task 11",
-        "status": {
-          "self": "{{request.baseUrl}}/rest/api/2/status/1",
-          "id": "1",
-          "name": "Open",
-          "statusCategory": {
-            "key": "new"
+            "key": "indeterminate",
+            "id": 4
           }
         },
         "priority": {
-          "id": "3",
-          "name": "Medium"
+          "name": "Low"
         },
-        "updated": "2026-01-11T12:00:00.000+0000"
+        "updated": "2026-01-06T09:00:00.000+0000"
+      }
+    },
+    {
+      "id": "10007",
+      "key": "MOCK-7",
+      "self": "{{request.baseUrl}}/rest/api/2/issue/10007",
+      "fields": {
+        "summary": "Synthetic unassigned report without priority",
+        "status": {
+          "name": "Open",
+          "statusCategory": {
+            "key": "new",
+            "id": 2
+          }
+        },
+        "priority": null,
+        "updated": "2026-01-02T09:00:00.000+0000"
       }
     }
   ]

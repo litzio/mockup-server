@@ -1,121 +1,98 @@
 {
   "startAt": 6,
   "maxResults": 2,
-  "total": 18,
+  "total": 8,
   "issues": [
     {
       "id": "10007",
-      "self": "{{request.baseUrl}}/rest/api/2/issue/10007",
       "key": "MOCK-7",
+      "self": "{{request.baseUrl}}/rest/api/2/issue/10007",
       "fields": {
-        "summary": "Synthetic integration task 7",
-        "description": "Synthetic issue 7 for local integration testing.",
+        "summary": "Synthetic unassigned report without priority",
+        "description": "Synthetic issue for local integration testing.",
         "project": {
-          "self": "{{request.baseUrl}}/rest/api/2/project/10000",
           "id": "10000",
           "key": "MOCK",
-          "name": "Mock Project",
-          "projectTypeKey": "software"
+          "name": "Synthetic Project",
+          "self": "{{request.baseUrl}}/rest/api/2/project/10000",
+          "projectTypeKey": "software",
+          "archived": false
         },
         "status": {
-          "self": "{{request.baseUrl}}/rest/api/2/status/2",
-          "id": "2",
-          "name": "In Progress",
+          "name": "Open",
           "statusCategory": {
-            "key": "indeterminate"
+            "key": "new",
+            "id": 2
           }
         },
         "issuetype": {
-          "self": "{{request.baseUrl}}/rest/api/2/issuetype/3",
           "id": "3",
           "name": "Task",
           "subtask": false
         },
-        "assignee": {
-          "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user",
-          "key": "mock-user-key",
-          "name": "mock-user",
-          "emailAddress": "mock@example.invalid",
-          "displayName": "Mock User",
-          "active": true,
-          "timeZone": "Asia/Seoul",
-          "locale": "ko_KR"
-        },
+        "assignee": null,
         "reporter": {
-          "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user",
-          "key": "mock-user-key",
-          "name": "mock-user",
-          "emailAddress": "mock@example.invalid",
-          "displayName": "Mock User",
+          "name": "mock-user-a",
+          "key": "mock-user-a-key",
+          "displayName": "Synthetic User A",
           "active": true,
-          "timeZone": "Asia/Seoul",
-          "locale": "ko_KR"
+          "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user-a"
         },
-        "updated": "2026-01-07T12:00:00.000+0000",
-        "priority": {
-          "id": "3",
-          "name": "Medium"
-        },
-        "resolution": null
+        "updated": "2026-01-02T09:00:00.000+0000",
+        "priority": null,
+        "resolution": null,
+        "created": "2025-12-01T09:00:00.000+0000",
+        "resolutiondate": null
       }
     },
     {
       "id": "10008",
-      "self": "{{request.baseUrl}}/rest/api/2/issue/10008",
       "key": "MOCK-8",
+      "self": "{{request.baseUrl}}/rest/api/2/issue/10008",
       "fields": {
-        "summary": "Synthetic integration task 8",
-        "description": "Synthetic issue 8 for local integration testing.",
+        "summary": "Synthetic active assignment with a long title for wrapping and filtering",
+        "description": "Synthetic issue for local integration testing.",
         "project": {
-          "self": "{{request.baseUrl}}/rest/api/2/project/10000",
           "id": "10000",
           "key": "MOCK",
-          "name": "Mock Project",
-          "projectTypeKey": "software"
+          "name": "Synthetic Project",
+          "self": "{{request.baseUrl}}/rest/api/2/project/10000",
+          "projectTypeKey": "software",
+          "archived": false
         },
         "status": {
-          "self": "{{request.baseUrl}}/rest/api/2/status/1",
-          "id": "1",
-          "name": "Open",
+          "name": "In Progress",
           "statusCategory": {
-            "key": "new"
+            "key": "indeterminate",
+            "id": 4
           }
         },
         "issuetype": {
-          "self": "{{request.baseUrl}}/rest/api/2/issuetype/3",
           "id": "3",
           "name": "Task",
           "subtask": false
         },
         "assignee": {
-          "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user-b",
-          "key": "mock-user-b-key",
-          "name": "mock-user-b",
-          "emailAddress": "mock-user-b@example.invalid",
-          "displayName": "Mock User B",
+          "name": "mock-user-a",
+          "key": "mock-user-a-key",
+          "displayName": "Synthetic User A",
           "active": true,
-          "timeZone": "Asia/Seoul",
-          "locale": "ko_KR"
+          "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user-a"
         },
         "reporter": {
-          "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user",
-          "key": "mock-user-key",
-          "name": "mock-user",
-          "emailAddress": "mock@example.invalid",
-          "displayName": "Mock User",
+          "name": "mock-user-b",
+          "key": "mock-user-b-key",
+          "displayName": "Synthetic User B",
           "active": true,
-          "timeZone": "Asia/Seoul",
-          "locale": "ko_KR"
+          "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user-b"
         },
-        "updated": "2026-01-08T12:00:00.000+0000",
+        "updated": "2026-01-01T09:00:00.000+0000",
         "priority": {
-          "id": "2",
           "name": "High"
         },
-        "resolution": {
-          "id": "1",
-          "name": "Fixed"
-        }
+        "resolution": null,
+        "created": "2025-12-01T09:00:00.000+0000",
+        "resolutiondate": null
       }
     }
   ]

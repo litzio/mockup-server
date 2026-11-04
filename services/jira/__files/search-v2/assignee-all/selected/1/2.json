@@ -1,24 +1,25 @@
 {
   "startAt": 2,
   "maxResults": 1,
-  "total": 14,
+  "total": 4,
   "issues": [
     {
-      "id": "10015",
-      "self": "{{request.baseUrl}}/rest/api/2/issue/10015",
-      "key": "MOCK-15",
+      "id": "10006",
+      "key": "MOCK-6",
+      "self": "{{request.baseUrl}}/rest/api/2/issue/10006",
       "fields": {
-        "summary": "Synthetic integration task 15",
+        "summary": "Synthetic closed assignment",
         "status": {
-          "self": "{{request.baseUrl}}/rest/api/2/status/3",
-          "id": "3",
-          "name": "Done",
+          "name": "Closed",
           "statusCategory": {
-            "key": "done"
+            "key": "done",
+            "id": 3
           }
         },
-        "priority": null,
-        "updated": "2026-01-15T12:00:00.000+0000"
+        "priority": {
+          "name": "Low"
+        },
+        "updated": "2026-01-03T09:00:00.000+0000"
       }
     }
   ]

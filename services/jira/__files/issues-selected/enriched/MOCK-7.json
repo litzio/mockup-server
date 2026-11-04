@@ -1,0 +1,28 @@
+{
+  "id": "10007",
+  "key": "MOCK-7",
+  "self": "{{request.baseUrl}}/rest/api/2/issue/10007",
+  "fields": {
+    "summary": "Synthetic unassigned report without priority",
+    "status": {
+      "name": "Open",
+      "statusCategory": {
+        "key": "new",
+        "id": 2
+      }
+    },
+    "priority": null,
+    "updated": "2026-01-02T09:00:00.000+0000",
+    "assignee": null,
+    "reporter": {
+      "name": "mock-user-a",
+      "key": "mock-user-a-key",
+      "displayName": "Synthetic User A",
+      "active": true,
+      "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user-a"
+    },
+    "resolution": null,
+    "created": "2025-12-01T09:00:00.000+0000",
+    "resolutiondate": null
+  }
+}

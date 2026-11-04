@@ -1,0 +1,73 @@
+{
+  "startAt": 2,
+  "maxResults": 2,
+  "total": 4,
+  "issues": [
+    {
+      "id": "10004",
+      "key": "MOCK-4",
+      "self": "{{request.baseUrl}}/rest/api/2/issue/10004",
+      "fields": {
+        "summary": "Synthetic completed report",
+        "status": {
+          "name": "Done",
+          "statusCategory": {
+            "key": "done",
+            "id": 3
+          }
+        },
+        "priority": {
+          "name": "High"
+        },
+        "updated": "2026-01-05T09:00:00.000+0000",
+        "assignee": {
+          "name": "mock-user-b",
+          "key": "mock-user-b-key",
+          "displayName": "Synthetic User B",
+          "active": true,
+          "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user-b"
+        },
+        "reporter": {
+          "name": "mock-user-a",
+          "key": "mock-user-a-key",
+          "displayName": "Synthetic User A",
+          "active": true,
+          "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user-a"
+        },
+        "resolution": {
+          "name": "Fixed"
+        },
+        "created": "2025-12-01T09:00:00.000+0000",
+        "resolutiondate": "2026-01-05T09:00:00.000+0000"
+      }
+    },
+    {
+      "id": "10007",
+      "key": "MOCK-7",
+      "self": "{{request.baseUrl}}/rest/api/2/issue/10007",
+      "fields": {
+        "summary": "Synthetic unassigned report without priority",
+        "status": {
+          "name": "Open",
+          "statusCategory": {
+            "key": "new",
+            "id": 2
+          }
+        },
+        "priority": null,
+        "updated": "2026-01-02T09:00:00.000+0000",
+        "assignee": null,
+        "reporter": {
+          "name": "mock-user-a",
+          "key": "mock-user-a-key",
+          "displayName": "Synthetic User A",
+          "active": true,
+          "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user-a"
+        },
+        "resolution": null,
+        "created": "2025-12-01T09:00:00.000+0000",
+        "resolutiondate": null
+      }
+    }
+  ]
+}

@@ -1,24 +1,25 @@
 {
   "startAt": 0,
   "maxResults": 1,
-  "total": 5,
+  "total": 2,
   "issues": [
     {
-      "id": "10018",
-      "self": "{{request.baseUrl}}/rest/api/2/issue/10018",
-      "key": "MOCK-18",
+      "id": "10002",
+      "key": "MOCK-2",
+      "self": "{{request.baseUrl}}/rest/api/2/issue/10002",
       "fields": {
-        "summary": "Synthetic integration task 18",
+        "summary": "Synthetic completed assignment and report",
         "status": {
-          "self": "{{request.baseUrl}}/rest/api/2/status/3",
-          "id": "3",
           "name": "Done",
           "statusCategory": {
-            "key": "done"
+            "key": "done",
+            "id": 3
           }
         },
-        "priority": null,
-        "updated": "2026-01-18T12:00:00.000+0000"
+        "priority": {
+          "name": "Medium"
+        },
+        "updated": "2026-01-07T09:00:00.000+0000"
       }
     }
   ]

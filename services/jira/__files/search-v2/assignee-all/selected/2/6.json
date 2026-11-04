@@ -1,46 +1,6 @@
 {
   "startAt": 6,
   "maxResults": 2,
-  "total": 14,
-  "issues": [
-    {
-      "id": "10010",
-      "self": "{{request.baseUrl}}/rest/api/2/issue/10010",
-      "key": "MOCK-10",
-      "fields": {
-        "summary": "Synthetic integration task 10",
-        "status": {
-          "self": "{{request.baseUrl}}/rest/api/2/status/2",
-          "id": "2",
-          "name": "In Progress",
-          "statusCategory": {
-            "key": "indeterminate"
-          }
-        },
-        "priority": {
-          "id": "2",
-          "name": "High"
-        },
-        "updated": "2026-01-10T12:00:00.000+0000"
-      }
-    },
-    {
-      "id": "10009",
-      "self": "{{request.baseUrl}}/rest/api/2/issue/10009",
-      "key": "MOCK-9",
-      "fields": {
-        "summary": "Synthetic integration task 9",
-        "status": {
-          "self": "{{request.baseUrl}}/rest/api/2/status/3",
-          "id": "3",
-          "name": "Done",
-          "statusCategory": {
-            "key": "done"
-          }
-        },
-        "priority": null,
-        "updated": "2026-01-09T12:00:00.000+0000"
-      }
-    }
-  ]
+  "total": 4,
+  "issues": []
 }

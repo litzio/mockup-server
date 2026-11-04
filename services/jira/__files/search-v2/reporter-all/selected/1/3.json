@@ -1,24 +1,23 @@
 {
   "startAt": 3,
   "maxResults": 1,
-  "total": 13,
+  "total": 4,
   "issues": [
     {
-      "id": "10012",
-      "self": "{{request.baseUrl}}/rest/api/2/issue/10012",
-      "key": "MOCK-12",
+      "id": "10007",
+      "key": "MOCK-7",
+      "self": "{{request.baseUrl}}/rest/api/2/issue/10007",
       "fields": {
-        "summary": "Synthetic integration task 12",
+        "summary": "Synthetic unassigned report without priority",
         "status": {
-          "self": "{{request.baseUrl}}/rest/api/2/status/3",
-          "id": "3",
-          "name": "Done",
+          "name": "Open",
           "statusCategory": {
-            "key": "done"
+            "key": "new",
+            "id": 2
           }
         },
         "priority": null,
-        "updated": "2026-01-12T12:00:00.000+0000"
+        "updated": "2026-01-02T09:00:00.000+0000"
       }
     }
   ]

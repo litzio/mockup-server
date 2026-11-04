@@ -20,7 +20,7 @@ async function get(i,path,auth=`Bearer mock-${products[i]}-token`,method='GET') 
  assert.match(r.headers.get('content-type'),/application\/json/);assert.equal(r.headers.get('connection'),'close');
  const body=method==='HEAD'?null:await r.json(); return {status:r.status,body,ms:performance.now()-start};
 }
-function error(i,status,message,reason) {return i===0?{errorMessages:[message],errors:{}}:{statusCode:status,message,reason};}
+function error(i,status,message,reason) {return i===0?(status===401?{'status-code':401,message}:{errorMessages:[message],errors:{}}):{statusCode:status,message,reason};}
 
 test('E: all supported reads, PAT precedence, isolation and repeatable reset', async t=>{
  // File execution is serialized by the service runner: scenarios are server-wide state.

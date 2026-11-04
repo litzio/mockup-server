@@ -1,28 +1,6 @@
 {
   "startAt": 7,
   "maxResults": 2,
-  "total": 8,
-  "issues": [
-    {
-      "id": "10002",
-      "self": "{{request.baseUrl}}/rest/api/2/issue/10002",
-      "key": "MOCK-2",
-      "fields": {
-        "summary": "Synthetic integration task 2",
-        "status": {
-          "self": "{{request.baseUrl}}/rest/api/2/status/1",
-          "id": "1",
-          "name": "Open",
-          "statusCategory": {
-            "key": "new"
-          }
-        },
-        "priority": {
-          "id": "2",
-          "name": "High"
-        },
-        "updated": "2026-01-02T12:00:00.000+0000"
-      }
-    }
-  ]
+  "total": 2,
+  "issues": []
 }

@@ -1,56 +1,42 @@
 {
   "id": "10007",
-  "self": "{{request.baseUrl}}/rest/api/2/issue/10007",
   "key": "MOCK-7",
+  "self": "{{request.baseUrl}}/rest/api/2/issue/10007",
   "fields": {
-    "summary": "Synthetic integration task 7",
-    "description": "Synthetic issue 7 for local integration testing.",
+    "summary": "Synthetic unassigned report without priority",
+    "description": "Synthetic issue for local integration testing.",
     "project": {
-      "self": "{{request.baseUrl}}/rest/api/2/project/10000",
       "id": "10000",
       "key": "MOCK",
-      "name": "Mock Project",
-      "projectTypeKey": "software"
+      "name": "Synthetic Project",
+      "self": "{{request.baseUrl}}/rest/api/2/project/10000",
+      "projectTypeKey": "software",
+      "archived": false
     },
     "status": {
-      "self": "{{request.baseUrl}}/rest/api/2/status/2",
-      "id": "2",
-      "name": "In Progress",
+      "name": "Open",
       "statusCategory": {
-        "key": "indeterminate"
+        "key": "new",
+        "id": 2
       }
     },
     "issuetype": {
-      "self": "{{request.baseUrl}}/rest/api/2/issuetype/3",
       "id": "3",
       "name": "Task",
       "subtask": false
     },
-    "assignee": {
-      "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user",
-      "key": "mock-user-key",
-      "name": "mock-user",
-      "emailAddress": "mock@example.invalid",
-      "displayName": "Mock User",
-      "active": true,
-      "timeZone": "Asia/Seoul",
-      "locale": "ko_KR"
-    },
+    "assignee": null,
     "reporter": {
-      "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user",
-      "key": "mock-user-key",
-      "name": "mock-user",
-      "emailAddress": "mock@example.invalid",
-      "displayName": "Mock User",
+      "name": "mock-user-a",
+      "key": "mock-user-a-key",
+      "displayName": "Synthetic User A",
       "active": true,
-      "timeZone": "Asia/Seoul",
-      "locale": "ko_KR"
+      "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user-a"
     },
-    "updated": "2026-01-07T12:00:00.000+0000",
-    "priority": {
-      "id": "3",
-      "name": "Medium"
-    },
-    "resolution": null
+    "updated": "2026-01-02T09:00:00.000+0000",
+    "priority": null,
+    "resolution": null,
+    "created": "2025-12-01T09:00:00.000+0000",
+    "resolutiondate": null
   }
 }

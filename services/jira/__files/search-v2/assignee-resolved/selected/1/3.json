@@ -1,25 +1,6 @@
 {
   "startAt": 3,
   "maxResults": 1,
-  "total": 5,
-  "issues": [
-    {
-      "id": "10006",
-      "self": "{{request.baseUrl}}/rest/api/2/issue/10006",
-      "key": "MOCK-6",
-      "fields": {
-        "summary": "Synthetic integration task 6",
-        "status": {
-          "self": "{{request.baseUrl}}/rest/api/2/status/3",
-          "id": "3",
-          "name": "Done",
-          "statusCategory": {
-            "key": "done"
-          }
-        },
-        "priority": null,
-        "updated": "2026-01-06T12:00:00.000+0000"
-      }
-    }
-  ]
+  "total": 2,
+  "issues": []
 }

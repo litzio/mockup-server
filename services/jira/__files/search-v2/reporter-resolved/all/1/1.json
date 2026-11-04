@@ -1,65 +1,58 @@
 {
   "startAt": 1,
   "maxResults": 1,
-  "total": 8,
+  "total": 2,
   "issues": [
     {
-      "id": "10014",
-      "self": "{{request.baseUrl}}/rest/api/2/issue/10014",
-      "key": "MOCK-14",
+      "id": "10004",
+      "key": "MOCK-4",
+      "self": "{{request.baseUrl}}/rest/api/2/issue/10004",
       "fields": {
-        "summary": "Synthetic integration task 14",
-        "description": "Synthetic issue 14 for local integration testing.",
+        "summary": "Synthetic completed report",
+        "description": "Synthetic issue for local integration testing.",
         "project": {
-          "self": "{{request.baseUrl}}/rest/api/2/project/10000",
           "id": "10000",
           "key": "MOCK",
-          "name": "Mock Project",
-          "projectTypeKey": "software"
+          "name": "Synthetic Project",
+          "self": "{{request.baseUrl}}/rest/api/2/project/10000",
+          "projectTypeKey": "software",
+          "archived": false
         },
         "status": {
-          "self": "{{request.baseUrl}}/rest/api/2/status/1",
-          "id": "1",
-          "name": "Open",
+          "name": "Done",
           "statusCategory": {
-            "key": "new"
+            "key": "done",
+            "id": 3
           }
         },
         "issuetype": {
-          "self": "{{request.baseUrl}}/rest/api/2/issuetype/3",
           "id": "3",
           "name": "Task",
           "subtask": false
         },
         "assignee": {
-          "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user",
-          "key": "mock-user-key",
-          "name": "mock-user",
-          "emailAddress": "mock@example.invalid",
-          "displayName": "Mock User",
+          "name": "mock-user-b",
+          "key": "mock-user-b-key",
+          "displayName": "Synthetic User B",
           "active": true,
-          "timeZone": "Asia/Seoul",
-          "locale": "ko_KR"
+          "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user-b"
         },
         "reporter": {
-          "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user",
-          "key": "mock-user-key",
-          "name": "mock-user",
-          "emailAddress": "mock@example.invalid",
-          "displayName": "Mock User",
+          "name": "mock-user-a",
+          "key": "mock-user-a-key",
+          "displayName": "Synthetic User A",
           "active": true,
-          "timeZone": "Asia/Seoul",
-          "locale": "ko_KR"
+          "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user-a"
         },
-        "updated": "2026-01-14T12:00:00.000+0000",
+        "updated": "2026-01-05T09:00:00.000+0000",
         "priority": {
-          "id": "2",
           "name": "High"
         },
         "resolution": {
-          "id": "1",
           "name": "Fixed"
-        }
+        },
+        "created": "2025-12-01T09:00:00.000+0000",
+        "resolutiondate": "2026-01-05T09:00:00.000+0000"
       }
     }
   ]

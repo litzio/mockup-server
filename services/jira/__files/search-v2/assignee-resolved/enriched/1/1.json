@@ -1,0 +1,45 @@
+{
+  "startAt": 1,
+  "maxResults": 1,
+  "total": 2,
+  "issues": [
+    {
+      "id": "10006",
+      "key": "MOCK-6",
+      "self": "{{request.baseUrl}}/rest/api/2/issue/10006",
+      "fields": {
+        "summary": "Synthetic closed assignment",
+        "status": {
+          "name": "Closed",
+          "statusCategory": {
+            "key": "done",
+            "id": 3
+          }
+        },
+        "priority": {
+          "name": "Low"
+        },
+        "updated": "2026-01-03T09:00:00.000+0000",
+        "assignee": {
+          "name": "mock-user-a",
+          "key": "mock-user-a-key",
+          "displayName": "Synthetic User A",
+          "active": true,
+          "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user-a"
+        },
+        "reporter": {
+          "name": "mock-user-c",
+          "key": "mock-user-c-key",
+          "displayName": "Synthetic User C",
+          "active": true,
+          "self": "{{request.baseUrl}}/rest/api/2/user?username=mock-user-c"
+        },
+        "resolution": {
+          "name": "Done"
+        },
+        "created": "2025-12-01T09:00:00.000+0000",
+        "resolutiondate": "2026-01-03T09:00:00.000+0000"
+      }
+    }
+  ]
+}
