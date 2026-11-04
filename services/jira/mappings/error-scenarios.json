@@ -1,0 +1,1565 @@
+{
+  "mappings": [
+    {
+      "priority": -9,
+      "request": {
+        "method": "GET",
+        "url": "/rest/api/2/myself",
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "bodyFileName": "users/current.json",
+        "transformers": [
+          "response-template"
+        ],
+        "fixedDelayMilliseconds": 1500
+      },
+      "scenarioName": "product-read",
+      "requiredScenarioState": "delay"
+    },
+    {
+      "priority": -9,
+      "request": {
+        "method": "GET",
+        "url": "/rest/api/2/issue/MOCK-2",
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "status": 200,
+        "bodyFileName": "issues/MOCK-2.json",
+        "transformers": [
+          "response-template"
+        ],
+        "fixedDelayMilliseconds": 1500
+      },
+      "scenarioName": "product-read",
+      "requiredScenarioState": "delay"
+    },
+    {
+      "priority": -9,
+      "request": {
+        "method": "GET",
+        "url": "/rest/api/2/issue/MOCK-3",
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "status": 200,
+        "bodyFileName": "issues/MOCK-3.json",
+        "transformers": [
+          "response-template"
+        ],
+        "fixedDelayMilliseconds": 1500
+      },
+      "scenarioName": "product-read",
+      "requiredScenarioState": "delay"
+    },
+    {
+      "priority": -5,
+      "request": {
+        "method": "GET",
+        "urlPattern": "/rest/api/2/issue/[A-Z][A-Z0-9_]*-[1-9][0-9]*",
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "status": 404,
+        "jsonBody": {
+          "errorMessages": [
+            "Issue Does Not Exist"
+          ],
+          "errors": {}
+        },
+        "fixedDelayMilliseconds": 1500
+      },
+      "scenarioName": "product-read",
+      "requiredScenarioState": "delay"
+    },
+    {
+      "priority": -9,
+      "request": {
+        "method": "GET",
+        "url": "/rest/api/2/issue/MOCK-1",
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "status": 200,
+        "bodyFileName": "issues/MOCK-1.json",
+        "transformers": [
+          "response-template"
+        ],
+        "fixedDelayMilliseconds": 1500
+      },
+      "scenarioName": "product-read",
+      "requiredScenarioState": "delay"
+    },
+    {
+      "priority": -9,
+      "request": {
+        "method": "GET",
+        "url": "/rest/api/2/project",
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "status": 200,
+        "bodyFileName": "projects/list.json",
+        "transformers": [
+          "response-template"
+        ],
+        "fixedDelayMilliseconds": 1500
+      },
+      "scenarioName": "product-read",
+      "requiredScenarioState": "delay"
+    },
+    {
+      "priority": -9,
+      "request": {
+        "method": "GET",
+        "urlPattern": "/rest/api/2/search\\?(?:(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+)",
+        "queryParameters": {
+          "jql": {
+            "equalTo": "project = EMPTY ORDER BY key ASC"
+          },
+          "startAt": {
+            "equalTo": "0"
+          },
+          "maxResults": {
+            "equalTo": "2"
+          }
+        },
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "bodyFileName": "search/empty-0.json",
+        "transformers": [
+          "response-template"
+        ],
+        "fixedDelayMilliseconds": 1500
+      },
+      "scenarioName": "product-read",
+      "requiredScenarioState": "delay"
+    },
+    {
+      "priority": -9,
+      "request": {
+        "method": "GET",
+        "urlPattern": "/rest/api/2/search\\?(?:(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+)",
+        "queryParameters": {
+          "jql": {
+            "equalTo": "project = EMPTY ORDER BY key ASC"
+          },
+          "startAt": {
+            "equalTo": "2"
+          },
+          "maxResults": {
+            "equalTo": "2"
+          }
+        },
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "bodyFileName": "search/empty-2.json",
+        "transformers": [
+          "response-template"
+        ],
+        "fixedDelayMilliseconds": 1500
+      },
+      "scenarioName": "product-read",
+      "requiredScenarioState": "delay"
+    },
+    {
+      "priority": -9,
+      "request": {
+        "method": "GET",
+        "urlPattern": "/rest/api/2/search\\?(?:(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+)",
+        "queryParameters": {
+          "jql": {
+            "equalTo": "project = EMPTY ORDER BY key ASC"
+          },
+          "startAt": {
+            "equalTo": "4"
+          },
+          "maxResults": {
+            "equalTo": "2"
+          }
+        },
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "bodyFileName": "search/empty-4.json",
+        "transformers": [
+          "response-template"
+        ],
+        "fixedDelayMilliseconds": 1500
+      },
+      "scenarioName": "product-read",
+      "requiredScenarioState": "delay"
+    },
+    {
+      "priority": -9,
+      "request": {
+        "method": "GET",
+        "urlPattern": "/rest/api/2/search\\?(?:(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+)",
+        "queryParameters": {
+          "jql": {
+            "equalTo": "project = EMPTY ORDER BY key ASC"
+          }
+        },
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "bodyFileName": "search/empty-all.json",
+        "transformers": [
+          "response-template"
+        ],
+        "fixedDelayMilliseconds": 1500
+      },
+      "scenarioName": "product-read",
+      "requiredScenarioState": "delay"
+    },
+    {
+      "priority": -9,
+      "request": {
+        "method": "GET",
+        "urlPattern": "/rest/api/2/search\\?(?:(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+)",
+        "queryParameters": {
+          "jql": {
+            "equalTo": "project = MOCK ORDER BY key ASC"
+          },
+          "startAt": {
+            "equalTo": "0"
+          },
+          "maxResults": {
+            "equalTo": "2"
+          }
+        },
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "bodyFileName": "search/mock-0.json",
+        "transformers": [
+          "response-template"
+        ],
+        "fixedDelayMilliseconds": 1500
+      },
+      "scenarioName": "product-read",
+      "requiredScenarioState": "delay"
+    },
+    {
+      "priority": -9,
+      "request": {
+        "method": "GET",
+        "urlPattern": "/rest/api/2/search\\?(?:(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+)",
+        "queryParameters": {
+          "jql": {
+            "equalTo": "project = MOCK ORDER BY key ASC"
+          },
+          "startAt": {
+            "equalTo": "2"
+          },
+          "maxResults": {
+            "equalTo": "2"
+          }
+        },
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "bodyFileName": "search/mock-2.json",
+        "transformers": [
+          "response-template"
+        ],
+        "fixedDelayMilliseconds": 1500
+      },
+      "scenarioName": "product-read",
+      "requiredScenarioState": "delay"
+    },
+    {
+      "priority": -9,
+      "request": {
+        "method": "GET",
+        "urlPattern": "/rest/api/2/search\\?(?:(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+)",
+        "queryParameters": {
+          "jql": {
+            "equalTo": "project = MOCK ORDER BY key ASC"
+          },
+          "startAt": {
+            "equalTo": "4"
+          },
+          "maxResults": {
+            "equalTo": "2"
+          }
+        },
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "bodyFileName": "search/mock-4.json",
+        "transformers": [
+          "response-template"
+        ],
+        "fixedDelayMilliseconds": 1500
+      },
+      "scenarioName": "product-read",
+      "requiredScenarioState": "delay"
+    },
+    {
+      "priority": -9,
+      "request": {
+        "method": "GET",
+        "urlPattern": "/rest/api/2/search\\?(?:(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+)",
+        "queryParameters": {
+          "jql": {
+            "equalTo": "project = MOCK ORDER BY key ASC"
+          }
+        },
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "bodyFileName": "search/mock-all.json",
+        "transformers": [
+          "response-template"
+        ],
+        "fixedDelayMilliseconds": 1500
+      },
+      "scenarioName": "product-read",
+      "requiredScenarioState": "delay"
+    },
+    {
+      "priority": -20,
+      "scenarioName": "product-read",
+      "requiredScenarioState": "forbidden",
+      "request": {
+        "method": "GET",
+        "url": "/rest/api/2/myself",
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "status": 403,
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "jsonBody": {
+          "errorMessages": [
+            "Forbidden"
+          ],
+          "errors": {}
+        }
+      }
+    },
+    {
+      "priority": -20,
+      "scenarioName": "product-read",
+      "requiredScenarioState": "not-found",
+      "request": {
+        "method": "GET",
+        "url": "/rest/api/2/myself",
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "jsonBody": {
+          "errorMessages": [
+            "Not found"
+          ],
+          "errors": {}
+        }
+      }
+    },
+    {
+      "priority": -20,
+      "scenarioName": "product-read",
+      "requiredScenarioState": "server-error",
+      "request": {
+        "method": "GET",
+        "url": "/rest/api/2/myself",
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "jsonBody": {
+          "errorMessages": [
+            "Internal server error"
+          ],
+          "errors": {}
+        }
+      }
+    },
+    {
+      "priority": -20,
+      "scenarioName": "product-read",
+      "requiredScenarioState": "forbidden",
+      "request": {
+        "method": "GET",
+        "urlPattern": "/rest/api/2/issue/[A-Z][A-Z0-9_]*-[1-9][0-9]*",
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "status": 403,
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "jsonBody": {
+          "errorMessages": [
+            "Forbidden"
+          ],
+          "errors": {}
+        }
+      }
+    },
+    {
+      "priority": -20,
+      "scenarioName": "product-read",
+      "requiredScenarioState": "not-found",
+      "request": {
+        "method": "GET",
+        "urlPattern": "/rest/api/2/issue/[A-Z][A-Z0-9_]*-[1-9][0-9]*",
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "jsonBody": {
+          "errorMessages": [
+            "Not found"
+          ],
+          "errors": {}
+        }
+      }
+    },
+    {
+      "priority": -20,
+      "scenarioName": "product-read",
+      "requiredScenarioState": "server-error",
+      "request": {
+        "method": "GET",
+        "urlPattern": "/rest/api/2/issue/[A-Z][A-Z0-9_]*-[1-9][0-9]*",
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "jsonBody": {
+          "errorMessages": [
+            "Internal server error"
+          ],
+          "errors": {}
+        }
+      }
+    },
+    {
+      "priority": -20,
+      "scenarioName": "product-read",
+      "requiredScenarioState": "forbidden",
+      "request": {
+        "method": "GET",
+        "url": "/rest/api/2/project",
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "status": 403,
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "jsonBody": {
+          "errorMessages": [
+            "Forbidden"
+          ],
+          "errors": {}
+        }
+      }
+    },
+    {
+      "priority": -20,
+      "scenarioName": "product-read",
+      "requiredScenarioState": "not-found",
+      "request": {
+        "method": "GET",
+        "url": "/rest/api/2/project",
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "jsonBody": {
+          "errorMessages": [
+            "Not found"
+          ],
+          "errors": {}
+        }
+      }
+    },
+    {
+      "priority": -20,
+      "scenarioName": "product-read",
+      "requiredScenarioState": "server-error",
+      "request": {
+        "method": "GET",
+        "url": "/rest/api/2/project",
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "jsonBody": {
+          "errorMessages": [
+            "Internal server error"
+          ],
+          "errors": {}
+        }
+      }
+    },
+    {
+      "priority": -20,
+      "scenarioName": "product-read",
+      "requiredScenarioState": "forbidden",
+      "request": {
+        "method": "GET",
+        "urlPattern": "/rest/api/2/search\\?(?:(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+)",
+        "queryParameters": {
+          "jql": {
+            "equalTo": "project = EMPTY ORDER BY key ASC"
+          },
+          "startAt": {
+            "equalTo": "0"
+          },
+          "maxResults": {
+            "equalTo": "2"
+          }
+        },
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "status": 403,
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "jsonBody": {
+          "errorMessages": [
+            "Forbidden"
+          ],
+          "errors": {}
+        }
+      }
+    },
+    {
+      "priority": -20,
+      "scenarioName": "product-read",
+      "requiredScenarioState": "not-found",
+      "request": {
+        "method": "GET",
+        "urlPattern": "/rest/api/2/search\\?(?:(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+)",
+        "queryParameters": {
+          "jql": {
+            "equalTo": "project = EMPTY ORDER BY key ASC"
+          },
+          "startAt": {
+            "equalTo": "0"
+          },
+          "maxResults": {
+            "equalTo": "2"
+          }
+        },
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "jsonBody": {
+          "errorMessages": [
+            "Not found"
+          ],
+          "errors": {}
+        }
+      }
+    },
+    {
+      "priority": -20,
+      "scenarioName": "product-read",
+      "requiredScenarioState": "server-error",
+      "request": {
+        "method": "GET",
+        "urlPattern": "/rest/api/2/search\\?(?:(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+)",
+        "queryParameters": {
+          "jql": {
+            "equalTo": "project = EMPTY ORDER BY key ASC"
+          },
+          "startAt": {
+            "equalTo": "0"
+          },
+          "maxResults": {
+            "equalTo": "2"
+          }
+        },
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "jsonBody": {
+          "errorMessages": [
+            "Internal server error"
+          ],
+          "errors": {}
+        }
+      }
+    },
+    {
+      "priority": -20,
+      "scenarioName": "product-read",
+      "requiredScenarioState": "forbidden",
+      "request": {
+        "method": "GET",
+        "urlPattern": "/rest/api/2/search\\?(?:(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+)",
+        "queryParameters": {
+          "jql": {
+            "equalTo": "project = EMPTY ORDER BY key ASC"
+          },
+          "startAt": {
+            "equalTo": "2"
+          },
+          "maxResults": {
+            "equalTo": "2"
+          }
+        },
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "status": 403,
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "jsonBody": {
+          "errorMessages": [
+            "Forbidden"
+          ],
+          "errors": {}
+        }
+      }
+    },
+    {
+      "priority": -20,
+      "scenarioName": "product-read",
+      "requiredScenarioState": "not-found",
+      "request": {
+        "method": "GET",
+        "urlPattern": "/rest/api/2/search\\?(?:(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+)",
+        "queryParameters": {
+          "jql": {
+            "equalTo": "project = EMPTY ORDER BY key ASC"
+          },
+          "startAt": {
+            "equalTo": "2"
+          },
+          "maxResults": {
+            "equalTo": "2"
+          }
+        },
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "jsonBody": {
+          "errorMessages": [
+            "Not found"
+          ],
+          "errors": {}
+        }
+      }
+    },
+    {
+      "priority": -20,
+      "scenarioName": "product-read",
+      "requiredScenarioState": "server-error",
+      "request": {
+        "method": "GET",
+        "urlPattern": "/rest/api/2/search\\?(?:(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+)",
+        "queryParameters": {
+          "jql": {
+            "equalTo": "project = EMPTY ORDER BY key ASC"
+          },
+          "startAt": {
+            "equalTo": "2"
+          },
+          "maxResults": {
+            "equalTo": "2"
+          }
+        },
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "jsonBody": {
+          "errorMessages": [
+            "Internal server error"
+          ],
+          "errors": {}
+        }
+      }
+    },
+    {
+      "priority": -20,
+      "scenarioName": "product-read",
+      "requiredScenarioState": "forbidden",
+      "request": {
+        "method": "GET",
+        "urlPattern": "/rest/api/2/search\\?(?:(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+)",
+        "queryParameters": {
+          "jql": {
+            "equalTo": "project = EMPTY ORDER BY key ASC"
+          },
+          "startAt": {
+            "equalTo": "4"
+          },
+          "maxResults": {
+            "equalTo": "2"
+          }
+        },
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "status": 403,
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "jsonBody": {
+          "errorMessages": [
+            "Forbidden"
+          ],
+          "errors": {}
+        }
+      }
+    },
+    {
+      "priority": -20,
+      "scenarioName": "product-read",
+      "requiredScenarioState": "not-found",
+      "request": {
+        "method": "GET",
+        "urlPattern": "/rest/api/2/search\\?(?:(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+)",
+        "queryParameters": {
+          "jql": {
+            "equalTo": "project = EMPTY ORDER BY key ASC"
+          },
+          "startAt": {
+            "equalTo": "4"
+          },
+          "maxResults": {
+            "equalTo": "2"
+          }
+        },
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "jsonBody": {
+          "errorMessages": [
+            "Not found"
+          ],
+          "errors": {}
+        }
+      }
+    },
+    {
+      "priority": -20,
+      "scenarioName": "product-read",
+      "requiredScenarioState": "server-error",
+      "request": {
+        "method": "GET",
+        "urlPattern": "/rest/api/2/search\\?(?:(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+)",
+        "queryParameters": {
+          "jql": {
+            "equalTo": "project = EMPTY ORDER BY key ASC"
+          },
+          "startAt": {
+            "equalTo": "4"
+          },
+          "maxResults": {
+            "equalTo": "2"
+          }
+        },
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "jsonBody": {
+          "errorMessages": [
+            "Internal server error"
+          ],
+          "errors": {}
+        }
+      }
+    },
+    {
+      "priority": -20,
+      "scenarioName": "product-read",
+      "requiredScenarioState": "forbidden",
+      "request": {
+        "method": "GET",
+        "urlPattern": "/rest/api/2/search\\?(?:(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+)",
+        "queryParameters": {
+          "jql": {
+            "equalTo": "project = EMPTY ORDER BY key ASC"
+          }
+        },
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "status": 403,
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "jsonBody": {
+          "errorMessages": [
+            "Forbidden"
+          ],
+          "errors": {}
+        }
+      }
+    },
+    {
+      "priority": -20,
+      "scenarioName": "product-read",
+      "requiredScenarioState": "not-found",
+      "request": {
+        "method": "GET",
+        "urlPattern": "/rest/api/2/search\\?(?:(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+)",
+        "queryParameters": {
+          "jql": {
+            "equalTo": "project = EMPTY ORDER BY key ASC"
+          }
+        },
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "jsonBody": {
+          "errorMessages": [
+            "Not found"
+          ],
+          "errors": {}
+        }
+      }
+    },
+    {
+      "priority": -20,
+      "scenarioName": "product-read",
+      "requiredScenarioState": "server-error",
+      "request": {
+        "method": "GET",
+        "urlPattern": "/rest/api/2/search\\?(?:(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+)",
+        "queryParameters": {
+          "jql": {
+            "equalTo": "project = EMPTY ORDER BY key ASC"
+          }
+        },
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "jsonBody": {
+          "errorMessages": [
+            "Internal server error"
+          ],
+          "errors": {}
+        }
+      }
+    },
+    {
+      "priority": -20,
+      "scenarioName": "product-read",
+      "requiredScenarioState": "forbidden",
+      "request": {
+        "method": "GET",
+        "urlPattern": "/rest/api/2/search\\?(?:(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+)",
+        "queryParameters": {
+          "jql": {
+            "equalTo": "project = MOCK ORDER BY key ASC"
+          },
+          "startAt": {
+            "equalTo": "0"
+          },
+          "maxResults": {
+            "equalTo": "2"
+          }
+        },
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "status": 403,
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "jsonBody": {
+          "errorMessages": [
+            "Forbidden"
+          ],
+          "errors": {}
+        }
+      }
+    },
+    {
+      "priority": -20,
+      "scenarioName": "product-read",
+      "requiredScenarioState": "not-found",
+      "request": {
+        "method": "GET",
+        "urlPattern": "/rest/api/2/search\\?(?:(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+)",
+        "queryParameters": {
+          "jql": {
+            "equalTo": "project = MOCK ORDER BY key ASC"
+          },
+          "startAt": {
+            "equalTo": "0"
+          },
+          "maxResults": {
+            "equalTo": "2"
+          }
+        },
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "jsonBody": {
+          "errorMessages": [
+            "Not found"
+          ],
+          "errors": {}
+        }
+      }
+    },
+    {
+      "priority": -20,
+      "scenarioName": "product-read",
+      "requiredScenarioState": "server-error",
+      "request": {
+        "method": "GET",
+        "urlPattern": "/rest/api/2/search\\?(?:(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+)",
+        "queryParameters": {
+          "jql": {
+            "equalTo": "project = MOCK ORDER BY key ASC"
+          },
+          "startAt": {
+            "equalTo": "0"
+          },
+          "maxResults": {
+            "equalTo": "2"
+          }
+        },
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "jsonBody": {
+          "errorMessages": [
+            "Internal server error"
+          ],
+          "errors": {}
+        }
+      }
+    },
+    {
+      "priority": -20,
+      "scenarioName": "product-read",
+      "requiredScenarioState": "forbidden",
+      "request": {
+        "method": "GET",
+        "urlPattern": "/rest/api/2/search\\?(?:(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+)",
+        "queryParameters": {
+          "jql": {
+            "equalTo": "project = MOCK ORDER BY key ASC"
+          },
+          "startAt": {
+            "equalTo": "2"
+          },
+          "maxResults": {
+            "equalTo": "2"
+          }
+        },
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "status": 403,
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "jsonBody": {
+          "errorMessages": [
+            "Forbidden"
+          ],
+          "errors": {}
+        }
+      }
+    },
+    {
+      "priority": -20,
+      "scenarioName": "product-read",
+      "requiredScenarioState": "not-found",
+      "request": {
+        "method": "GET",
+        "urlPattern": "/rest/api/2/search\\?(?:(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+)",
+        "queryParameters": {
+          "jql": {
+            "equalTo": "project = MOCK ORDER BY key ASC"
+          },
+          "startAt": {
+            "equalTo": "2"
+          },
+          "maxResults": {
+            "equalTo": "2"
+          }
+        },
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "jsonBody": {
+          "errorMessages": [
+            "Not found"
+          ],
+          "errors": {}
+        }
+      }
+    },
+    {
+      "priority": -20,
+      "scenarioName": "product-read",
+      "requiredScenarioState": "server-error",
+      "request": {
+        "method": "GET",
+        "urlPattern": "/rest/api/2/search\\?(?:(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+)",
+        "queryParameters": {
+          "jql": {
+            "equalTo": "project = MOCK ORDER BY key ASC"
+          },
+          "startAt": {
+            "equalTo": "2"
+          },
+          "maxResults": {
+            "equalTo": "2"
+          }
+        },
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "jsonBody": {
+          "errorMessages": [
+            "Internal server error"
+          ],
+          "errors": {}
+        }
+      }
+    },
+    {
+      "priority": -20,
+      "scenarioName": "product-read",
+      "requiredScenarioState": "forbidden",
+      "request": {
+        "method": "GET",
+        "urlPattern": "/rest/api/2/search\\?(?:(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+)",
+        "queryParameters": {
+          "jql": {
+            "equalTo": "project = MOCK ORDER BY key ASC"
+          },
+          "startAt": {
+            "equalTo": "4"
+          },
+          "maxResults": {
+            "equalTo": "2"
+          }
+        },
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "status": 403,
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "jsonBody": {
+          "errorMessages": [
+            "Forbidden"
+          ],
+          "errors": {}
+        }
+      }
+    },
+    {
+      "priority": -20,
+      "scenarioName": "product-read",
+      "requiredScenarioState": "not-found",
+      "request": {
+        "method": "GET",
+        "urlPattern": "/rest/api/2/search\\?(?:(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+)",
+        "queryParameters": {
+          "jql": {
+            "equalTo": "project = MOCK ORDER BY key ASC"
+          },
+          "startAt": {
+            "equalTo": "4"
+          },
+          "maxResults": {
+            "equalTo": "2"
+          }
+        },
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "jsonBody": {
+          "errorMessages": [
+            "Not found"
+          ],
+          "errors": {}
+        }
+      }
+    },
+    {
+      "priority": -20,
+      "scenarioName": "product-read",
+      "requiredScenarioState": "server-error",
+      "request": {
+        "method": "GET",
+        "urlPattern": "/rest/api/2/search\\?(?:(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+|(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+|(?:m|%6[dD])(?:a|%61)(?:x|%78)(?:R|%52)(?:e|%65)(?:s|%73)(?:u|%75)(?:l|%6[cC])(?:t|%74)(?:s|%73)=[^&]+&(?:s|%73)(?:t|%74)(?:a|%61)(?:r|%72)(?:t|%74)(?:A|%41)(?:t|%74)=[^&]+&(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+)",
+        "queryParameters": {
+          "jql": {
+            "equalTo": "project = MOCK ORDER BY key ASC"
+          },
+          "startAt": {
+            "equalTo": "4"
+          },
+          "maxResults": {
+            "equalTo": "2"
+          }
+        },
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "jsonBody": {
+          "errorMessages": [
+            "Internal server error"
+          ],
+          "errors": {}
+        }
+      }
+    },
+    {
+      "priority": -20,
+      "scenarioName": "product-read",
+      "requiredScenarioState": "forbidden",
+      "request": {
+        "method": "GET",
+        "urlPattern": "/rest/api/2/search\\?(?:(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+)",
+        "queryParameters": {
+          "jql": {
+            "equalTo": "project = MOCK ORDER BY key ASC"
+          }
+        },
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "status": 403,
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "jsonBody": {
+          "errorMessages": [
+            "Forbidden"
+          ],
+          "errors": {}
+        }
+      }
+    },
+    {
+      "priority": -20,
+      "scenarioName": "product-read",
+      "requiredScenarioState": "not-found",
+      "request": {
+        "method": "GET",
+        "urlPattern": "/rest/api/2/search\\?(?:(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+)",
+        "queryParameters": {
+          "jql": {
+            "equalTo": "project = MOCK ORDER BY key ASC"
+          }
+        },
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "jsonBody": {
+          "errorMessages": [
+            "Not found"
+          ],
+          "errors": {}
+        }
+      }
+    },
+    {
+      "priority": -20,
+      "scenarioName": "product-read",
+      "requiredScenarioState": "server-error",
+      "request": {
+        "method": "GET",
+        "urlPattern": "/rest/api/2/search\\?(?:(?:j|%6[aA])(?:q|%71)(?:l|%6[cC])=[^&]+)",
+        "queryParameters": {
+          "jql": {
+            "equalTo": "project = MOCK ORDER BY key ASC"
+          }
+        },
+        "headers": {
+          "Authorization": {
+            "equalTo": "Bearer mock-jira-token"
+          }
+        }
+      },
+      "response": {
+        "status": 500,
+        "headers": {
+          "Content-Type": "application/json",
+          "Connection": "close"
+        },
+        "jsonBody": {
+          "errorMessages": [
+            "Internal server error"
+          ],
+          "errors": {}
+        }
+      }
+    }
+  ]
+}

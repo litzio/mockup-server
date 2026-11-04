@@ -47,3 +47,21 @@ WireMock 3.13.2에서 연결 재사용 중 PAT의 대소문자만 바꾼 요청�
 ## 검증
 
 `services/jira/tests/search.test.mjs`의 B-J/J-L HTTP 단언은 프로젝트→전체 페이지→키 상세의 누락·중복·관계, 빈/마지막/범위밖 페이지, decoding·순서·인증·미지원 경계를 확인합니다. 기존 project-issue/current-user 회귀도 유지합니다. WireMock 모의 계약 검증이며 실제 Jira Software 9.12.28 호환성 검증은 미실행입니다. 숫자 ID 별칭과 context는 #13 후속입니다.
+
+## 오류와 지연 (E, #12)
+
+모든 지원 GET에 WireMock 시나리오 `product-read`를 적용합니다. 판정 순서는 지원 요청 형태 → 정확한 PAT → 시나리오 → 데이터 존재/정상 응답입니다. 미지원 요청은 모든 상태에서 기존 fallback 404이며 인증 실패는 항상 401입니다. 제품 전용 헤더나 클라이언트 분기는 없습니다.
+
+| 상태 | 응답 |
+| --- | --- |
+| Started | 기존 정상 또는 자연 404 |
+| forbidden | 403, Forbidden |
+| not-found | 404, Not found |
+| server-error | 500, Internal server error |
+| delay | 기존 정상/자연 404 응답 그대로 고정 1500ms 지연 |
+
+오류 본문은 [v1 E 계약](../../docs/v1-contract.md#e-오류지연서버측-상태-12)의 제품별 JSON과 일치하며 보호 데이터를 포함하지 않습니다. Jira 자연 404의 Issue Does Not Exist와 강제 Not found는 구별됩니다. PAT 실패와 fallback은 지연하지 않습니다. 모든 응답에 JSON Content-Type과 Connection: close를 유지합니다.
+
+관리 origin(제품과 같은 호스트/포트, context 제외)에서 GET /__admin/scenarios로 확인하고, PUT /__admin/scenarios/product-read/state에 JSON {"state":"forbidden"}을 보내 선택합니다. state는 표의 다섯 값 중 하나입니다. 빈 POST /__admin/scenarios/reset으로 Started로 복귀합니다. GET은 상태를 바꾸지 않으며 선택 상태를 반복합니다. 두 제품의 상태는 독립이고 재시작하면 Started입니다. 관리API는 신뢰하는 로컬 실행자용 WireMock 기본 기능이며 PAT 보호를 주장하지 않습니다.
+
+전용 HTTP 검증은 services/jira/tests/error-scenarios.test.mjs에서 두 제품의 모든 지원 GET, 자연404, 오류 전문, PAT 우선, fallback, 실측1500ms, 제품격리 및 반복 reset을 단언합니다. 시험 전후 reset을 실행합니다. 서버 전체 상태를 사용하는 시험끼리 경합하지 않도록 서비스 실행기는 파일을 순차 실행합니다. 이는 테스트 실행 방식이며 제품 클라이언트의 순차 요청 요구가 아닙니다. 실제 제품 호환성·성능 검증은 미실행입니다. WireMock [시나리오](https://wiremock.org/docs/stateful-behaviour/)와 [고정 지연](https://wiremock.org/docs/simulating-faults/)을 재사용합니다.
