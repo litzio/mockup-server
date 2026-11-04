@@ -1,0 +1,63 @@
+{
+  "name": "mockup-issue14-final-bundle-2",
+  "networks": {
+    "default": {
+      "name": "mockup-issue14-final-bundle-2_default",
+      "ipam": {}
+    }
+  },
+  "services": {
+    "confluence": {
+      "command": [
+        "--local-response-templating"
+      ],
+      "entrypoint": null,
+      "image": "wiremock/wiremock:3.13.2",
+      "networks": {
+        "default": null
+      },
+      "ports": [
+        {
+          "protocol": "tcp",
+          "host_ip": "0.0.0.0",
+          "target": 8080,
+          "published": "8082"
+        }
+      ],
+      "volumes": [
+        {
+          "type": "bind",
+          "read_only": true,
+          "target": "/home/wiremock",
+          "source": "/bundle-runtime/confluence"
+        }
+      ]
+    },
+    "jira": {
+      "command": [
+        "--local-response-templating"
+      ],
+      "entrypoint": null,
+      "image": "wiremock/wiremock:3.13.2",
+      "networks": {
+        "default": null
+      },
+      "ports": [
+        {
+          "protocol": "tcp",
+          "host_ip": "0.0.0.0",
+          "target": 8080,
+          "published": "8081"
+        }
+      ],
+      "volumes": [
+        {
+          "type": "bind",
+          "read_only": true,
+          "target": "/home/wiremock",
+          "source": "/bundle-runtime/jira"
+        }
+      ]
+    }
+  }
+}

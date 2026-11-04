@@ -58,18 +58,52 @@ pwsh -NoProfile -File C:/Transfer/mockup-bundle/scripts/offline/verify-isolated.
 
 이는 **독립 Linux image store의 cache 비의존·다운로드 차단 증거**와 **Windows 제어/검증 실행 증거**를 결합한다. Windows host 전체를 새로 설치하거나 host의 모든 외부통신을 차단한 시험은 아니다. 검증 스크립트 자체는 반입 파일과 사전 런타임만 사용하며 npm install·CDN 요청을 하지 않는다. host의 DinD 도구이미지 load는 archive/ID 검증으로 출처를 기록하지만 host image store를 비우지는 않는다.
 
-## 독립 daemon 실측 메모 (최종 인수 아님)
+## 검증 결과와 증거
 
-2026-11-04, source 6cab8a5, Windows x64, PowerShell 7.6, Node 24.21.0, Docker Desktop 4.87.0, CLI/Engine 29.7.2, Compose plugin 5.4.0. 기존 계약의 Compose v2 명칭은 plugin 방식의 Compose를 뜻하며 실측 버전은 5.4.0이다.
+**O: PASS** — 2026-11-04 최종 격리 검증의 상위 pwsh 종료코드는 **0**이다. [최종 원시 명령 로그](evidence/issue14/final.commands.log.gz), [상위 실행 출력과 종료코드](evidence/issue14/final.console.log.gz), [실행한 원격 Compose](evidence/issue14/remote-compose.json)를 보존했다. 로컬 준비/전달 파일은 `C:/Users/swBaek/Downloads/mockup-server-offline-a5645c6`이며 이 폴더도 재생성물 없이 checksum 131개를 확인했다. 바이너리 아카이브는 Git에 commit하지 않는다.
 
-검증 도구 docker:29.7.2-dind의 pull digest는 sha256:3ef33f2e220b79ed3ef3b99d81746f06f306cd6340e2cb7331d17ae996e74cb6 이다. DinD 전용 privileged 컨테이너만 사용했다. 호스트 socket/storage를 마운트하지 않았으며 /var/lib/docker는 새 anonymous volume이다. 관리 포트는 host 127.0.0.1:18475에만 게시했다.
+실제 실행 명령은 다음과 같다. Evidence는 새 디렉터리여야 한다.
 
-- internal 전용 network에서는 daemon이 정상 시작해도 Windows published port 연결은 거부되었다. 이 구성을 성공 절차로 사용하지 않는다.
-- 전용 bridge 연결 후 Windows `docker -H tcp://127.0.0.1:18475 info` 성공. 독립 daemon ID 28e8509c-9968-4da5-9cf1-82aed58c3e3d, load 전 `image ls --no-trunc`는 0개였다.
-- DinD namespace OUTPUT은 ESTABLISHED/RELATED와 loopback만 허용하고 나머지는 REJECT. DOCKER-USER는 ESTABLISHED/RELATED 허용, 외부 interface eth0/eth1로 나가는 신규 forwarding은 REJECT, 내부 forwarding은 RETURN. IPv6 OUTPUT/FORWARD DROP. 호스트 전역 방화벽은 변경하지 않았다.
-- 차단 후 독립 daemon `pull wiremock/wiremock:3.13.2`는 registry 공인IP TCP443 connection refused로 실패. `wget http://1.1.1.1`도 실패. load 전 이미지 목록은 계속 0개였다.
-- host에서 save한 wiremock.tar를 Windows CLI `docker -H ... load -i ...`로 반입. 이미지 sha256:0d4ecb3e4dc8213fd7a4d37d6a78f6e6b553a6d2e15bd51b0999781282ac61b3, amd64 확인.
-- `docker cp services mockup-issue14-daemon:/bundle-services` 뒤 Windows Compose가 daemon 내 절대경로 /bundle-services/{jira,confluence}를 mount하는 임시 구성을 사용했다. Windows 경로를 원격 daemon의 bind 경로로 전달하지 않는다. 내부 product port는 0.0.0.0에 bind하고 외부 host 게시만 127.0.0.1:18481/18482로 제한했다.
-- Windows Node에서 두 Base URL을 18481/18482로 설정해 wait-services와 test-services 실행: 종료코드 0, 26/26 통과. 이는 당시 baseline HTTP 검증이며 E/U/최종 O 검증은 아니다.
+```powershell
+node scripts/offline/package.mjs "$env:TEMP/mockup-issue14-final-bundle-2"
+pwsh -NoProfile -File scripts/offline/verify-isolated.ps1 `
+  -Bundle "$env:TEMP/mockup-issue14-final-bundle-2" `
+  -Evidence "$env:TEMP/mockup-issue14-final-evidence-2"
+```
 
-최종 증거에는 각 명령의 원문 로그·종료코드, checksum 확인, load 전후, 차단 재확인, #12 오류/초기화, #13 context/링크, down/up 재검증을 함께 남겨야 한다. 이 실험은 Linux 독립 image store와 Windows 제어 경로를 확인하며, 새 Windows 전체 무cache 설치 검증은 아니다. 최종 검증에 사용하는 DinD 도구이미지도 따로 아카이브/체크섬/버전 기록해 반입해야 한다.
+| 항목 | 최종 결과 |
+| --- | --- |
+| 체크섬/출처 | 131 files, DinD archive host load/ID 일치, 독립 store 0개 |
+| 외부 차단 | daemon registry pull 실패1, 외부 IP wget 실패1, load 전 store 여전히0; nested 제품 외부 TCP 실패1 |
+| WireMock 반입 | archive load 성공0, 이미지ID 및 linux/amd64 일치 |
+| 기본 모드 | 전체 HTTP 28/28 + U 두 제품 링크 추적, 기동/재기동 2회 모두0 |
+| context 모드 | 기존 E 1/1 + U 두 제품 링크 추적, 기동/재기동 2회 모두0 |
+| 초기화/상태 | E의 리셋/반복/제품격리/인증우선/지연 검증; 두 모드 각각 forbidden403 후 down/up Started 및 정상200 확인 |
+| 종료/정리 | 자신이 생성한 project/container/anonymous volume/network 정리0; 최종 PASS는 정리 후 출력 |
+
+정책 검증은 `npm run issues:forms -- --check` 0, `npm test` 55/55(기존 context 검사와 checksum 경계16 포함), `git diff --check` 0이다. #15는 통합 main에서 인수 결과를 다시 생성해야 한다. 이 결과는 실제 Jira/Confluence 호환성 보증이 아니다.
+
+원본 소스는 main 9060a3fe2ef5c3672c878027387ec242d75a3c34에 #14 도구를 더한 a5645c67e5ee8fd7195f65fffacae061e2f3800f다. [bundle.json](evidence/issue14/bundle.json)에 sourceSHA/두 이미지ID/digest/준비 버전을, [반입 파일 SHA-256 목록](evidence/issue14/bundle.SHA256SUMS)에 모든 131개 파일을 기록한다. 이 목록 자체의 SHA-256은 576ff61a933d1dfb3294e3f77320411ae3b78d2f11f6a2904b3678c89426a660이다. 최종 보고서 추가로 Git head가 바뀌어도 실행파일은 이 sourceSHA와 동일한지 별도 비교한다.
+
+실측 환경은 Windows 11 Pro x64(build 26200), PowerShell 7.6.9, Node 24.21.0, Docker Desktop 4.87.0, CLI/Engine 29.7.2, Compose plugin 5.4.0이다. 다른 OS/architecture나 실제 대상 서버 검증은 미실행이다.
+
+시도는 선택적으로 숨기지 않는다. source f0914d079c03aa23e3c4fa6faf974637bc129129의 첫 실행은 기본 전용 full HTTP 테스트를 context 모드에도 적용해 Confluence의 빈 context 단언 3건이 실패했다(상위 pwsh 종료코드1). [첫 시도 원시 로그](evidence/issue14/attempt1.commands.log.gz)를 보존한다. a5645c6은 기존 제품 테스트를 약화하지 않고 context 검증을 기존 U/E로 분리했다.
+
+포트 충돌 회귀는 로컬 TcpListener로 18475를 임시 점유한 뒤 동일 a5645c6 스크립트를 실행했다. docker run은 컨테이너 생성 후 bind 오류125, pwsh는1로 실패했고, GUID 소유 label 확인 후 컨테이너/네트워크 삭제 및 별도 inspect 부재를 확인했다. [명령 로그](evidence/issue14/port-failure.commands.log.gz), [상위 출력](evidence/issue14/port-failure.console.log.gz), [정리 후 inspect](evidence/issue14/port-failure-cleanup.log.gz)를 보존한다. 재현 시 예약 포트의 다른 작업이 없는지 확인하고 아래처럼 자신의 listener만 닫는다.
+
+```powershell
+$listener = [Net.Sockets.TcpListener]::new([Net.IPAddress]::Loopback, 18475)
+$listener.Start()
+try {
+  pwsh -NoProfile -File scripts/offline/verify-isolated.ps1 -Bundle C:/Transfer/mockup-bundle -Evidence C:/Transfer/mockup-port-failure
+  # 예상 종료코드 1. raw log의 docker run은125이며 정리는0이어야 한다.
+} finally { $listener.Stop() }
+docker inspect mockup-issue14-daemon # 예상 실패: 없음
+docker network inspect mockup-issue14-control # 예상 실패: 없음
+```
+
+로그는 원문 바이트를 유지해 gzip으로 보관한다. 별도 설치 없이 Node로 읽을 수 있다.
+
+```powershell
+node --input-type=module -e "import{readFileSync}from'node:fs';import{gunzipSync}from'node:zlib';process.stdout.write(gunzipSync(readFileSync(process.argv[1])))" docs/evidence/issue14/attempt1.commands.log.gz
+```
