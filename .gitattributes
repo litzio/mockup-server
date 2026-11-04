@@ -7,3 +7,4 @@ compose*.yaml text eol=lf
 package*.json text eol=lf
 .env.example text eol=lf
 docs/offline-v2.md text eol=lf
+docs/evidence/issue27/candidate2/*.json -text
