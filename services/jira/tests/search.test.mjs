@@ -13,7 +13,12 @@ async function request(path, auth = valid, method = 'GET') {
     signal: AbortSignal.timeout(5000),
   });
   assert.match(response.headers.get('content-type'), /application\/json/);
-  assert.ok(response.headers.get('connection').split(',').every(value => value.trim() === 'close'));
+  if (method === 'HEAD') {
+    // Jetty adds a second close token for bodyless HEAD responses.
+    assert.ok(response.headers.get('connection').split(',').every(value => value.trim() === 'close'));
+  } else {
+    assert.equal(response.headers.get('connection'), 'close');
+  }
   return { status: response.status, body: method === 'HEAD' ? null : await response.json() };
 }
 
