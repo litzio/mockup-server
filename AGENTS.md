@@ -10,3 +10,6 @@
 - 이슈는 [작성 규칙](docs/contributing/issues.md), 변경·검증은 [기여 규칙](CONTRIBUTING.md)을 따른다.
 - AI 커밋에는 실제 구현 정보를 AI-Agent와 AI-Model trailer로 각각 한 번 기록한다. 모델을 추측하지 않는다.
 - 직접 시작한 임시 프로세스만 종료한다.
+
+- 구현은 추적 가능한 작업 이슈를 먼저 등록한 뒤 시작하고 PR에 Closes #N으로 해결 이슈를 연결한다.
+- 주 에이전트는 조율하고 별도 GPT 작업자가 구현·검증한다. 사용자가 지시를 바꾸기 전에는 Claude와 Astra를 사용하지 않는다.
