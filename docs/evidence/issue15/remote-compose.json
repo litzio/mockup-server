@@ -1,0 +1,63 @@
+{
+  "name": "bundle",
+  "networks": {
+    "default": {
+      "name": "bundle_default",
+      "ipam": {}
+    }
+  },
+  "services": {
+    "confluence": {
+      "command": [
+        "--local-response-templating"
+      ],
+      "entrypoint": null,
+      "image": "wiremock/wiremock:3.13.2",
+      "networks": {
+        "default": null
+      },
+      "ports": [
+        {
+          "published": "8082",
+          "target": 8080,
+          "host_ip": "0.0.0.0",
+          "protocol": "tcp"
+        }
+      ],
+      "volumes": [
+        {
+          "read_only": true,
+          "source": "/bundle-runtime/confluence",
+          "target": "/home/wiremock",
+          "type": "bind"
+        }
+      ]
+    },
+    "jira": {
+      "command": [
+        "--local-response-templating"
+      ],
+      "entrypoint": null,
+      "image": "wiremock/wiremock:3.13.2",
+      "networks": {
+        "default": null
+      },
+      "ports": [
+        {
+          "published": "8081",
+          "target": 8080,
+          "host_ip": "0.0.0.0",
+          "protocol": "tcp"
+        }
+      ],
+      "volumes": [
+        {
+          "read_only": true,
+          "source": "/bundle-runtime/jira",
+          "target": "/home/wiremock",
+          "type": "bind"
+        }
+      ]
+    }
+  }
+}
