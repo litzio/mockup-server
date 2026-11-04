@@ -1,0 +1,23 @@
+{
+  "priority": 1,
+  "request": {
+    "method": "GET",
+    "url": "/rest/api/content/20001?expand=body.storage",
+    "headers": {
+      "Authorization": {
+        "equalTo": "Bearer mock-confluence-token"
+      }
+    }
+  },
+  "response": {
+    "headers": {
+      "Content-Type": "application/json",
+      "Connection": "close"
+    },
+    "status": 200,
+    "bodyFileName": "pages/20001-storage.json",
+    "transformers": [
+      "response-template"
+    ]
+  }
+}
