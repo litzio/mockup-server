@@ -18,3 +18,11 @@
 후보 commit 이후 새 반입 패키지에서 수행할 기본/custom-context × 최초/재기동 4회와 source/bundle/evidence 감사를 별도로 기록한다. 아직 이 단락은 실행 예정 상태다. 최종 보고는 91개 행 전부와 5개 gate를 보존하고 `completion.declared=false`를 유지해야 한다.
 
 실제 소비자 6행·실제 nullable 렌더링 및 클라이언트 Base URL 설정 분리 후속은 [#34](https://github.com/litzio/mockup-server/issues/34)로 추적한다. 이는 필수 gate 면제가 아니다.
+
+## 후보 1 중단 기록
+
+`f2dc7a49053dbbccd3b1c4c8b89ed3929b37d966`의 첫 격리 실행은 기본 cycle 1을 완료한 뒤 독립 검토에서 종료코드 결함이 발견되어 무효화했다. 초기 preflight reset이 실패하고 finally reset이 성공하면 91행 모두 BLOCKED여도 `--server-only`가 exit 0일 수 있었다. 검토자가 임시 HTTP 서버로 이 경로를 재현했다. 이는 전체 인수 성공이 아니므로 후보 1을 완료 근거로 사용하지 않는다.
+
+실행 중인 정확한 verifier의 소유 Node 자손만 확인해 중단했고 PowerShell finally를 계속 실행했다. cycle 2의 node는 의도적 중단 -1, 상위는 exit 1이었다. 소유 daemon 제거와 ownership 확인 후 network 제거는 각각 exit 0, 이후 컨테이너/네트워크 조회는 빈 목록이었다. [중단 메타데이터](evidence/issue27/attempt1/attempt.json), [명령 로그](evidence/issue27/attempt1/commands.log.gz), [콘솔](evidence/issue27/attempt1/console.log.gz), [이미 완료된 첫 cycle 보고](evidence/issue27/attempt1/acceptance-default-1.json.gz), [bundle 출처](evidence/issue27/attempt1/bundle.json)를 보존한다. lifecycle PASS 파일은 생성되지 않았다.
+
+종료 판정을 명시적인 외부 공백/다른 context/생명주기 단언으로 제한하고, 실제 subprocess에 첫 reset 500·finally reset 성공을 주입해 91 BLOCKED와 exit 1을 확인하는 회귀 검사를 추가했다. 실제 소비자 NOT_RUN을 숨기거나 원본 명세를 면제하지 않는다. 새 후보와 새 패키지로 격리 검증을 다시 수행한다.

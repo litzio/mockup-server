@@ -5,6 +5,7 @@ import {spawnSync} from 'node:child_process';
 import {createHash,randomUUID} from 'node:crypto';
 import {compileSchemas,expandCases,atPath,assertSubset} from './schema.mjs';
 import {consumer,issueView,authenticatedConfluenceUser,ResponseError} from './consumer.mjs';
+import {serverFailures} from './outcome.mjs';
 
 const args=process.argv.slice(2);
 const option=(key,fallback)=>{const i=args.indexOf(key);return i<0?fallback:args[i+1];};
@@ -20,7 +21,7 @@ const git=(...a)=>{const r=spawnSync('git',a,{encoding:'utf8'});return r.status=
 const bundle=existsSync('bundle.json')?JSON.parse(readFileSync('bundle.json','utf8')):null;
 const candidate=bundle?.sourceCommit??git('rev-parse','HEAD');assert.match(candidate??'',/^[0-9a-f]{40}$/,'Candidate commit required');
 const runId=randomUUID();
-const report={...structuredClone(spec.reportTemplate),candidateCommit:candidate,fixtureVersion:fixtures.version,specSha256:createHash('sha256').update(specBytes).digest('hex'),imageDigest:bundle?.repoDigests?.[0]??option('--image-digest','NOT_RECORDED'),runtimeVersions:{node:process.version,ajv:JSON.parse(readFileSync(new URL('../../node_modules/ajv/package.json',import.meta.url),'utf8')).version},networkIsolationEvidence:option('--isolation-evidence','NOT_RUN'),runId,mode:option('--mode','local'),cycle:Number(option('--cycle','1')),worktreeDirty:bundle?false:Boolean(git('status','--porcelain')),scope:'standalone contract consumer; no real Jira Host/CLI/UI',cases:[],gates:[],snapshots:{}};
+const report={...structuredClone(spec.reportTemplate),candidateCommit:candidate,fixtureVersion:fixtures.version,specSha256:createHash('sha256').update(specBytes).digest('hex'),imageDigest:bundle?.repoDigests?.[0]??option('--image-digest','NOT_RECORDED'),runtimeVersions:{node:process.version,ajv:JSON.parse(readFileSync(new URL('../../node_modules/ajv/package.json',import.meta.url),'utf8')).version},networkIsolationEvidence:option('--isolation-evidence','NOT_RUN'),runId,baseUrls:Object.fromEntries(Object.entries(clients).map(([product,client])=>[product,client.base])),mode:option('--mode','local'),cycle:Number(option('--cycle','1')),worktreeDirty:bundle?false:Boolean(git('status','--porcelain')),scope:'standalone contract consumer; no real Jira Host/CLI/UI',cases:[],gates:[],snapshots:{}};
 const observations=[];
 function note(value){observations.push(value);}
 function safeError(error){return error instanceof ResponseError?error.code:error?.code==='ERR_ASSERTION'?'ASSERTION_FAILED':error?.name??'ERROR';}
@@ -279,5 +280,6 @@ try{
  writeFileSync(resolve(output),JSON.stringify(report,null,2)+'\n',{flag:'wx'});
 }
 const failures=report.cases.filter(c=>c.status==='FAIL').length;
-console.log(JSON.stringify({rows:report.cases.length,failures,completionDeclared:false,report:output}));
-process.exitCode=failures||report.cleanupFailure?1:args.includes('--server-only')?0:2;
+const executableFailures=serverFailures(report,cases.map(c=>c.id));
+console.log(JSON.stringify({rows:report.cases.length,failures,executableFailures,completionDeclared:false,report:output}));
+process.exitCode=executableFailures.length?1:args.includes('--server-only')?0:2;
